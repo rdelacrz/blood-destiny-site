@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'pagination-container': true, [paginationWrapper]: !!paginationWrapper}">
+  <div :class="{'pagination-container': true, [`${paginationWrapper}`]: !!paginationWrapper}">
     <button class='pagination-button' @click='() => setPage(currentPage - 1)'>
       <img :src='icons.prev' alt='Previous Icon' />
     </button>
@@ -39,7 +39,9 @@ import next from '@/assets/images/icons/icon_next.png';
 
 export default defineComponent({
   props: {
-    paginationWrapper: String,
+    paginationWrapper: {
+      type: String,
+    },
     currentPage: {
       type: Number,
       default: 1,

@@ -5,7 +5,7 @@
         @durationchange='handleAudioDurationChange' @volumechange='handleAudioVolumeChange'
         @canplay='handleCanPlayChange' @ended='handleEnded' />
     <div class='song-info-content-wrapper'>
-      <button class='icon-button control' @click='toggleFavorite'>
+      <button class='icon-button control' @click='handleToggleFavorite'>
         <img class='heart-icon' :src='favoriteIcon' alt='Heart Icon' height='24' width='27' />
       </button>
       <div class='song-info-container'>
@@ -262,6 +262,9 @@ export default defineComponent({
     },
     handleAudioVolumeChange(event: Event) {
       this.volumeParam.currentVolume = (event.target as any).volume;
+    },
+    handleToggleFavorite(event: Event) {
+      this.toggleFavorite();
     }
   }
 });

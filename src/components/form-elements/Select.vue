@@ -1,6 +1,6 @@
 <template>
-  <select :id='id' :value='value' @input="$emit('update:value', $event.target.value)" :required='required'
-      :class="{'select-field form-element': true, [inputClass]: !!inputClass}" :placeholder='placeholder'
+  <select :id='id' :value='value' @input="handleSelectUpdate" :required='required'
+      :class="{'select-field form-element': true, [`${inputClass}`]: !!inputClass}" :placeholder='placeholder'
       :style="{'background-image': `url(${dropdownIcon})`}">
     <option v-for='(option, index) in options' :key='index' :value='option.value'>
       {{ option.text }}
@@ -23,7 +23,7 @@ export default defineComponent({
     },
     value: {
       type: [String, Number],
-      required: true,
+      required: false,
     },
     options: {
       type: Array as () => OptionValueSet[],
@@ -45,6 +45,12 @@ export default defineComponent({
   emits: ['update:value'],
   data() {
     return { dropdownIcon };
+  },
+  methods: {
+    handleSelectUpdate(event: Event) {
+      const target = event.target as HTMLSelectElement;
+      this.$emit('update:value', target.value);
+    }
   },
 })
 </script>

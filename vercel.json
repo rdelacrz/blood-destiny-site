@@ -4,5 +4,7 @@
       "source": "/((?!assets/).*)",
       "destination": "/api/ssr.js"
     }
-  ]
+  ],
+  "framework": "vite",
+  "outputDirectory": "dist/client"
 }

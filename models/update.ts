@@ -1,6 +1,8 @@
 export interface Update {
+  postId: number;
   title: string;
   date: Date;
   description: string;
-  updateCover: any;
+  coverImage: any;
+  updateBy?: string;
 }

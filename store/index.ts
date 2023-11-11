@@ -1,6 +1,6 @@
 import { InjectionKey } from 'vue';
 import { createStore as baseCreateStore, Store, useStore as baseUseStore } from 'vuex';
-import RootState from './state';
+import RootState, { VueQueryData } from './state';
 import { AudioModule, CharactersModule, ContactModule, UpdatesModule } from './modules';
 import { AlertParam } from '@/models';
 
@@ -8,10 +8,16 @@ export const createStore = () => {
   const store = baseCreateStore<RootState>({
     state: {
       popupParam: null,
+      vueQueryData: {
+        updates: [],
+      },
     },
     mutations: {
       setPopupState: (state, popupParam?: AlertParam) => {
         state.popupParam = popupParam ? {...popupParam} : null;
+      },
+      setVueQueryData: (state, vueQueryData: VueQueryData) => {
+        state.vueQueryData = vueQueryData;
       },
     },
     actions: {

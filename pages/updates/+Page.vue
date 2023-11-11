@@ -2,7 +2,7 @@
   <div class='updates-wrapper container'>
     <div class='updates-content-wrapper'>
       <div v-for='(update, index) in displayedUpdates' :key='index' class='update-row-wrapper'>
-        <img class='update-image' :src='update.updateCover' alt ='Update Cover' />
+        <img class='update-image' :src='update.coverImage' alt ='Update Cover' />
         <div class='update-details-container'>
           <div class='update-title'>{{update.title}}</div>
           <div class='update-date general-text'>{{formatDate(update.date)}}</div>

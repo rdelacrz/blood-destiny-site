@@ -1,5 +1,6 @@
 import { createSSRApp, defineComponent, h, markRaw, reactive } from 'vue';
 import PerfectScrollbar from 'vue3-perfect-scrollbar';
+import { QueryClient, VueQueryPlugin, hydrate, dehydrate } from '@tanstack/vue-query'
 import PageShell from '@/layouts/PageShell.vue';
 import { setPageContext } from '@/context';
 import { createStore, storeKey } from '@/store';
@@ -9,6 +10,7 @@ import type { Component, PageProps } from './types';
 function createApp(pageContext: PageContext) {
   const { Page } = pageContext;
 
+  /* Sets update main Page component with PageShell layout and pageProps */
   let rootComponent: Component & { Page: Component; pageProps: PageProps }
   const PageWithWrapper = defineComponent({
     data: () => ({
@@ -49,12 +51,27 @@ function createApp(pageContext: PageContext) {
   // Make `pageContext` accessible from any Vue component
   setPageContext(app, pageContextReactive);
 
-  // Adds store to app
+  /* Adds Vuex data store to app */
   const store = createStore();
   app.use(store, storeKey);
 
-  // Adds scrollbar
+  /* Adds perfect scrollbar */
   app.use(PerfectScrollbar);
+
+  /* Adds VueQuery capabilities */
+  const queryClient = new QueryClient();
+
+  // Sync initialState with the client state
+  if (import.meta.env.SSR) {
+    // Indicate how to access and serialize VueQuery state during SSR
+    const vueQueryState = { toJSON: () => dehydrate(queryClient) };
+    store.commit('setVueQueryData', vueQueryState);
+  } else {
+    // Reuse the existing state in the browser
+    hydrate(queryClient, store.state.vueQueryData);
+  }
+
+  app.use(VueQueryPlugin, { queryClient });
 
   return { app, store };
 }

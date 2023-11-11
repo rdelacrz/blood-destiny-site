@@ -1,0 +1,65 @@
+// These only needs to be imported once within the global styles
+@import './external';
+@import './fonts';
+
+html {
+  overflow-y: auto;
+}
+
+body {
+  margin: 0;
+}
+
+#app {
+  background: black;
+  color: white;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  margin: 0 auto;
+  min-width: 80%;
+}
+
+.general-text {
+  font-family: 'Montserrat';
+  font-size: 18px;
+  font-weight: normal;
+}
+
+.form-element {
+  background-color: transparent;
+  border: solid 1px white;
+  border-radius: 0;
+  box-sizing: border-box;;
+  color: white;
+  font-family: 'Montserrat';
+  font-size: 18px;
+  padding: 9px 16px;
+  width: 100%;
+  @include placeholder() {
+    color: rgba(rgb(221, 205, 205), 0.6);
+  }
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: inline-flex;
+  font-size: 30px;
+  outline: none;
+  transition: all 0.3s ease-out;
+  img {
+    transition: inherit;
+  }
+  &:hover, &:focus {
+    text-shadow: 0 0 4px white;
+    img {
+      filter: drop-shadow(0 0 4px white);
+    }
+  }
+}

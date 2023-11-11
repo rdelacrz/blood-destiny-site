@@ -21,9 +21,6 @@ export default async function handler(req, res) {
     res.end();
     return;
   }
-
-  const { statusCode, headers } = httpResponse;
-  res.statusCode = statusCode;
-  headers.forEach(([name, value]) => res.setHeader(name, value));
-  res.end(await httpResponse.getBody());
+  
+  httpResponse.pipe(res);
 }

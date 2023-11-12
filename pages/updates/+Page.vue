@@ -5,7 +5,6 @@
         Loading updates...
       </template>
       <template v-else>
-        <!--
         <div v-for='(update, index) in displayedUpdates' :key='index' class='update-row-wrapper'>
           <img class='update-image' :src='updateCover' alt ='Update Cover' />
           <div class='update-details-container'>
@@ -14,8 +13,6 @@
             <div v-html='update.description' class='update-description general-text' />
           </div>
         </div>
-        -->
-        <div>Test</div>
       </template>
     </div>
     <Pagination paginationWrapper='updates-pagination' v-model:currentPage='currentPage' :total='totalPages' />

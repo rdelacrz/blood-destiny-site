@@ -20,7 +20,7 @@ const pageContext = usePageContext();
 
 const active = computed(() => {
   const { urlPathname } = pageContext;
-  return props.to === '/' ? urlPathname === props.to : urlPathname.startsWith(props.to);
+  return props.to === '/' ? urlPathname === props.to : urlPathname?.startsWith(props.to);
 });
 
 // Determines background based of link based on whether it is active or not
@@ -45,7 +45,6 @@ const currentBackground = computed(() => {
     transition: all 0.3s ease-out;
     width: 100%;
 
-    // Animates underline on hover or keyboard focus
     &:hover, &:focus {
       color: rgb(247, 173, 171);
       text-shadow: 0 3px 6px rgba(black, 0.7);

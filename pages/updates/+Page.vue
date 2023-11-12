@@ -31,14 +31,18 @@ export default {
   components: {
     Pagination: defineAsyncComponent(() => import('@/components/form-elements/Pagination.vue')),
   },
-  data() {
-    // This will be prefetched and sent from the server
+  setup() {
+    // The query should be prefetched and sent from the server
     const query = useQuery({
       queryKey: ['getUpdatePosts'],
       queryFn: updateService.getUpdatePosts,
     });
     return {
       query,
+    };
+  },
+  data() {
+    return {
       currentIndex: 0,
       maxDisplay: 3,
       updateCover,
@@ -47,10 +51,10 @@ export default {
   computed: {
     ...mapState(['dateUtils']),
     isLoading() {
-      return this.query.isLoading;
+      return this.query.isLoading.value;
     },
     updateList() {
-      return this.query.data;
+      return this.query.data.value;
     },
     displayedUpdates() {
       return (this.updateList || []).slice(this.currentIndex, this.currentIndex + this.maxDisplay);

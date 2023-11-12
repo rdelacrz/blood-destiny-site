@@ -18,6 +18,7 @@ async function getUpdatePosts(req, res) {
         post_date AS date,
         post_by AS updateBy
       FROM posts
+      ORDER BY post_date DESC
     `;
     return res.status(200).json(result.rows);
   } catch (error) {

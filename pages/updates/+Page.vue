@@ -1,8 +1,13 @@
 <template>
   <div class='updates-wrapper container'>
     <div class='updates-content-wrapper'>
-      <div v-for='(update, index) in displayedUpdates' :key='index' class='update-row-wrapper'>
+      <div v-if='isLoading'>
+        Loading updates...
+      </div>
+      <div v-else v-for='(update, index) in displayedUpdates' :key='index' class='update-row-wrapper'>
+        <!--
         <img class='update-image' :src='update.coverImage' alt ='Update Cover' />
+        -->
         <div class='update-details-container'>
           <div class='update-title'>{{update.title}}</div>
           <div class='update-date general-text'>{{formatDate(update.date)}}</div>
@@ -15,33 +20,37 @@
 </template>
 
 <script lang="ts">
-import { defineAsyncComponent, onServerPrefetch } from 'vue';
+import { defineAsyncComponent } from 'vue';
 import { mapState } from 'vuex';
 import { format } from 'date-fns';
 import { useQuery } from '@tanstack/vue-query';
-import { updateService } from '@/store/services';
+import { updateService } from '@/services';
 
 export default {
   name:'updates',
   components: {
     Pagination: defineAsyncComponent(() => import('@/components/form-elements/Pagination.vue')),
   },
-  mounted() {
-    // This will be prefetched and sent from the server
-    updateService.getUpdatePosts().then(r => {
-      console.log('updates', r)
-    })
-  },
   data() {
+    // This will be prefetched and sent from the server
+    const query = useQuery({
+      queryKey: ['getUpdatePosts'],
+      queryFn: updateService.getUpdatePosts,
+    });
     return {
-      pageTitle: 'Blood Destiny - Updates',
+      query,
       currentIndex: 0,
       maxDisplay: 3,
     };
   },
   computed: {
     ...mapState(['dateUtils']),
-    ...mapState('UpdatesModule', {'updateList': 'updates'}),
+    isLoading() {
+      return this.query.isLoading;
+    },
+    updateList() {
+      return this.query.data;
+    },
     displayedUpdates() {
       return (this.updateList || []).slice(this.currentIndex, this.currentIndex + this.maxDisplay);
     },
@@ -60,7 +69,7 @@ export default {
     },
   },
   methods: {
-    formatDate(date: string) {
+    formatDate(date: any) {
       return format(new Date(date), 'LLL-dd-yyyy');
     }
   }

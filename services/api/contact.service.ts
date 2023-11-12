@@ -1,5 +1,5 @@
 import { ContactInfo } from '@/models';
-import { apiService } from '@/store/services';
+import { apiService } from '@/services';
 
 
 const CONTROLLER = 'contacts';

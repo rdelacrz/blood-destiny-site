@@ -1,6 +1,6 @@
 import { ActionContext, Module } from 'vuex';
 import { AlertParam, ContactInfo } from '@/models';
-import { contactService } from '@/store/services';
+import { contactService } from '@/services';
 import RootState from '@/store/state';
 
 export type ContactsModuleState = {

@@ -1,5 +1,5 @@
 import internal from 'stream';
-import type { DehydratedState, FetchQueryOptions } from '@tanstack/vue-query';
+import type { DehydratedState } from '@tanstack/vue-query';
 import type { ComponentPublicInstance } from 'vue';
 import { RootState } from '@/store/state';
 
@@ -25,10 +25,6 @@ declare global {
       /** Title defined dynamically by onBeforeRender() */
       title?: string;
       abortReason?: string;
-
-      exports: {
-        fetchQuery?: FetchQueryOptions,
-      }
     }
   }
 

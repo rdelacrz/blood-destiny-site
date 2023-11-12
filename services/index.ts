@@ -1,2 +1,2 @@
-export * from './rest';
+export * from './api';
 export * from './utilities';

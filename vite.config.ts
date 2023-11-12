@@ -22,7 +22,11 @@ const config: UserConfig = {
     }
   },
   plugins: [
-    vike({ prerender: true }),
+    vike({
+      prerender: {
+        partial: true,
+      },
+    }),
     vue({
       include: [/\.vue$/, /\.md$/],
     }),

@@ -18,8 +18,8 @@
   "include": [
     "**/*.ts",
     "**/*.vue", 
-    "api/ssr.js"
-  ],
+    "api/**/*.js"
+],
   "exclude": [
     "node_modules"
   ],

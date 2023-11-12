@@ -7,7 +7,7 @@
 </template> 
 
 <script setup lang="ts">
-import { usePageContext } from '@/context';
+import { usePageContext } from '@/contexts';
 import { computed } from 'vue';
 
 const props = defineProps<{

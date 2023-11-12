@@ -4,3 +4,4 @@ export * from './contact-info';
 export * from './option-value-set';
 export * from './song';
 export * from './update';
+export * from './vue-query-state';

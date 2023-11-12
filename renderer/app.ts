@@ -1,8 +1,8 @@
 import { createSSRApp, defineComponent, h, markRaw, reactive } from 'vue';
 import PerfectScrollbar from 'vue3-perfect-scrollbar';
-import { QueryClient, VueQueryPlugin, hydrate, dehydrate } from '@tanstack/vue-query'
+import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
 import PageShell from '@/layouts/PageShell.vue';
-import { setPageContext } from '@/context';
+import { setPageContext } from '@/contexts';
 import { createStore, storeKey } from '@/store';
 import type { PageContext } from 'vike/types';
 import type { Component, PageProps } from './types';
@@ -60,17 +60,6 @@ function createApp(pageContext: PageContext) {
 
   /* Adds VueQuery capabilities */
   const queryClient = new QueryClient();
-
-  // Sync initialState with the client state
-  if (import.meta.env.SSR) {
-    // Indicate how to access and serialize VueQuery state during SSR
-    const vueQueryState = { toJSON: () => dehydrate(queryClient) };
-    store.commit('setVueQueryData', vueQueryState);
-  } else {
-    // Reuse the existing state in the browser
-    hydrate(queryClient, store.state.vueQueryData);
-  }
-
   app.use(VueQueryPlugin, { queryClient });
 
   return { app, store };

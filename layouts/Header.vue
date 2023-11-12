@@ -17,7 +17,7 @@
 
 <script>
 import { defineAsyncComponent } from 'vue';
-import { usePageContext } from '@/context';
+import { usePageContext } from '@/contexts';
 
 import buttonAbout from '@/assets/images/backgrounds/buttons/button_about.png';
 import buttonCharacters from '@/assets/images/backgrounds/buttons/button_characters.png';

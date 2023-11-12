@@ -1,17 +1,20 @@
 import internal from 'stream';
+import type { DehydratedState, FetchQueryOptions } from '@tanstack/vue-query';
 import type { ComponentPublicInstance } from 'vue';
 import { RootState } from '@/store/state';
 
 type Component = ComponentPublicInstance; // https://stackoverflow.com/questions/63985658/how-to-type-vue-instance-out-of-definecomponent-in-vue-3/63986086#63986086
 
 type Page = Component;
-type PageProps = Record<string, unknown>;
+interface PageProps extends Record<string, unknown> {
+  vueQueryState?: DehydratedState;
+}
 
 // https://vike.dev/pageContext#typescript
 declare global {
   namespace Vike {
     interface PageContext {
-      INITIAL_STATE: RootState,
+      INITIAL_STATE: RootState,   // For Vuex
       htmlStream: internal.Readable;
       Page: Page;
       pageProps?: PageProps;
@@ -22,6 +25,10 @@ declare global {
       /** Title defined dynamically by onBeforeRender() */
       title?: string;
       abortReason?: string;
+
+      exports: {
+        fetchQuery?: FetchQueryOptions,
+      }
     }
   }
 

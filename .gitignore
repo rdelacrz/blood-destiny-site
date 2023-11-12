@@ -12,3 +12,4 @@ yarn-error.log*
 
 # Local env file (will contain secrets, do not push to Git!
 .env.local
+.vercel

@@ -4,7 +4,9 @@
     <img id='upRightBloodSplatter' :src='upRight' alt='Up Right Blood Splatter' width='397' height='379' />
     <PageHeader />
     <main class='page-content-wrapper container'>
-      <slot></slot>
+      <VueQueryHydrate>
+        <slot></slot>
+      </VueQueryHydrate>
     </main>
   </div>
 </template>
@@ -12,6 +14,7 @@
 <script lang='ts'>
 import { defineAsyncComponent, defineComponent } from 'vue';
 import { mapState } from 'vuex';
+import { } from '@/contexts';
 import { useStore } from '@/store';
 
 import background from '@/assets/images/backgrounds/site_background.png';
@@ -22,6 +25,7 @@ export default defineComponent({
   name: 'page-layout',
   components: {
     PageHeader: defineAsyncComponent(() => import('./Header.vue')),
+    VueQueryHydrate: defineAsyncComponent(() => import('./VueQueryHydrate.vue')),
   },
   computed: {
     ...mapState(['popupParam']),

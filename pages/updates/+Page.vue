@@ -14,15 +14,23 @@
   </div>
 </template>
 
-<script>
-import { defineAsyncComponent } from 'vue';
+<script lang="ts">
+import { defineAsyncComponent, onServerPrefetch } from 'vue';
 import { mapState } from 'vuex';
 import { format } from 'date-fns';
+import { useQuery } from '@tanstack/vue-query';
+import { updateService } from '@/store/services';
 
 export default {
   name:'updates',
   components: {
     Pagination: defineAsyncComponent(() => import('@/components/form-elements/Pagination.vue')),
+  },
+  mounted() {
+    // This will be prefetched and sent from the server
+    updateService.getUpdatePosts().then(r => {
+      console.log('updates', r)
+    })
   },
   data() {
     return {
@@ -41,7 +49,7 @@ export default {
       get() {
         return Math.floor(this.currentIndex / this.maxDisplay) + 1;
       },
-      set(page) {
+      set(page: number) {
         this.currentIndex = (page - 1) * this.maxDisplay;
       },
     },
@@ -52,7 +60,7 @@ export default {
     },
   },
   methods: {
-    formatDate(date) {
+    formatDate(date: string) {
       return format(new Date(date), 'LLL-dd-yyyy');
     }
   }

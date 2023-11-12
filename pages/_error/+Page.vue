@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { usePageContext } from '@/context';
+import { usePageContext } from '@/contexts';
 
 const ctx = usePageContext();
 let { is404, abortReason } = ctx;

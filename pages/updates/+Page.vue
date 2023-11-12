@@ -4,14 +4,16 @@
       <div v-if='isLoading'>
         Loading updates...
       </div>
-      <div v-else v-for='(update, index) in displayedUpdates' :key='index' class='update-row-wrapper'>
-        <img class='update-image' :src='updateCover' alt ='Update Cover' />
-        <div class='update-details-container'>
-          <div class='update-title'>{{update.title}}</div>
-          <div class='update-date general-text'>{{formatDate(update.date)}}</div>
-          <div v-html='update.description' class='update-description general-text' />
+      <template v-else>
+        <div v-for='(update, index) in displayedUpdates' :key='index' class='update-row-wrapper'>
+          <img class='update-image' :src='updateCover' alt ='Update Cover' />
+          <div class='update-details-container'>
+            <div class='update-title'>{{update.title}}</div>
+            <div class='update-date general-text'>{{formatDate(update.date)}}</div>
+            <div v-html='update.description' class='update-description general-text' />
+          </div>
         </div>
-      </div>
+      </template>
     </div>
     <Pagination paginationWrapper='updates-pagination' v-model:currentPage='currentPage' :total='totalPages' />
   </div>
@@ -54,10 +56,10 @@ export default {
       return this.query.isLoading.value;
     },
     updateList() {
-      return this.query.data.value;
+      return this.query.data.value || [];
     },
     displayedUpdates() {
-      return (this.updateList || []).slice(this.currentIndex, this.currentIndex + this.maxDisplay);
+      return this.updateList.slice(this.currentIndex, this.currentIndex + this.maxDisplay);
     },
     currentPage: {
       get() {
@@ -68,7 +70,7 @@ export default {
       },
     },
     totalPages() {
-      const count = (this.updateList || []).length;
+      const count = this.updateList.length;
       const remainder = count % this.maxDisplay;
       return Math.floor(count / this.maxDisplay) + remainder;
     },

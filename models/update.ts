@@ -1,7 +1,7 @@
 export interface Update {
   postId: number;
   title: string;
-  date: Date;
+  date: string;
   description: string;
   coverImage: any;
   updateBy?: string;

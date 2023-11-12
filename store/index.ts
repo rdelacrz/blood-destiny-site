@@ -1,7 +1,7 @@
 import { InjectionKey } from 'vue';
 import { createStore as baseCreateStore, Store, useStore as baseUseStore } from 'vuex';
 import RootState, { VueQueryData } from './state';
-import { AudioModule, CharactersModule, ContactModule, UpdatesModule } from './modules';
+import { AudioModule, CharactersModule, ContactModule } from './modules';
 import { AlertParam } from '@/models';
 
 export const createStore = () => {
@@ -27,7 +27,6 @@ export const createStore = () => {
       AudioModule,
       CharactersModule,
       ContactModule,
-      UpdatesModule,
     },
   });
 

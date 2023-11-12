@@ -2,6 +2,12 @@
   "rewrites": [
     {
       "source": "/((?!assets/).*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "vercel.app"
+        }
+      ],
       "destination": "/api/ssr.js"
     }
   ],

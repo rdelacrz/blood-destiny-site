@@ -79,6 +79,7 @@ export default {
 
 <style scoped lang='scss'>
 .updates-wrapper {
+  max-width: 1000px;
   .updates-content-wrapper {
     margin-bottom: 20px;
     .update-row-wrapper {

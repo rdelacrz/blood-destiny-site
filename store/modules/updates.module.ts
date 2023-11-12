@@ -2,7 +2,7 @@ import { Module } from 'vuex';
 import { Update } from '@/models';
 import RootState from '@/store/state';
 
-import PLACEHOLDER from '@/assets/images/graphics/updates/update_cover.jpg';
+import PLACEHOLDER from '@/assets/images/graphics/updates/update_cover.png';
 
 export interface UpdatesModuleState {
   updates: Update[];

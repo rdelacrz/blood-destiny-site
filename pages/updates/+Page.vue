@@ -5,9 +5,7 @@
         Loading updates...
       </div>
       <div v-else v-for='(update, index) in displayedUpdates' :key='index' class='update-row-wrapper'>
-        <!--
-        <img class='update-image' :src='update.coverImage' alt ='Update Cover' />
-        -->
+        <img class='update-image' :src='updateCover' alt ='Update Cover' />
         <div class='update-details-container'>
           <div class='update-title'>{{update.title}}</div>
           <div class='update-date general-text'>{{formatDate(update.date)}}</div>
@@ -26,6 +24,8 @@ import { format } from 'date-fns';
 import { useQuery } from '@tanstack/vue-query';
 import { updateService } from '@/services';
 
+import updateCover from '@/assets/images/graphics/updates/update_cover.png';
+
 export default {
   name:'updates',
   components: {
@@ -41,6 +41,7 @@ export default {
       query,
       currentIndex: 0,
       maxDisplay: 3,
+      updateCover,
     };
   },
   computed: {
@@ -70,7 +71,7 @@ export default {
   },
   methods: {
     formatDate(date: any) {
-      return format(new Date(date), 'LLL-dd-yyyy');
+      return format(new Date(date), 'LLL-dd-yyyy hh:mm:ss aa');
     }
   }
 };

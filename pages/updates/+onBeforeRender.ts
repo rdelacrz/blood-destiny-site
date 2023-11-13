@@ -5,9 +5,10 @@ import { renderToNodeStream } from '@vue/server-renderer'
 import type { OnBeforeRenderAsync } from 'vike/types';
 import { setQueryClientContext } from '@/contexts';
 import { createApp } from '@/renderer/app';
-import { config } from 'telefunc/client';
-config.telefuncUrl = '/api/telefunc';
+import { config } from 'telefunc';
 import { getUpdatePosts } from './getUpdatePosts.telefunc';
+
+config.telefuncUrl = '/api/telefunc';
 
 const onBeforeRender: OnBeforeRenderAsync = async (pageContext): ReturnType<OnBeforeRenderAsync> => {
   const { app, store } = createApp(pageContext);

@@ -24,7 +24,7 @@ import { defineAsyncComponent } from 'vue';
 import { mapState } from 'vuex';
 import { format } from 'date-fns';
 import { useQuery } from '@tanstack/vue-query';
-import { getUpdatePosts } from './getUpdatePosts.telefunc';
+import { getUpdatePosts } from './onGetUpdatePosts.telefunc';
 
 import updateCover from '@/assets/images/graphics/updates/update_cover.png';
 
@@ -37,7 +37,7 @@ export default {
     // The query should be prefetched and sent from the server
     const query = useQuery({
       queryKey: ['getUpdatePosts'],
-      queryFn: getUpdatePosts,
+      queryFn: () => getUpdatePosts(),
     });
     return {
       query,

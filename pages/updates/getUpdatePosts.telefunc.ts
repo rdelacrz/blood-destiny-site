@@ -1,8 +1,19 @@
-import { getUpdatePosts as getUpdatePostsDB } from './getUpdatePosts.db';
+import { sql } from '@vercel/postgres';
+import { Update } from '@/models';
 
-// Telefunc function cannot be referenced on server side, so DB functionality must be defined in its own file
 async function getUpdatePosts() {
-  return getUpdatePostsDB();
+  const result = await sql<Update>`
+    SELECT 
+      post_id AS postId,
+      title,
+      content AS description,
+      cover_image AS coverImage,
+      post_date AS date,
+      post_by AS updateBy
+    FROM posts
+    ORDER BY post_date DESC
+  `;
+  return result.rows;
 }
 
 export { getUpdatePosts }

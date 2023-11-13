@@ -3,7 +3,7 @@
     "dev": "cross-env NODE_ENV=local node ./dev-server ",
     "vercel-dev": "vercel dev",
     "build": "echo 'I will never be called because the `vercel-build` script supersedes me'",
-    "vercel-build": "vite build",
+    "vercel-build": "vite build && vite build --ssr",
     "preview": "vite build && vite preview"
   },
   "dependencies": {

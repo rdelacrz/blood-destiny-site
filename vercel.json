@@ -1,6 +1,5 @@
 {
   "rewrites": [
-    
     {
       "source": "/_telefunc",
       "destination": "/api/telefunc.js"

@@ -5,7 +5,7 @@ import { renderToNodeStream } from '@vue/server-renderer'
 import type { OnBeforeRenderAsync } from 'vike/types';
 import { setQueryClientContext } from '@/contexts';
 import { createApp } from '@/renderer/app';
-import { getUpdatePosts } from './getUpdatePosts.db';
+import { getUpdatePosts } from './getUpdatePosts.telefunc';
 
 const onBeforeRender: OnBeforeRenderAsync = async (pageContext): ReturnType<OnBeforeRenderAsync> => {
   const { app, store } = createApp(pageContext);

@@ -6,7 +6,7 @@ import { config } from 'telefunc/client';
 import { createApp } from './app';
 import { getPageTitle } from './getPageTitle';
 
-config.telefuncUrl = '/api/_telefunc';
+config.telefuncUrl = '/api/telefunc';
 
 import './styles/global.scss';
 

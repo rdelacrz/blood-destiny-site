@@ -6,7 +6,7 @@ import type { OnBeforeRenderAsync } from 'vike/types';
 import { setQueryClientContext } from '@/contexts';
 import { createApp } from '@/renderer/app';
 import { config } from 'telefunc/client';
-config.telefuncUrl = '/api/_telefunc';
+config.telefuncUrl = '/api/telefunc';
 import { getUpdatePosts } from './getUpdatePosts.telefunc';
 
 const onBeforeRender: OnBeforeRenderAsync = async (pageContext): ReturnType<OnBeforeRenderAsync> => {

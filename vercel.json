@@ -5,7 +5,7 @@
       "destination": "/api/telefunc.js"
     },
     {
-      "source": "/((?!assets/).*)",
+      "source": "/((?!assets/)(?!api/).*)",
       "has": [
         {
           "type": "host",

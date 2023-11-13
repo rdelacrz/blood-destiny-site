@@ -2,8 +2,11 @@
 
 import type { OnRenderClientAsync } from 'vike/types';
 import { setQueryClientContext } from '@/contexts';
+import { config } from 'telefunc/client';
 import { createApp } from './app';
 import { getPageTitle } from './getPageTitle';
+
+config.telefuncUrl = '/api/_telefunc';
 
 import './styles/global.scss';
 

@@ -1,5 +1,10 @@
 {
   "rewrites": [
+    
+    {
+      "source": "/_telefunc",
+      "destination": "/api/telefunc.js"
+    },
     {
       "source": "/((?!assets/).*)",
       "has": [
@@ -9,10 +14,6 @@
         }
       ],
       "destination": "/api/ssr.js"
-    },
-    {
-      "source": "/_telefunc",
-      "destination": "/api/telefunc.js"
     }
   ],
   "framework": "vite",

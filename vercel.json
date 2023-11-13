@@ -9,6 +9,10 @@
         }
       ],
       "destination": "/api/ssr.js"
+    },
+    {
+      "source": "/_telefunc",
+      "destination": "/api/telefunc.js"
     }
   ],
   "framework": "vite",

@@ -1,7 +1,7 @@
 <template>
   <div class='contact-wrapper container'>
     <div class='title-container'>
-      <div class='title' :style="{'background-image': titleBackground}">Contact</div>
+      <div class='title' :style="{'background-image': titleBackground}">Contact Us</div>
     </div>
     <div class='contact-content-wrapper'>
       <form class='contact-form-wrapper' @submit.prevent='handleContactUsSubmit'>

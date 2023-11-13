@@ -8,19 +8,18 @@ import { renderPage } from 'vike/server';
  */
 export default async function handler(req, res) {
   const { url } = req;
-  console.log('Request to url:', url);
   if (url === undefined) throw new Error('req.url is undefined');
 
   const pageContextInit = { urlOriginal: url };
   const pageContext = await renderPage(pageContextInit);
   const { httpResponse } = pageContext;
-  console.log('httpResponse', !!httpResponse);
 
   if (!httpResponse) {
-    res.statusCode = 200;
-    res.end();
-    return;
+    return res.status(500).send('Internal Server Error (SSR)');
+  } else {
+    const { statusCode, headers } = httpResponse;
+    headers.forEach(([name, value]) => res.setHeader(name, value));
+    res.status(statusCode);
+    httpResponse.pipe(res);
   }
-  
-  httpResponse.pipe(res);
 }

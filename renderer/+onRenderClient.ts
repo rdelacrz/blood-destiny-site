@@ -1,7 +1,7 @@
 // https://vike.dev/onRenderClient
 
 import type { OnRenderClientAsync } from 'vike/types';
-import { setVueQueryClientContext } from '@/contexts';
+import { setQueryClientContext } from '@/contexts';
 import { createApp } from './app';
 import { getPageTitle } from './getPageTitle';
 
@@ -14,7 +14,7 @@ const onRenderClient: OnRenderClientAsync = async (pageContext): ReturnType<OnRe
     const { app, store } = createAppProps;
 
     // Sets query client context with vueQueryState set via dehydrate method on server-side
-    setVueQueryClientContext(app, pageContext.pageProps?.vueQueryState);
+    setQueryClientContext(app, pageContext.pageProps?.vueQueryState);
 
     // Sets the Vuex store's state to the initial one passed from server-side
     store.replaceState(pageContext.INITIAL_STATE);

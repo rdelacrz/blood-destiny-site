@@ -1,2 +1,2 @@
 export * from './page-context';
-export * from './vue-query-client-context';
+export * from './query-client-context';

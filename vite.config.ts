@@ -1,4 +1,5 @@
 import { resolve } from 'path';
+import { telefunc } from 'telefunc/vite';
 import vue from '@vitejs/plugin-vue';
 import md from 'unplugin-vue-markdown/vite';
 import { UserConfig } from 'vite';
@@ -31,6 +32,7 @@ const config: UserConfig = {
       include: [/\.vue$/, /\.md$/],
     }),
     md({}),
+    telefunc(),
     alias({
       entries: [
         {
@@ -44,4 +46,4 @@ const config: UserConfig = {
   optimizeDeps: { include: ['cross-fetch'] }
 }
 
-export default config
+export default config;

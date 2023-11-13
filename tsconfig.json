@@ -18,8 +18,10 @@
   "include": [
     "**/*.ts",
     "**/*.vue", 
-    "api/**/*.js"
-],
+    "api/**/*.js", 
+    "dev-server/index.js",
+    "dev-server/root.js"
+  ],
   "exclude": [
     "node_modules"
   ],

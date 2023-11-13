@@ -24,7 +24,7 @@ import { defineAsyncComponent } from 'vue';
 import { mapState } from 'vuex';
 import { format } from 'date-fns';
 import { useQuery } from '@tanstack/vue-query';
-import { updateService } from '@/services';
+import { getUpdatePosts } from './getUpdatePosts.telefunc';
 
 import updateCover from '@/assets/images/graphics/updates/update_cover.png';
 
@@ -37,11 +37,11 @@ export default {
     // The query should be prefetched and sent from the server
     const query = useQuery({
       queryKey: ['getUpdatePosts'],
-      queryFn: updateService.getUpdatePosts,
+      queryFn: getUpdatePosts,
     });
     return {
       query,
-    };
+    }
   },
   data() {
     return {
@@ -53,7 +53,7 @@ export default {
   computed: {
     ...mapState(['dateUtils']),
     isLoading() {
-      return this.query.isLoading.value;
+      return this.query.isLoading.value || false;
     },
     updateList() {
       return this.query.data.value || [];
@@ -77,7 +77,14 @@ export default {
   },
   methods: {
     formatDate(date: any) {
-      return format(new Date(date), 'LLL-dd-yyyy hh:mm:ss aa');
+      if (date) {
+        try {
+          return format(new Date(date), 'LLL-dd-yyyy hh:mm:ss aa');
+        } catch(e) {
+          console.error(e);
+        }
+      }
+      return date;
     }
   }
 };

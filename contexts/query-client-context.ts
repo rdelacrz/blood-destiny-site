@@ -6,12 +6,12 @@ import type { DehydratedState } from '@tanstack/vue-query';
 
 const key: InjectionKey<DehydratedState | undefined> = Symbol('VUE_QUERY_STATE');
 
-function useVueQueryClientContext() {
+function useQueryClientContext() {
   return inject(key);
 }
 
-function setVueQueryClientContext(app: App, vueQueryClientState: DehydratedState | undefined) {
-  app.provide(key, vueQueryClientState);
+function setQueryClientContext(app: App, queryClientState: DehydratedState | undefined) {
+  app.provide(key, queryClientState);
 }
 
-export { useVueQueryClientContext, setVueQueryClientContext };
+export { useQueryClientContext, setQueryClientContext };

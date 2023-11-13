@@ -3,9 +3,9 @@
 import { DehydratedState, QueryClient, dehydrate } from '@tanstack/query-core';
 import { renderToNodeStream } from '@vue/server-renderer'
 import type { OnBeforeRenderAsync } from 'vike/types';
-import { setVueQueryClientContext } from '@/contexts';
+import { setQueryClientContext } from '@/contexts';
 import { createApp } from '@/renderer/app';
-import { updateService } from '@/services';
+import { getUpdatePosts } from './getUpdatePosts.db';
 
 const onBeforeRender: OnBeforeRenderAsync = async (pageContext): ReturnType<OnBeforeRenderAsync> => {
   const { app, store } = createApp(pageContext);
@@ -21,18 +21,21 @@ const onBeforeRender: OnBeforeRenderAsync = async (pageContext): ReturnType<OnBe
   const queryClient = new QueryClient();
   await queryClient.prefetchQuery({
     queryKey: ['getUpdatePosts'],
-    queryFn: updateService.getUpdatePosts,
+    queryFn: getUpdatePosts,
   });
   vueQueryState = dehydrate(queryClient);
-  setVueQueryClientContext(app, vueQueryState);
+  setQueryClientContext(app, vueQueryState);
 
   const htmlStream = renderToNodeStream(app);
 
   return {
     pageContext: {
       INITIAL_STATE,
-      htmlStream
-    }
+      htmlStream,
+      pageProps: {
+        vueQueryState,
+      },
+    },
   }
 }
 

@@ -28,7 +28,6 @@ const currentBackground = `url(${props.backgroundSrc})`;
   text-transform: uppercase;
   transition: all 0.3s ease-out;
 
-  // Animates underline on hover or keyboard focus
   &:hover, &:focus {
     color: rgb(247, 173, 171);
     text-shadow: 0 3px 6px rgba(black, 0.6);

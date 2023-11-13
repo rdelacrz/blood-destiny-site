@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "dev": "vite",
+    "dev": "cross-env NODE_ENV=local node ./dev-server ",
     "vercel-dev": "vercel dev",
     "build": "echo 'I will never be called because the `vercel-build` script supersedes me'",
     "vercel-build": "vite build",
@@ -15,7 +15,10 @@
     "axios": "^1.6.1",
     "cross-fetch": "^3.1.5",
     "date-fns": "^2.30.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "node-fetch": "^2.6.1",
+    "telefunc": "^0.1.62",
     "unplugin-vue-markdown": "^0.24.3",
     "vike": "0.4.144",
     "vite": "^4.4.8",
@@ -27,9 +30,11 @@
   "type": "module",
   "devDependencies": {
     "@rollup/plugin-alias": "^5.0.1",
+    "@types/express": "^4.17.21",
     "@types/node": "^17.0.31",
     "@types/node-fetch": "^2.5.12",
     "@vitejs/plugin-vue": "^4.2.3",
+    "cross-env": "^7.0.3",
     "sass": "^1.69.5",
     "typescript": "^5.2.2",
     "vercel": "^32.5.3"

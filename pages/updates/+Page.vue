@@ -71,8 +71,9 @@ export default {
     },
     totalPages() {
       const count = this.updateList.length;
+      const fullPages = Math.floor(count / this.maxDisplay);
       const remainder = count % this.maxDisplay;
-      return Math.floor(count / this.maxDisplay) + remainder;
+      return remainder === 0 ? fullPages : fullPages + 1;
     },
   },
   methods: {

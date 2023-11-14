@@ -7,6 +7,11 @@ import { telefunc } from 'telefunc';
  * @param {import('@vercel/node').VercelResponse} res
  */
 export default async (req, res) => {
+  console.log('telefunc body: ', {
+    url: req.url,
+    body: req.body,
+    method: req.method,
+  })
   const httpResponse = await telefunc({
     url: req.url,
     body: req.body,

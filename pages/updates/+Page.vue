@@ -24,7 +24,7 @@ import { defineAsyncComponent } from 'vue';
 import { mapState } from 'vuex';
 import { format } from 'date-fns';
 import { useQuery } from '@tanstack/vue-query';
-import { getUpdatePosts } from './onGetUpdatePosts.telefunc';
+import { getUpdatePosts } from './onLoad.telefunc';
 
 import updateCover from '@/assets/images/graphics/updates/update_cover.png';
 

@@ -21,7 +21,6 @@ export default {
   },
   data() {
     return {
-      pageTitle: 'Blood Destiny',
       downloadSrc: buttonDownload,
     };
   },

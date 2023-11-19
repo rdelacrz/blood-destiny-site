@@ -8,13 +8,23 @@
     </div>
 
     <div class='character-image-container'>
-      <button class='character-change-button icon-button' @click='handlePreviousCharacter'>
-        <img :src='backIcon' alt='Previous Character Button' height='40' width='50' />
-      </button>
-      <img :src='character.illustration' alt='Selected Character' height='725' width='250' />
-      <button class='character-change-button icon-button' @click='handleNextCharacter'>
-        <img :src='frontIcon' alt='Next Character Button' height='40' width='50' />
-      </button>
+
+      <Carousel :itemsToShow="1" :wrap-around="true" v-model="selectedCharacter">
+        <Slide v-for="slide in characters.length" :key="slide">
+          <div class="carousel__item">
+            <img :src='characters[slide - 1].illustration' alt='Selected Character' height='725' width='250' />
+          </div>
+        </Slide>
+        <template #addons>
+          <button class='character-change-button icon-button previous-button' @click='handlePreviousCharacter'>
+            <img :src='backIcon' alt='Previous Character Button' height='40' width='50' />
+          </button>
+          <button class='character-change-button icon-button next-button' @click='handleNextCharacter'>
+            <img :src='frontIcon' alt='Next Character Button' height='40' width='50' />
+          </button>
+        </template>
+      </Carousel>
+
     </div>
 
     <div class='character-icons-selector-container'>
@@ -29,6 +39,9 @@ import { defineAsyncComponent } from 'vue';
 import { mapState } from 'vuex';
 import { Character } from '@/models';
 
+import { Carousel, Slide } from 'vue3-carousel';
+import 'vue3-carousel/dist/carousel.css';
+
 import backIcon from '@/assets/images/icons/icon_back.png';
 import frontIcon from '@/assets/images/icons/icon_forward.png';
 
@@ -36,10 +49,11 @@ export default {
   name: 'characters',
   components: {
     CharacterIcon: defineAsyncComponent(() => import('@/components/CharacterIcon.vue')),
+    Carousel,
+    Slide
   },
   data() {
     return {
-      pageTitle: 'Blood Destiny - Characters',
       backIcon,
       frontIcon,
       selectedCharacter: 0,
@@ -80,6 +94,9 @@ export default {
 
 <style lang='scss'>
 .characters-wrapper {
+  display: flex;
+  max-width: 80%;
+  padding-bottom: 50px;
   .description-wrapper {
     max-width: 42%;
     width: 100%;
@@ -98,9 +115,7 @@ export default {
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    .character-change-button {
-      margin-bottom: 5px;
-    }
+    width: 400px;
   }
   .character-icons-selector-container {
     display: flex;
@@ -119,9 +134,6 @@ export default {
 <!-- Won't work unless scope is removed -->
 <style lang='scss'>
 .characters-wrapper {
-  display: flex;
-  max-width: 80%;
-  padding-bottom: 50px;
   .character-description {
     p {
       &:first-of-type {
@@ -130,6 +142,25 @@ export default {
       &:last-of-type {
         margin-bottom: 0;
       }
+    }
+  }
+  
+  .carousel {
+    width: 600px;
+  }
+  .carousel__item {
+    min-height: 750px;
+    width: 100%;
+  }
+  
+  .character-change-button {
+    position: absolute;
+    bottom: 80px;
+    &.previous-button {
+      left: 100px;
+    }
+    &.next-button {
+      right: 100px;
     }
   }
 }

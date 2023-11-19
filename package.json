@@ -23,6 +23,7 @@
     "vike": "0.4.144",
     "vite": "^4.4.8",
     "vue": "^3.3.4",
+    "vue3-carousel": "^0.3.1",
     "vue3-perfect-scrollbar": "^1.6.1",
     "vuex": "^4.1.0",
     "vuex-composition-helpers": "^2.0.3"

@@ -86,7 +86,6 @@ export default defineComponent({
   },
   data() {
     return {
-      pageTitle: 'Blood Destiny - Soundtrack',
       playButtonBackground: buttonPlay,
       albumCover,
       icons: {

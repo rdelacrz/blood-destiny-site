@@ -34,7 +34,6 @@ export default {
   name: 'about',
   data() {
     return {
-      pageTitle: 'Blood Destiny - About',
       titleBackground: `url(${bloodGraphic})`,
       screenshots: {
         one: screenshot1,

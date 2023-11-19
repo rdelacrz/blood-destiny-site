@@ -65,7 +65,6 @@ export default defineComponent({
     const inquiryTypes: OptionValueSet[] = inquiryTypeStrs.map(str => ({value: str, text: str}));
 
     return {
-      pageTitle: 'Blood Destiny - Contact',
       titleBackground: `url(${bloodGraphic})`,
       contactUsBtnBackground: buttonContactUs,
       mailIcon,

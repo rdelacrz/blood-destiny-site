@@ -9,7 +9,7 @@
 
     <div class='character-image-container'>
 
-      <Carousel :itemsToShow="1" :wrap-around="true" v-model="selectedCharacter">
+      <Carousel ref='characterCarousel' :itemsToShow="1" :wrap-around="true" v-model="selectedCharacter">
         <Slide v-for="slide in characters.length" :key="slide">
           <div class="carousel__item">
             <img :src='characters[slide - 1].illustration' alt='Selected Character' height='725' width='250' />
@@ -35,7 +35,7 @@
 </template>
 
 <script lang='ts'>
-import { defineAsyncComponent } from 'vue';
+import { defineAsyncComponent, ref } from 'vue';
 import { mapState } from 'vuex';
 import { Character } from '@/models';
 
@@ -51,6 +51,11 @@ export default {
     CharacterIcon: defineAsyncComponent(() => import('@/components/CharacterIcon.vue')),
     Carousel,
     Slide
+  },
+  setup() {
+    return {
+      characterCarousel: ref<any>(),
+    };
   },
   data() {
     return {
@@ -72,21 +77,16 @@ export default {
   },
   methods: {
     handleCharacterIconClick(characterIndex: number) {
-      this.selectedCharacter = characterIndex;
+      // https://ismail9k.github.io/vue3-carousel/api/methods.html#slideto-index-number
+      this.characterCarousel?.slideTo(characterIndex);
     },
     handlePreviousCharacter() {
-      if (this.selectedCharacter === 0) {
-        this.selectedCharacter = this.characters.length - 1;
-      } else {
-        this.selectedCharacter -= 1;
-      }
+      // https://ismail9k.github.io/vue3-carousel/api/methods.html#prev
+      this.characterCarousel?.prev();
     },
     handleNextCharacter() {
-      if (this.selectedCharacter >= this.characters.length - 1) {
-        this.selectedCharacter = 0;
-      } else {
-        this.selectedCharacter += 1;
-      }
+      // https://ismail9k.github.io/vue3-carousel/api/methods.html#next
+      this.characterCarousel?.next();
     },
   },
 };
@@ -111,10 +111,10 @@ export default {
     }
   }
   .character-image-container {
-    flex: 1;
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: center;
+    padding-top: 100px;
     width: 400px;
   }
   .character-icons-selector-container {

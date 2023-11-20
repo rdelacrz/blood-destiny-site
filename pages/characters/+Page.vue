@@ -7,24 +7,24 @@
       </perfect-scrollbar>
     </div>
 
-    <div class='character-image-container'>
-
-      <Carousel ref='characterCarousel' :itemsToShow="1" :wrap-around="true" v-model="selectedCharacter">
-        <Slide v-for="slide in characters.length" :key="slide">
-          <div class="carousel__item">
-            <img :src='characters[slide - 1].illustration' alt='Selected Character' height='725' width='250' />
-          </div>
-        </Slide>
-        <template #addons>
-          <button class='character-change-button icon-button previous-button' @click='handlePreviousCharacter'>
-            <img :src='backIcon' alt='Previous Character Button' height='40' width='50' />
-          </button>
-          <button class='character-change-button icon-button next-button' @click='handleNextCharacter'>
-            <img :src='frontIcon' alt='Next Character Button' height='40' width='50' />
-          </button>
-        </template>
-      </Carousel>
-
+    <div class='character-image-wrapper'>
+      <div class='carousel-container'>
+        <Carousel ref='characterCarousel' :itemsToShow="1" :wrap-around="true" v-model="selectedCharacter">
+          <Slide v-for="slide in characters.length" :key="slide">
+            <div class="carousel__item">
+              <img :src='characters[slide - 1].illustration' alt='Selected Character' height='725' width='250' />
+            </div>
+          </Slide>
+          <template #addons>
+            <button class='character-change-button icon-button previous-button' @click='handlePreviousCharacter'>
+              <img :src='backIcon' alt='Previous Character Button' height='40' width='50' />
+            </button>
+            <button class='character-change-button icon-button next-button' @click='handleNextCharacter'>
+              <img :src='frontIcon' alt='Next Character Button' height='40' width='50' />
+            </button>
+          </template>
+        </Carousel>
+      </div>
     </div>
 
     <div class='character-icons-selector-container'>
@@ -110,12 +110,16 @@ export default {
       max-height: calc(100vh - 200px);
     }
   }
-  .character-image-container {
+  .character-image-wrapper {
     display: flex;
     align-items: flex-start;
     justify-content: center;
     padding-top: 100px;
-    width: 400px;
+    max-width: 600px;
+    width: 100%;
+    .carousel-container {
+      max-width: 400px;
+    }
   }
   .character-icons-selector-container {
     display: flex;
@@ -135,6 +139,7 @@ export default {
 <style lang='scss'>
 .characters-wrapper {
   .character-description {
+    max-height: 80vh;
     p {
       &:first-of-type {
         margin-top: 0;
@@ -146,21 +151,17 @@ export default {
   }
   
   .carousel {
-    width: 600px;
-  }
-  .carousel__item {
-    min-height: 750px;
-    width: 100%;
+    width: 400px;
   }
   
   .character-change-button {
     position: absolute;
     bottom: 80px;
     &.previous-button {
-      left: 100px;
+      left: 20px;
     }
     &.next-button {
-      right: 100px;
+      right: 20px;
     }
   }
 }

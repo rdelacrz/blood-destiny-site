@@ -19,6 +19,9 @@ interface ImportMetaEnv {
   readonly POSTGRES_HOST: string;
   readonly POSTGRES_PASSWORD: string;
   readonly POSTGRES_DATABASE: string;
+  readonly SENDGRID_API_KEY: string;
+  readonly SENDGRID_CONTACT_FORM_TO_EMAIL: string;
+  readonly SENDGRID_CONTACT_FORM_FROM_EMAIL: string;
 }
 
 interface ImportMeta {

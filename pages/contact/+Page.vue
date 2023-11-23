@@ -26,6 +26,7 @@ import { defineComponent, defineAsyncComponent } from 'vue';
 import { createNamespacedHelpers } from 'vuex-composition-helpers';
 import { ContactInfo, OptionValueSet } from '@/models';
 import { ContactsModuleState, ContactsModuleGetters, ContactsModuleActions, ContactsModuleMutations } from '@/store/modules';
+import { submitContactFormInfo } from './onSubmit.telefunc';
 
 import buttonContactUs from '@/assets/images/backgrounds/buttons/button_contact_us.png';
 import bloodGraphic from '@/assets/images/graphics/blood_center.png';
@@ -38,18 +39,6 @@ export default defineComponent({
     TextArea: defineAsyncComponent(() => import('@/components/form-elements/TextArea.vue')),
     Select: defineAsyncComponent(() => import('@/components/form-elements/Select.vue')),
     AppButton: defineAsyncComponent(() => import('@/components/clickable-elements/AppButton.vue')),
-  },
-  setup() {
-    const { useActions } = createNamespacedHelpers<
-      ContactsModuleState, 
-      ContactsModuleGetters, 
-      ContactsModuleActions, 
-      ContactsModuleMutations
-    >('ContactModule');
-    const { sendContactEmail } = useActions(['sendContactEmail']);
-    return {
-      sendContactEmail,
-    };
   },
   data() {
     const inquiryTypeStrs = [
@@ -77,7 +66,7 @@ export default defineComponent({
   },
   methods: {
     handleContactUsSubmit() {
-      this.sendContactEmail(this.contactInfo);
+      submitContactFormInfo(this.contactInfo);
     },
   },
 });

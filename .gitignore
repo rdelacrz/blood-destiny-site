@@ -11,5 +11,5 @@ yarn-error.log*
 .vscode
 
 # Local env file (will contain secrets, do not push to Git!)
-.env.local
+.env.development
 .vercel

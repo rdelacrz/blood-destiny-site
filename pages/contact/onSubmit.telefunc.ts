@@ -1,6 +1,7 @@
-
-import { send, setApiKey } from '@sendgrid/mail';
+import pkg from '@sendgrid/mail';
 import { ContactInfo } from '@/models';
+
+const { send, setApiKey } = pkg;
 
 if (process.env.SENDGRID_API_KEY) {
   setApiKey(process.env.SENDGRID_API_KEY);

@@ -1,16 +1,13 @@
-import pkg from '@sendgrid/mail';
+import sendGrid from '@sendgrid/mail';
 import { ContactInfo } from '@/models';
 
-const { send, setApiKey } = pkg;
-
-if (process.env.SENDGRID_API_KEY) {
-  setApiKey(process.env.SENDGRID_API_KEY);
-} else {
-  console.warn('SendGrid API key not set!');
-}
-
 async function submitContactFormInfo(contactInfo: ContactInfo) {
-  return send({
+  if (process.env.SENDGRID_API_KEY) {
+    sendGrid.setApiKey(process.env.SENDGRID_API_KEY);
+  } else {
+    console.warn('SendGrid API key not set!');
+  }
+  return sendGrid.send({
     to: process.env.SENDGRID_CONTACT_FORM_TO_EMAIL,
     from: process.env.SENDGRID_CONTACT_FORM_FROM_EMAIL || '',
     subject: 'Blood Destiny - ' + contactInfo.inquiryType,

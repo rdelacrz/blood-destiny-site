@@ -6,7 +6,9 @@
     <div class='caption-text general-text'>
       Prepare to venture into a fascinating new world with supernatural elements, mysterious agendas, and unexpected twists.
     </div>
-      <AppButton id='downloadBtn' :backgroundSrc='downloadSrc' @click='handleDownloadClick'>Download</AppButton>
+    <!--
+    <AppButton id='downloadBtn' :backgroundSrc='downloadSrc' @click='handleDownloadClick'>Download</AppButton>
+    -->
   </div>
 </template>
 

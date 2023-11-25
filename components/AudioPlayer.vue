@@ -1,9 +1,10 @@
 <template>
   <div class='audio-player-wrapper'>
     <audio ref='audioElem' :src='currentSong ? currentSong.file : undefined' @play='handleAudioPlayingChange'
-        @pause='handleAudioPlayingChange' @timeupdate="handleAudioCurrentTimeChange" 
-        @durationchange='handleAudioDurationChange' @volumechange='handleAudioVolumeChange'
-        @canplay='handleCanPlayChange' @ended='handleEnded' />
+      @pause='handleAudioPlayingChange' @timeupdate="handleAudioCurrentTimeChange" 
+      @durationchange='handleAudioDurationChange' @volumechange='handleAudioVolumeChange'
+      @canplay='handleCanPlayChange' @ended='handleEnded' 
+    />
     <div class='song-info-content-wrapper'>
       <button class='icon-button control' @click='handleToggleFavorite'>
         <img class='heart-icon' :src='favoriteIcon' alt='Heart Icon' height='24' width='27' />
@@ -237,6 +238,7 @@ export default defineComponent({
       if (this.audioElem && this.hadFirstPlay && this.playing) {
         this.audioElem.play();
       }
+      this.$emit('onCanPlay', true);
     },
     handleEnded(event: Event) {
       if (this.audioElem) {

@@ -5,7 +5,7 @@
       <div class='playlist-description-container'>
         <div class='playlist-text'>Playlist</div>
         <div class='album-title'>Blood Destiny OST</div>
-        <div class='album-description'>The official soundtrack of Blood Destiny, produced by Roger Delacruz.</div>
+        <div class='album-description'>The official soundtrack of Blood Destiny, mostly produced by Roger D.</div>
         <AppButton id='playSoundtrackBtn' :backgroundSrc='playButtonBackground' @click='() => playSoundtrack()'>Play</AppButton>
       </div>
     </div>
@@ -39,7 +39,7 @@
       </tbody>
     </table>
 
-    <AudioPlayer :class='soundtrackPlayerClass' @mounted='setAudioElement' />
+    <AudioPlayer :class='soundtrackPlayerClass' @mounted='setAudioElement' @onCanPlay='handleCanPlay' />
   </div>
 </template>
 
@@ -49,7 +49,8 @@ import { createNamespacedHelpers } from 'vuex-composition-helpers';
 import { AudioModuleState, AudioModuleGetters, AudioModuleActions, AudioModuleMutations } from '@/store/modules';
 
 import buttonPlay from '@/assets/images/backgrounds/buttons/button_play.png';
-import albumCover from '@/assets/images/graphics/blood_destiny_album_cover.jpg';
+//import albumCover from '@/assets/images/graphics/blood_destiny_album_cover.jpg';
+import albumCover from '@/assets/images/graphics/updates/update_cover.png';
 import voice from '@/assets/images/icons/icon_voice.png';
 import heart from '@/assets/images/icons/icon_heart.png';
 import heartFilled from '@/assets/images/icons/icon_heart_filled.png';
@@ -93,7 +94,9 @@ export default defineComponent({
         heart,
         heartFilled,
       },
-      allowPlay: true,
+      allowPlay: true,    // Only false when focusing/clicking favorite button
+      canPlay: false,     // Typically determined by whether audio data has been loaded
+      pendingPlay: false, // Only set to true if play was attempted while canPlay was set to false
     }
   },
   computed: {
@@ -108,24 +111,32 @@ export default defineComponent({
     setAudioElement(audioElem: HTMLAudioElement) {
       this.audioElem = audioElem;
     },
-    playSoundtrack(playlistIndex?: number) {
+    handleCanPlay() {
+      this.canPlay = true;
+      if (this.pendingPlay) {
+        this.audioElem?.play();
+        this.pendingPlay = false;
+      }
+    },
+    playSoundtrack(playlistIndex = 0) {
       if (this.allowPlay) {
         if (!this.isActive) {
           this.activateAudioPlayer();
         }
 
-        if (playlistIndex === undefined) {
-          this.togglePlay();
-        } else {
-          this.selectSpecificSong(playlistIndex);
-          this.togglePlay();
-        }
+        this.selectSpecificSong(playlistIndex);
+        this.togglePlay();
       }
     },
     togglePlay() {
       if (this.audioElem) {
         if (this.audioElem.paused) {
-          this.audioElem.play();
+          // If canPlay is false, waits for handleCanPlay to be called before playing
+          if (this.canPlay) {
+            this.audioElem.play();
+          } else {
+            this.pendingPlay = true;
+          }
         } else {
           this.audioElem.pause();
         }

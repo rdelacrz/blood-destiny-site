@@ -4,6 +4,7 @@ import RootState from '@/store/state';
 
 import ephemeralMemories from '@/assets/audio/ephemeral_memories.mp3';
 import darkDays from '@/assets/audio/dark_days.mp3';
+import endOfTheDream from '@/assets/audio/end_of_the_dream.mp3';
 import calmBeforeTheStorm from '@/assets/audio/calm_before_the_storm.mp3';
 import justAnOrdinaryDay from '@/assets/audio/just_an_ordinary_day.mp3';
 import shiftingShoreline from '@/assets/audio/shifting_shoreline.mp3';
@@ -64,10 +65,24 @@ const state: AudioModuleState = {
       favorite: false,
     },
     {
+      title: 'End Of The Dream',
+      artist: 'Roger D.',
+      length: '1:49',
+      file: endOfTheDream,
+      favorite: false,
+    },
+    {
       title: 'Shifting Shoreline',
       artist: 'Roger D.',
       length: '0:54',
       file: shiftingShoreline,
+      favorite: false,
+    },
+    {
+      title: 'End Of The Dream',
+      artist: 'Roger D.',
+      length: '1:40',
+      file: calmBeforeTheStorm,
       favorite: false,
     },
     {

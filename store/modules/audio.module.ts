@@ -79,7 +79,7 @@ const state: AudioModuleState = {
       favorite: false,
     },
     {
-      title: 'End Of The Dream',
+      title: 'Calm Before The Storm',
       artist: 'Roger D.',
       length: '1:40',
       file: calmBeforeTheStorm,

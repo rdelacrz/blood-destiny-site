@@ -5,7 +5,7 @@
       <div class='playlist-description-container'>
         <div class='playlist-text'>Playlist</div>
         <div class='album-title'>Blood Destiny OST</div>
-        <div class='album-description'>The official soundtrack of Blood Destiny, mostly produced by Roger D.</div>
+        <div class='album-description'>The official soundtrack of Blood Destiny, mostly produced by Doommaker</div>
         <AppButton id='playSoundtrackBtn' :backgroundSrc='playButtonBackground' @click='() => playSoundtrack()'>Play</AppButton>
       </div>
     </div>

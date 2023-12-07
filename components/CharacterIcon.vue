@@ -60,7 +60,7 @@ $diameter: 100px;
   }
   &:focus, &:hover {
     .character-icon-container {
-      box-shadow: 0 0 6px 3px white;
+      box-shadow: 0 0 6px 0.1875em white;
     }
   }
 }

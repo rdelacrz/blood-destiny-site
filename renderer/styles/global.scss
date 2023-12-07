@@ -25,7 +25,7 @@ body {
 
 .general-text {
   font-family: 'Montserrat';
-  font-size: 18px;
+  font-size: 1.125em;
   font-weight: normal;
 }
 
@@ -36,7 +36,7 @@ body {
   box-sizing: border-box;;
   color: white;
   font-family: 'Montserrat';
-  font-size: 18px;
+  font-size: 1.125em;
   padding: 9px 16px;
   width: 100%;
   @include placeholder() {
@@ -50,7 +50,7 @@ body {
   color: white;
   cursor: pointer;
   display: inline-flex;
-  font-size: 30px;
+  font-size: 1.875em;
   outline: none;
   transition: all 0.3s ease-out;
   img {
@@ -61,5 +61,17 @@ body {
     img {
       filter: drop-shadow(0 0 4px white);
     }
+  }
+}
+
+.desktop {
+  @media (max-width: 500px) {
+    display: none !important;
+  }
+}
+
+.mobile {
+  @media (min-width: 501px) {
+    display: none !important;
   }
 }

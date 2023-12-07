@@ -33,12 +33,12 @@ const currentBackground = computed(() => {
 .link-container {
   display: inline-block;
   min-width: 90px;
-  padding: 3px 11px;
+  padding: 0.1875em 0.6875em;
   text-align: center;
   .link-content {
     color: white;
     font-family: 'Copperplate Gothic';
-    font-size: 18px;
+    font-size: 1.125em;
     outline: none;
     text-decoration: none;
     text-transform: uppercase;

@@ -6,6 +6,12 @@ import { setPageContext } from '@/contexts';
 import { createStore, storeKey } from '@/store';
 import type { PageContext } from 'vike/types';
 import type { Component, PageProps } from './types';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+
 
 function createApp(pageContext: PageContext) {
   const { Page } = pageContext;
@@ -61,6 +67,10 @@ function createApp(pageContext: PageContext) {
   /* Adds VueQuery capabilities */
   const queryClient = new QueryClient();
   app.use(VueQueryPlugin, { queryClient });
+
+  /* Add font awesome icon component */
+  library.add(fas, far, fab);
+  app.component('font-awesome-icon', FontAwesomeIcon); 
 
   return { app, store };
 }

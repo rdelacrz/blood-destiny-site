@@ -23,9 +23,7 @@
 
 <script lang='ts'>
 import { defineComponent, defineAsyncComponent } from 'vue';
-import { createNamespacedHelpers } from 'vuex-composition-helpers';
 import { ContactInfo, OptionValueSet } from '@/models';
-import { ContactsModuleState, ContactsModuleGetters, ContactsModuleActions, ContactsModuleMutations } from '@/store/modules';
 import { submitContactFormInfo } from './onSubmit.telefunc';
 
 import buttonContactUs from '@/assets/images/backgrounds/buttons/button_contact_us.png';
@@ -85,7 +83,7 @@ export default defineComponent({
       color: white;
       text-align: center;
       font-family: 'Broadway';
-      font-size: 36px;
+      font-size: 2.25em;
       height: 415px;
       width: 347px;
       padding-top: 180px;
@@ -113,7 +111,7 @@ export default defineComponent({
         .contact-link {
           color: white;
           font-family: 'Montserrat';
-          font-size: 18px;
+          font-size: 1.125em;
           margin-left: 20px;
           text-decoration: none;
           &:hover, &:focus {

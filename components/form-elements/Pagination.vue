@@ -131,10 +131,10 @@ export default defineComponent({
     color: white;
     cursor: pointer;
     font-family: 'Montserrat';
-    font-size: 14px;
-    min-height: 24px;
-    min-width: 30px;
-    padding-top: 2px;
+    font-size: 0.875em;
+    min-height: 1.5em;
+    min-width: 1.875em;
+    padding-top: 0.125em;
     outline: none;
     transition: all 0.3s ease-out;
     img {
@@ -143,7 +143,7 @@ export default defineComponent({
     }
     &.current {
       font-weight: bold;
-      padding-bottom: 2px;
+      padding-bottom: 0.125em;
       text-decoration: underline;
     }
     &:hover, &:focus {

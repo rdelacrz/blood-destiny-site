@@ -108,10 +108,10 @@ export default {
         flex: 1;
         .update-title {
           font-family: 'Broadway';
-          font-size: 28px;
+          font-size: 1.75em;
         }
         .update-description {
-          font-size: 16px;
+          font-size: 1em;
         }
       }
     }

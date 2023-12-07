@@ -74,18 +74,18 @@ $perspective: 600px;
       transform: perspective($perspective) rotateY(0deg);
       .character-name {
         position: absolute;
-        bottom: 30px;
+        bottom: 1.875em;
         background: rgba(black, 0.4);
         color: white;
-        font-size: 26px;
-        padding: 5px 5px 5px 20px;
+        font-size: 1.625em;
+        padding: 0.3125em 0.3125em 0.3125em 1.25em;
       }
     }
     &.back {
       background: white;
       transform: perspective($perspective) rotateY(180deg);
       .close-button-container {
-        padding: 5px 10px;
+        padding: 0.3125em 0.625em;
         text-align: right;
       }
     }
@@ -93,9 +93,9 @@ $perspective: 600px;
   &.expanded {
     .card-content-container {
       position: fixed;
-      top: 63px;
+      top: 60.1875em;
       left: 0;
-      max-height: calc(100vh - 63px);
+      max-height: calc(100vh - 60.1875em);
       max-width: 100vw;
       &.front {
         transform: perspective($perspective) rotateY(180deg);

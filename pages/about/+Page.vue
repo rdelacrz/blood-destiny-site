@@ -63,7 +63,7 @@ $content-max-width: 1100px;
       color: white;
       text-align: center;
       font-family: 'Broadway';
-      font-size: 36px;
+      font-size: 2.25em;
       height: 415px;
       width: 347px;
       padding-top: 180px;
@@ -72,7 +72,7 @@ $content-max-width: 1100px;
   }
   .story-content-wrapper {
     position: relative;
-    padding: 150px 80px 30px 80px;
+    padding: 150px 0 30px;
     max-width: $content-max-width;
     margin: 0 auto;
   }
@@ -82,15 +82,14 @@ $content-max-width: 1100px;
     flex-wrap: wrap;
     margin: 0 auto;
     max-width: $content-max-width;
-    padding: 0 80px;
     img {
       border: solid 1px #545354;
       height: 200px;
-      width: 320px;
+      width: 340px;
 
       @media (max-width: 1200px) {
         height: auto;
-        width: 240px;
+        width: 280px;
       }
 
       @media (max-width: 940px) {

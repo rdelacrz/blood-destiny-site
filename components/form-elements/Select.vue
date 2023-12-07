@@ -63,7 +63,7 @@ export default defineComponent({
   background-position: right;
   background-repeat: no-repeat;
   cursor: pointer;
-  padding: 9px 14px;
+  padding: 0.5625em 0.875em;
   option {
     color: black;
   }

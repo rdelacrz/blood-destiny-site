@@ -39,7 +39,7 @@ export default {
   .website-title-text {
     color: white;
     font-family: 'Broadway';
-    font-size: 110px;
+    font-size: 6.875em;
     line-height: 110px;
   }
   .caption-text {

@@ -1,7 +1,7 @@
 <template>
   <div class='page-wrapper' :style="{'background-image': `url(${background})`}">
-    <img id='bottomLeftBloodSplatter' :src='bottomLeft' alt='Bottom Left Blood Splatter' width='535' height='509' />
-    <img id='upRightBloodSplatter' :src='upRight' alt='Up Right Blood Splatter' width='397' height='379' />
+    <img id='bottomLeftBloodSplatter' class='desktop' :src='bottomLeft' alt='Bottom Left Blood Splatter' width='535' height='509' />
+    <img id='upRightBloodSplatter' class='desktop' :src='upRight' alt='Up Right Blood Splatter' width='397' height='379' />
     <PageHeader />
     <main class='page-content-wrapper container'>
       <VueQueryHydrate>
@@ -57,7 +57,7 @@ $bkgd_opacity: 0.7;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding-bottom: 30px;
+  padding-bottom: 1.875em;
   &::before {
     position: absolute;
     background: rgba(black, $bkgd_opacity);
@@ -80,6 +80,7 @@ $bkgd_opacity: 0.7;
   .page-content-wrapper {
     flex: 1;
     z-index: 1;
+    padding: 0 20px;
   }
 }
 </style>

@@ -52,7 +52,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang='scss'>
-$slider-height: 5px;
+$slider-height: 0.3125em;
 
 .slider-container {
   position: relative;

@@ -22,8 +22,12 @@
         <button class='icon-button prev-button control' @click='handlePrev'>
           <img class='previous-icon' :src='icons.previous' alt='Previous Song Icon' height='15' width='15' />
         </button>
-        <button class='icon-button play-button control' @click='togglePlay'>
-          <i :class="`play-icon fa fa-${playing ? 'pause' : 'play'}-circle`" aria-hidden='true' />
+        <button class='icon-button play-button control' @click='togglePlay'
+          @focus='handlePlayPulseFocus(true)' @blur='handlePlayPulseFocus(false)'
+          @mouseover='handlePlayPulseHover(true)' @mouseleave='handlePlayPulseHover(false)'
+        >
+          <font-awesome-icon class='play-icon' :icon="playing ? 'pause-circle' : 'play-circle'" aria-hidden='true' 
+            :beat='playButtonState.allowPulse' />
         </button>
         <button class='icon-button next-button control' @click='handleNext'>
           <img class='next-icon' :src='icons.next' alt='Next Song Icon' height='15' width='15' />
@@ -132,7 +136,12 @@ export default defineComponent({
       volumeParam: {
         currentVolume: 1,
         muted: false,
-      }
+      },
+      playButtonState: {
+        allowPulse: false,
+        focus: false,
+        hover: false,
+      },
     };
   },
   props: {
@@ -173,6 +182,7 @@ export default defineComponent({
         } else {
           this.audioElem.pause();
         }
+        this.playButtonState.allowPulse = false;
       }
     },
     toggleMute() {
@@ -224,6 +234,28 @@ export default defineComponent({
       if (this.audioElem) {
         this.audioElem.volume = value;
       }
+    },
+    handlePlayPulseFocus(focus: boolean) {
+      // Toggles play button pulsing when focus state changes
+      if (this.playButtonState.focus !== focus) {
+        if (focus) {
+          this.playButtonState.allowPulse = true;
+        } else {
+          this.playButtonState.allowPulse = false;
+        }
+      }
+      this.playButtonState.focus = focus;
+    },
+    handlePlayPulseHover(hover: boolean) {
+      // Toggles play button pulsing when hover state changes
+      if (this.playButtonState.hover !== hover) {
+        if (hover) {
+          this.playButtonState.allowPulse = true;
+        } else {
+          this.playButtonState.allowPulse = false;
+        }
+      }
+      this.playButtonState.hover = hover;
     },
 
     // The following handlers are for the <audio> HTML object's events
@@ -287,7 +319,7 @@ export default defineComponent({
     width: 25%;
     .song-info-container {
       font-family: 'Montserrat';
-      font-size: 18px;
+      font-size: 1.125em;
       margin-left: 20px;
       .song-name {
         font-weight: bold;
@@ -309,7 +341,7 @@ export default defineComponent({
       align-items: center;
       .time-display {
         font-family: 'Montserrat';
-        font-size: 14px;
+        font-size: 0.875em;
         line-height: 14px;
         min-width: 60px;
         &.current-time {

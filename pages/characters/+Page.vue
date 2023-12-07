@@ -158,10 +158,10 @@ export default {
     position: absolute;
     bottom: 80px;
     &.previous-button {
-      left: 20px;
+      left: 1.25em;
     }
     &.next-button {
-      right: 20px;
+      right: 1.25em;
     }
   }
 }

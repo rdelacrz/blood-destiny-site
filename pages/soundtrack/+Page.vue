@@ -174,7 +174,7 @@ export default defineComponent({
       }
       .album-title {
         font-family: 'Broadway';
-        font-size: 48px;
+        font-size: 3em;
         line-height: 48px;
       }
       .album-description {
@@ -182,7 +182,7 @@ export default defineComponent({
         margin: 10px 0 15px;
       }
       #playSoundtrackBtn {
-        font-size: 18px;
+        font-size: 1.125em;
         min-width: 84px;
       }
     }
@@ -190,7 +190,7 @@ export default defineComponent({
   table {
     border-collapse: collapse;
     font-family: 'Montserrat';
-    margin-bottom: 30px;
+    margin-bottom: 1.875em;
     width: 100%;
     tr {
       th {
@@ -202,7 +202,7 @@ export default defineComponent({
       }
       td {
         border-bottom: solid 1px hsl(225, 2%, 33%);
-        padding: 16px 0;
+        padding: 1em 0;
 
         .title-cell-content {
           position: relative;

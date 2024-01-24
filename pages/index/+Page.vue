@@ -1,7 +1,7 @@
 <template>
   <div class='home-content-wrapper container'>
     <div class='website-title-text'>
-      Blood<br />Destiny
+      <img id='websiteHomeLogo' :src='logoSrc' alt='Blood Destiny Logo' />
     </div>
     <div class='caption-text general-text'>
       Prepare to venture into a fascinating new world with supernatural elements, mysterious agendas, and unexpected twists.
@@ -15,6 +15,7 @@
 <script lang="ts">
 import { defineAsyncComponent } from 'vue';
 import buttonDownload from '@/assets/images/backgrounds/buttons/button_download.png';
+import bloodDestinyLogo from '@/assets/images/graphics/blood_destiny_logo.png';
 
 export default {
   name: "home",
@@ -23,6 +24,7 @@ export default {
   },
   data() {
     return {
+      logoSrc: bloodDestinyLogo,
       downloadSrc: buttonDownload,
     };
   },
@@ -36,6 +38,10 @@ export default {
 
 <style scoped lang='scss'>
 .home-content-wrapper {
+  #websiteHomeLogo {
+    max-width: 300px;
+    width: 100%;
+  }
   .website-title-text {
     color: white;
     font-family: 'Broadway';

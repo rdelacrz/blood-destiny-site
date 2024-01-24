@@ -2,7 +2,7 @@
   <header class='desktop'>
     <div v-show='showTitleLink' class='website-title-wrapper'>
       <a class='website-title-text' href='/'>
-        Blood Destiny
+        <img :src='logoSrc' alt='Blood Destiny Logo' width='200' />
       </a>
     </div>
     <ul class='header-links-wrapper'>
@@ -20,6 +20,8 @@ import { defineAsyncComponent } from 'vue';
 
 import { usePageContext } from '@/contexts';
 
+import bloodDestinyLogo from '@/assets/images/graphics/blood_destiny_logo.png';
+
 import buttonAbout from '@/assets/images/backgrounds/buttons/button_about.png';
 import buttonCharacters from '@/assets/images/backgrounds/buttons/button_characters.png';
 import buttonContactUs from '@/assets/images/backgrounds/buttons/button_contact_us.png';
@@ -33,6 +35,7 @@ export default {
   },
   data() {
     return {
+      logoSrc: bloodDestinyLogo,
       aboutBackground: buttonAbout,
       charactersBackground: buttonCharacters,
       contactUsBackground: buttonContactUs,

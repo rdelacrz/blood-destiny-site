@@ -1,4 +1,5 @@
 export * from './alert-param';
+export * from './breadcrumb';
 export * from './character';
 export * from './contact-info';
 export * from './option-value-set';

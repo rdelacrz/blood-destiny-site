@@ -1,0 +1,23 @@
+// These only needs to be imported once within the global styles
+@import "./external";
+@import "./fonts";
+
+// Tailwind directives (see https://tailwindcss.com/docs/installation)
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Overriden Vuetify styles
+.v-field__input {
+    padding: 1.5rem;
+}
+.v-label.v-field-label {
+    margin-left: 1.5rem;
+}
+
+// Adds styles to HTML that are directly injected from backend
+.injected-html {
+    p {
+        margin: 15px 0;
+    }
+}

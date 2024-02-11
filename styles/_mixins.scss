@@ -1,0 +1,51 @@
+@mixin ie-styles {
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    @content;
+  }
+}
+
+@mixin range-track-styles {
+  /* WebKit/Blink */
+  &::-webkit-slider-runnable-track {
+    @content;
+  }
+  /* Firefox */
+  &::-moz-range-track {
+    @content;
+  }
+  /* IE */
+  &::-ms-track {
+    @content;
+  }
+}
+
+@mixin range-thumb-styles {
+  /* WebKit/Blink */
+  &::-webkit-slider-thumb {
+    appearance: none;
+    @content;
+  }
+  /* Firefox */
+  &::-moz-range-thumb {
+    @content;
+  }
+  /* IE */
+  &:-ms-thumb {
+    @content;
+  }
+}
+
+@mixin placeholder {
+  &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    @content;
+  }
+  &::-moz-placeholder { /* Firefox 19+ */
+    @content;
+  }
+  &:-ms-input-placeholder { /* IE 10+ */
+    @content;
+  }
+  &:-moz-placeholder { /* Firefox 18- */
+    @content;
+  }
+}

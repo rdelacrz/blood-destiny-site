@@ -1,36 +1,22 @@
 <template>
-  <button :id='id' class='app-button' :style="{'background-image': currentBackground}" :type='type'>
+  <v-btn 
+    :id="id" 
+    class="flex align-middle bg-crimson text-white rounded-bl-3xl rounded-tr-3xl p-6 capitalize" 
+    :type="type"
+    :href="href"
+    :disabled="disabled"
+    color="primary"
+    variant="flat"
+  >
     <slot></slot>
-  </button>
+  </v-btn>
 </template>
 
 <script setup lang="ts">
-const props = defineProps<{
-  id?: string
-  backgroundSrc: string
-  type?: 'button' | 'submit' | 'reset' | undefined
+defineProps<{
+  id?: string;
+  type?: 'button' | 'submit' | 'reset' | undefined;
+  href?: string;
+  disabled?: boolean;
 }>();
-
-const currentBackground = `url(${props.backgroundSrc})`;
 </script>
-
-<style scoped lang='scss'>
-.app-button {
-  background: none;
-  border: none;
-  color: white;
-  cursor: pointer;
-  font-family: 'Copperplate Gothic';
-  font-size: 1.125em;
-  outline: none;
-  padding: 0.1875em 0.5em;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: all 0.3s ease-out;
-
-  &:hover, &:focus {
-    color: rgb(247, 173, 171);
-    text-shadow: 0 3px 6px rgba(black, 0.6);
-  }
-}
-</style>

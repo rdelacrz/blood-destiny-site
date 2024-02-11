@@ -1,54 +1,28 @@
 <template>
-  <div class='link-container' :style="{'background-image': currentBackground}">
-    <a :class="['link-content', linkClass]" :href='to'>
+  <div :class="['p-3 border', {'border-crimson': active, 'border-transparent': !active}]">
+    <a :href="to" :class="[
+        'uppercase transition-color ease-in-out duration-300', 
+        {'text-crimson ': active, 'text-white hover:text-crimson-light': !active}
+      ]"
+    >
       <slot></slot>
     </a>
   </div>
 </template> 
 
 <script setup lang="ts">
-import { usePageContext } from '@/contexts';
-import { computed } from 'vue';
+import { usePageContext } from "@/hooks";
+import { computed } from "vue";
 
 const props = defineProps<{
-  linkClass?: string
-  to: string
-  backgroundSrc: string
+  linkClass?: string;
+  to: string;
 }>();
 
 const pageContext = usePageContext();
 
 const active = computed(() => {
   const { urlPathname } = pageContext;
-  return props.to === '/' ? urlPathname === props.to : urlPathname?.startsWith(props.to);
-});
-
-// Determines background based of link based on whether it is active or not
-const currentBackground = computed(() => {
-  return active.value ? `url(${props.backgroundSrc})` : 'none';   // Shows nothing when current path doesn't match link
+  return props.to === "/" ? urlPathname === props.to : urlPathname?.startsWith(props.to);
 });
 </script>
-
-<style scoped lang='scss'>
-.link-container {
-  display: inline-block;
-  min-width: 90px;
-  padding: 0.1875em 0.6875em;
-  text-align: center;
-  .link-content {
-    color: white;
-    font-family: 'Copperplate Gothic';
-    font-size: 1.125em;
-    outline: none;
-    text-decoration: none;
-    text-transform: uppercase;
-    transition: all 0.3s ease-out;
-    width: 100%;
-
-    &:hover, &:focus {
-      color: rgb(247, 173, 171);
-      text-shadow: 0 3px 6px rgba(black, 0.7);
-    }
-  }
-}
-</style>

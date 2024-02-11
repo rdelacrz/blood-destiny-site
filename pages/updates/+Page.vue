@@ -1,127 +1,82 @@
 <template>
-  <div class='updates-wrapper container'>
-    <div class='updates-content-wrapper'>
-      <template v-if='isLoading'>
-        Loading updates...
-      </template>
-      <template v-else>
-        <div v-for='(update, index) in displayedUpdates' :key='index' class='update-row-wrapper'>
-          <img class='update-image' :src='updateCover' alt ='Update Cover' />
-          <div class='update-details-container'>
-            <div class='update-title'>{{update.title}}</div>
-            <div class='update-date general-text'>{{formatDate(update.date)}}</div>
-            <div v-html='update.description' class='update-description general-text' />
+  <div class="py-4">
+    <template v-if="!isLoading">
+      <div v-for="(update, i) in displayedUpdates" :key="update.postId" 
+        :class="[
+          'py-8 grid gap-20 grid-rows-1 grid-cols-2',
+          i < displayedUpdates.length - 1 ? 'border-b border-white' : undefined
+        ]"
+      >
+        <div :class="['self-center', i % 2 === 1 ? 'order-last' : undefined]">
+          <h2 class="text-4xl font-semibold mb-4">
+            {{update.title}}
+          </h2>
+          <div class="text-lg text-crimson font-semibold mb-2">
+            {{formatDate(update.date)}}
           </div>
+          <div v-html="update.description" class="injected-html" />
         </div>
-      </template>
-    </div>
-    <Pagination paginationWrapper='updates-pagination' v-model:currentPage='currentPage' :total='totalPages' />
+        <div class="self-center justify-self-center flex items-center justify-center h-[600px] w-[600px]
+          before:absolute before:block before:h-[600px] before:w-[600px] before:p-10
+          before:bg-gradient-radial before:from-crimson before:from-1% before:to-70% before:opacity-40"
+        >
+          <img class="relative" :src="updateCover" alt ="Update Cover" />
+        </div>
+      </div>
+      <Pagination paginationWrapper="updates-pagination" v-model:currentPage="currentPage" :total="totalPages" />
+    </template>
+    <v-progress-circular v-else indeterminate />
   </div>
 </template>
 
-<script lang="ts">
-import { defineAsyncComponent } from 'vue';
-import { mapState } from 'vuex';
-import { format } from 'date-fns';
-import { useQuery } from '@tanstack/vue-query';
-import { getUpdatePosts } from './onLoad.telefunc';
+<script setup lang="ts">
+import { computed, defineAsyncComponent, ref } from "vue";
+import { format } from "date-fns";
+import { useQuery } from "@tanstack/vue-query";
+import { usePageContext } from '@/hooks';
+import { onLoad } from "./Page.telefunc";
 
-import updateCover from '@/assets/images/graphics/updates/update_cover.png';
+import updateCover from "@/assets/images/graphics/updates/update_cover.png";
 
-export default {
-  name:'updates',
-  components: {
-    Pagination: defineAsyncComponent(() => import('@/components/form-elements/Pagination.vue')),
+const Pagination = defineAsyncComponent(() => import("@/components/Pagination.vue"));
+
+const MAX_DISPLAY_PER_PAGE = 3;
+
+// Queries data
+const pageContext = usePageContext();
+const { data: updateList, isLoading } = useQuery({
+  queryKey: [pageContext.config.queryKey],
+  queryFn: onLoad,
+});
+
+const currentIndex = ref(0);
+
+const displayedUpdates = computed(() => updateList.value?.slice(currentIndex.value, currentIndex.value + MAX_DISPLAY_PER_PAGE) || []);
+
+const currentPage = computed({
+  get() {
+    return Math.floor(currentIndex.value / MAX_DISPLAY_PER_PAGE) + 1;
   },
-  setup() {
-    // The query should be prefetched and sent from the server
-    const query = useQuery({
-      queryKey: ['getUpdatePosts'],
-      queryFn: () => getUpdatePosts(),
-    });
-    return {
-      query,
-    }
-  },
-  data() {
-    return {
-      currentIndex: 0,
-      maxDisplay: 3,
-      updateCover,
-    };
-  },
-  computed: {
-    ...mapState(['dateUtils']),
-    isLoading() {
-      return this.query.isLoading.value || false;
-    },
-    updateList() {
-      return this.query.data.value || [];
-    },
-    displayedUpdates() {
-      return this.updateList.slice(this.currentIndex, this.currentIndex + this.maxDisplay);
-    },
-    currentPage: {
-      get() {
-        return Math.floor(this.currentIndex / this.maxDisplay) + 1;
-      },
-      set(page: number) {
-        this.currentIndex = (page - 1) * this.maxDisplay;
-      },
-    },
-    totalPages() {
-      const count = this.updateList.length;
-      const fullPages = Math.floor(count / this.maxDisplay);
-      const remainder = count % this.maxDisplay;
-      return remainder === 0 ? fullPages : fullPages + 1;
-    },
-  },
-  methods: {
-    formatDate(date: any) {
-      if (date) {
-        try {
-          return format(new Date(date), 'LLL-dd-yyyy hh:mm:ss aa');
-        } catch(e) {
-          console.error(e);
-        }
-      }
-      return date;
+  set(page: number) {
+    currentIndex.value = (page - 1) * MAX_DISPLAY_PER_PAGE;
+  }
+});
+
+const totalPages = computed(() => {
+  const count = updateList.value?.length || 0;
+  const fullPages = Math.floor(count / MAX_DISPLAY_PER_PAGE);
+  const remainder = count % MAX_DISPLAY_PER_PAGE;
+  return remainder === 0 ? fullPages : fullPages + 1;
+});
+
+const formatDate = (date: Date) => {
+  if (date) {
+    try {
+      return format(date, "LLL-dd-yyyy hh:mm:ss aa");
+    } catch(e) {
+      console.error(e);
     }
   }
-};
+  return date;
+}
 </script>
-
-<style scoped lang='scss'>
-.updates-wrapper {
-  max-width: 1000px;
-  .updates-content-wrapper {
-    margin-bottom: 20px;
-    .update-row-wrapper {
-      display: flex;
-      margin-bottom: 40px;
-      .update-image {
-        margin-right: 45px;
-        max-height: 153px;
-        max-width: 165px;
-      }
-      .update-details-container {
-        flex: 1;
-        .update-title {
-          font-family: 'Broadway';
-          font-size: 1.75em;
-        }
-        .update-description {
-          font-size: 1em;
-        }
-      }
-    }
-  }
-}
-</style>
-
-<!-- Won't work unless scope is removed -->
-<style lang='scss'>
-.updates-wrapper {
-  margin-bottom: 120px;
-}
-</style>

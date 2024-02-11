@@ -1,86 +1,68 @@
 <template>
-  <div class='page-wrapper' :style="{'background-image': `url(${background})`}">
-    <img id='bottomLeftBloodSplatter' class='desktop' :src='bottomLeft' alt='Bottom Left Blood Splatter' width='535' height='509' />
-    <img id='upRightBloodSplatter' class='desktop' :src='upRight' alt='Up Right Blood Splatter' width='397' height='379' />
+  <div class="flex flex-col min-h-screen bg-blue-dark text-white">
     <PageHeader />
-    <main class='page-content-wrapper container'>
-      <VueQueryHydrate>
-        <slot></slot>
-      </VueQueryHydrate>
+    <main class="page-content flex-auto">
+      <div v-if="!isHomePage" :class="[
+          'bg-black py-[150px] text-center relative z-10 bg-cover bg-center', 
+          {'bg-black': !backgroundClass, [backgroundClass]: !!backgroundClass}
+        ]">
+        <div class="container mx-auto">
+          <h1 class="uppercase text-6xl font-semibold">
+            {{ pageContext.config.pageTitle }}
+          </h1>
+          <div class="p-4 max-w-[800px] mx-auto">
+            {{ pageContext.config.pageDescription }}
+          </div>
+          <div class="text-3xl">
+            <template v-for="breadcrumb in breadcrumbs">
+              <template v-if="!!breadcrumb.url">
+                <a class="transition-color ease-in-out duration-300 hover:text-crimson-light" 
+                  :href="breadcrumb.url"
+                >
+                  {{ breadcrumb.text }}
+                </a> /
+              </template>
+              <span v-else class="text-crimson">
+                {{ breadcrumb.text }}
+              </span>
+            </template>
+          </div>
+        </div>
+      </div>
+      <div class="container mx-auto px-4 md:px-8 lg:px-16">
+        <slot />
+      </div>
     </main>
+    <PageFooter />
   </div>
 </template>
 
-<script lang='ts'>
-import { defineAsyncComponent, defineComponent } from 'vue';
-import { mapState } from 'vuex';
-import { } from '@/contexts';
-import { useStore } from '@/store';
+<script setup lang="ts">
+import { computed, onMounted } from "vue";
+import { usePageContext } from "@/hooks";
+import { useStore } from "@/store";
+import PageFooter from "./footer/Footer.vue";
+import PageHeader from "./header/Header.vue";
 
-import background from '@/assets/images/backgrounds/site_background.png';
-import bottomLeft from '@/assets/images/graphics/blood_bottom_left.png';
-import upRight from '@/assets/images/graphics/blood_up_right.png';
+const store = useStore();
+const popupParam = computed(() => store.state.popupParam);
 
-export default defineComponent({
-  name: 'page-layout',
-  components: {
-    PageHeader: defineAsyncComponent(() => import('./Header.vue')),
-    VueQueryHydrate: defineAsyncComponent(() => import('./VueQueryHydrate.vue')),
-  },
-  computed: {
-    ...mapState(['popupParam']),
-  },
-  data() {
-    return {
-      background,
-      bottomLeft,
-      upRight,
-    }
-  },
-  mounted() {
-    const store = useStore();
-    if (store.state.popupParam?.isActive) {
-      store.commit('setPopupState', null);
-    }
+const pageContext = usePageContext();
+const isHomePage = computed(() => pageContext.urlPathname === '/');
+const breadcrumbs = computed(() => {
+  if (pageContext.config.getBreadcrumbs) {
+    return pageContext.config.getBreadcrumbs(pageContext);
+  } else {
+    return [];
   }
 });
+
+const backgroundClass = computed(() => pageContext.config.pageBackgroundClass);
+
+onMounted(() => {
+  if (store.state.popupParam?.isActive) {
+    store.commit("setPopupState", null);
+  }
+});
+
 </script>
-
-<!-- Add 'scoped' attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
-$bkgd_opacity: 0.7;
-
-.page-wrapper {
-  position: relative;
-  background-size: cover;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  padding-bottom: 1.875em;
-  &::before {
-    position: absolute;
-    background: rgba(black, $bkgd_opacity);
-    content: "";
-    height: 100%;
-    width: 100%;
-  }
-  #bottomLeftBloodSplatter {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    opacity: $bkgd_opacity;
-  }
-  #upRightBloodSplatter {
-    position: absolute;
-    top: 0;
-    right: 0;
-    opacity: $bkgd_opacity;
-  }
-  .page-content-wrapper {
-    flex: 1;
-    z-index: 1;
-    padding: 0 20px;
-  }
-}
-</style>

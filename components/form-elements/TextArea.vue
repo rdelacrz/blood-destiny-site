@@ -31,10 +31,3 @@ export default {
   emits: ['update:value'],
 }
 </script>
-
-<style lang='scss'>
-.text-area-field {
-  resize: none;
-  visibility: auto;
-}
-</style>

@@ -1,0 +1,6 @@
+// Modify Vuetify settings here
+
+@forward 'vuetify/settings' with (
+  // Disable all utilities in order to prevent it from clashing with Tailwind CSS
+  $utilities: false,
+);

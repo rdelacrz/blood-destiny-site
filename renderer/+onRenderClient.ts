@@ -1,25 +1,22 @@
 // https://vike.dev/onRenderClient
 
-import type { OnRenderClientAsync } from 'vike/types';
-import { setQueryClientContext } from '@/contexts';
-import { createApp } from './app';
-import { getPageTitle } from './getPageTitle';
+import type { OnRenderClientAsync } from "vike/types";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import { getPageTitle } from "@/utilities";
+import { createApp } from "./app";
 
-import './styles/global.scss';
+import "@/styles/global.scss";
 
 let createAppProps: ReturnType<typeof createApp>;
 const onRenderClient: OnRenderClientAsync = async (pageContext): ReturnType<OnRenderClientAsync> => {
   if (!createAppProps) {
     createAppProps = createApp(pageContext);
-    const { app, store } = createAppProps;
+    const { app } = createAppProps;
 
-    // Sets query client context with vueQueryState set via dehydrate method on server-side
-    setQueryClientContext(app, pageContext.pageProps?.vueQueryState);
+    // Disable the automatic insertion of CSS into the head of the document (it is already inserted on server-side)
+    config.autoAddCss = false;
 
-    // Sets the Vuex store's state to the initial one passed from server-side
-    store.replaceState(pageContext.INITIAL_STATE);
-
-    app.mount('#app');
+    app.mount("#app");
   } else {
     const { app } = createAppProps;
     app.changePage(pageContext);

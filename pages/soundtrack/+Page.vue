@@ -1,145 +1,125 @@
 <template>
-  <div class='soundtrack-wrapper container'>
-    <div class='playlist-details-wrapper'>
-      <img class='album-cover' :src='albumCover' alt='Blood Destiny Album Cover' height='200' width='200' />
-      <div class='playlist-description-container'>
-        <div class='playlist-text'>Playlist</div>
-        <div class='album-title'>Blood Destiny OST</div>
-        <div class='album-description'>The official soundtrack of Blood Destiny, mostly produced by Doommaker</div>
-        <AppButton id='playSoundtrackBtn' :backgroundSrc='playButtonBackground' @click='() => playSoundtrack()'>Play</AppButton>
-      </div>
+  <div class="pt-[150px] pb-20">
+    <div class="relative text-center flex flex-col justify-center before:absolute before:block before:h-[300px] before:w-full
+        before:bg-gradient-radial before:from-crimson before:from-1% before:to-70% before:opacity-40">
+      <h2 class="relative text-6xl">Blood Destiny OST</h2>
+    </div>
+    <div class="relative text-lg text-center my-8">The official soundtrack of Blood Destiny, mostly produced by Doommaker</div>
+    <div class="flex justify-center mb-10">
+      <AppButton id="playSongBtn" @click="() => playSoundtrack()">Play</AppButton>
     </div>
 
-    <table class='playlist-table-content-wrapper'>
+    <table class="w-full text-left">
       <thead>
-        <tr>
-          <th class='title-table-header'>Title</th>
-          <th class='artist-table-header'>Artist</th>
-          <th class='duration-table-header'>Duration</th>
+        <tr class="uppercase text-xl">
+          <th class="py-2 border-b-2 border-white pl-9">Title</th>
+          <th class="py-2 border-b-2 border-white">Artist</th>
+          <th class="py-2 border-b-2 border-white">Duration</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for='(song, index) in playlist' :key='index' @click='() => playSoundtrack(index)' 
-            @keydown.enter='() => playSoundtrack(index)' tabindex='0'>
-          <td class='title-cell'>
-            <div class='title-cell-content'>
-              <img v-show='isActive && playlistIndex === index' class='playing-icon' :src='icons.voice' alt='Playing Icon' 
-                height='18' width='18' />
-              <button class='favorite-button' @click='() => toggleFavorite(index)' 
-                  @mouseover='() => setAllowPlayFlag(false)' @mouseout='() => setAllowPlayFlag(true)'
-                  @focus='() => setAllowPlayFlag(false)' @blur='() => setAllowPlayFlag(true)'>
-                <img class='heart-icon' :src='getFavoriteIcon(index)' alt='Heart Icon' height='15' width='17' />
+        <tr v-for="(song, index) in playlist" :key="index" @click="() => playSong(index)" 
+          @keydown.enter="() => playSong(index)" tabindex="0"
+          class="text-xl cursor-pointer hover:bg-white-hover"
+        >
+          <td class="py-4 border-b border-white pl-9">
+            <div class="relative flex items-center">
+              <img v-show="isActive && playlistIndex === index" :src="icons.voice" alt="Playing Icon" height="18" width="18"
+                class="absolute left-[-25px]"
+              />
+              <button class="mr-4" @click="() => toggleFavorite(index)" 
+                  @mouseover="() => setAllowPlayFlag(false)" @mouseout="() => setAllowPlayFlag(true)"
+                  @focus="() => setAllowPlayFlag(false)" @blur="() => setAllowPlayFlag(true)">
+                <img class="" :src="getFavoriteIcon(index)" alt="Heart Icon" height="15" width="17" />
               </button>
-              <span class='title-text'>{{song.title}}</span>
+              <span class="">{{song.title}}</span>
             </div>
           </td>
-          <td class='artist-cell'>{{song.artist}}</td>
-          <td class='duration-cell'>{{song.length}}</td>
+          <td class="py-4 border-b border-white">{{song.artist}}</td>
+          <td class="py-4 border-b border-white">{{song.length}}</td>
         </tr>
       </tbody>
     </table>
 
-    <AudioPlayer :class='soundtrackPlayerClass' @mounted='setAudioElement' @onCanPlay='handleCanPlay' />
+    <AudioPlayer
+      v-model="songIndex" 
+      :isActive="isActive"
+      :songList="playlist" 
+      @close="deactivateAudioPlayer" 
+    />
   </div>
 </template>
 
-<script lang='ts'>
-import { defineAsyncComponent, defineComponent, ref } from 'vue';
-import { createNamespacedHelpers } from 'vuex-composition-helpers';
-import { AudioModuleState, AudioModuleGetters, AudioModuleActions, AudioModuleMutations } from '@/store/modules';
+<script lang="ts">
+import { defineAsyncComponent, defineComponent } from "vue";
+import { createNamespacedHelpers } from "vuex-composition-helpers";
+import { AudioModuleState, AudioModuleGetters, AudioModuleActions, AudioModuleMutations } from "@/store/modules";
 
-import buttonPlay from '@/assets/images/backgrounds/buttons/button_play.png';
-//import albumCover from '@/assets/images/graphics/blood_destiny_album_cover.jpg';
-import albumCover from '@/assets/images/graphics/updates/update_cover.png';
-import voice from '@/assets/images/icons/icon_voice.png';
-import heart from '@/assets/images/icons/icon_heart.png';
-import heartFilled from '@/assets/images/icons/icon_heart_filled.png';
+import voice from "@/assets/images/icons/icon_voice.png";
+import heart from "@/assets/images/icons/icon_heart.png";
+import heartFilled from "@/assets/images/icons/icon_heart_filled.png";
 
 export default defineComponent({
-  name: 'soundtrack',
+  name: "soundtrack",
   components: {
-    AudioPlayer: defineAsyncComponent(() => import('@/components/AudioPlayer.vue')),
-    AppButton: defineAsyncComponent(() => import('@/components/clickable-elements/AppButton.vue')),
+    AudioPlayer: defineAsyncComponent(() => import("@/components/AudioPlayer.vue")),
+    AppButton: defineAsyncComponent(() => import("@/components/clickable-elements/AppButton.vue")),
   },
   setup() {
-    const { useState, useGetters, useMutations } = createNamespacedHelpers<
+    const { useState, useMutations } = createNamespacedHelpers<
       AudioModuleState,
       AudioModuleGetters,
       AudioModuleActions,
       AudioModuleMutations
-    >('AudioModule');
+    >("AudioModule");
 
-    const { selectSpecificSong } = useMutations(['selectSpecificSong']);
-    const { isActive, playlist, playlistIndex } = useState(['isActive', 'playlist', 'playlistIndex']);
-    const { currentSong } = useGetters(['currentSong']);
-    const { toggleFavorite, activateAudioPlayer } = useMutations(['toggleFavorite', 'activateAudioPlayer']);
+    const { isActive, playlist, playlistIndex } = useState(["isActive", "playlist", "playlistIndex"]);
+    const { activateAudioPlayer, deactivateAudioPlayer, selectSong, toggleFavorite } = useMutations(
+      ["activateAudioPlayer", "deactivateAudioPlayer", "toggleFavorite", "selectSong"]
+    );
 
     return {
-      audioElem: ref<HTMLAudioElement>(),
       isActive,
       playlist,
       playlistIndex,
-      currentSong,
       activateAudioPlayer,
-      selectSpecificSong,
+      deactivateAudioPlayer,
+      selectSong,
       toggleFavorite,
     };
   },
   data() {
     return {
-      playButtonBackground: buttonPlay,
-      albumCover,
       icons: {
         voice,
         heart,
         heartFilled,
       },
       allowPlay: true,    // Only false when focusing/clicking favorite button
-      canPlay: false,     // Typically determined by whether audio data has been loaded
-      pendingPlay: false, // Only set to true if play was attempted while canPlay was set to false
     }
   },
   computed: {
-    favoriteIcon() {
-      return this.currentSong?.favorite ? this.icons.heartFilled : this.icons.heart;
-    },
-    soundtrackPlayerClass() {
-      return 'soundtrack-player' + (this.isActive ? ' active' : '');
+    songIndex: {
+      get() {
+        return this.playlistIndex;
+      },
+      set(playlistIndex: number) {
+        this.selectSong(playlistIndex);
+      }
     },
   },
   methods: {
-    setAudioElement(audioElem: HTMLAudioElement) {
-      this.audioElem = audioElem;
-    },
-    handleCanPlay() {
-      this.canPlay = true;
-      if (this.pendingPlay) {
-        this.audioElem?.play();
-        this.pendingPlay = false;
+    playSoundtrack() {
+      if (this.playlistIndex >= 0) {
+        this.playSong(this.playlistIndex);
+      } else {
+        this.playSong(0);
       }
     },
-    playSoundtrack(playlistIndex = 0) {
+    playSong(playlistIndex: number) {
       if (this.allowPlay) {
-        if (!this.isActive) {
-          this.activateAudioPlayer();
-        }
-
-        this.selectSpecificSong(playlistIndex);
-        this.togglePlay();
-      }
-    },
-    togglePlay() {
-      if (this.audioElem) {
-        if (this.audioElem.paused) {
-          // If canPlay is false, waits for handleCanPlay to be called before playing
-          if (this.canPlay) {
-            this.audioElem.play();
-          } else {
-            this.pendingPlay = true;
-          }
-        } else {
-          this.audioElem.pause();
-        }
+        this.activateAudioPlayer();
+        this.selectSong(playlistIndex);
       }
     },
     getFavoriteIcon(playlistIndex: number) {
@@ -155,124 +135,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped lang='scss'>
-.soundtrack-wrapper {
-  font-size: 18px;
-  .playlist-details-wrapper {
-    margin-bottom: 47px;
-    .album-cover {
-      margin-right: 43px;
-    }
-    .playlist-description-container {
-      display: inline-block;
-      padding-top: 20px;
-      vertical-align: top;
-      .playlist-text {
-        font-family: 'Copperplate Gothic';
-        font-weight: 300;
-      }
-      .album-title {
-        font-family: 'Broadway';
-        font-size: 3em;
-        line-height: 48px;
-      }
-      .album-description {
-        font-family: 'Montserrat';
-        margin: 10px 0 15px;
-      }
-      #playSoundtrackBtn {
-        font-size: 1.125em;
-        min-width: 84px;
-      }
-    }
-  }
-  table {
-    border-collapse: collapse;
-    font-family: 'Montserrat';
-    margin-bottom: 1.875em;
-    width: 100%;
-    tr {
-      th {
-        border-bottom: solid 2px #8D8E91;
-        color: #7B7B7B;
-        padding-bottom: 5px;
-        text-transform: uppercase;
-        text-align: left;
-      }
-      td {
-        border-bottom: solid 1px hsl(225, 2%, 33%);
-        padding: 1em 0;
-
-        .title-cell-content {
-          position: relative;
-          .playing-icon {
-            position: absolute;
-            top: 5px;
-            left: -64px;
-            height: 18px;
-            width: 18px;
-          }
-          .favorite-button {
-            position: absolute;
-            top: 5px;
-            left: -34px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: inline-flex;
-            outline: none;
-            vertical-align: middle;
-            z-index: 999;
-            img {
-              transition: inherit;
-            }
-            &:hover, &:focus {
-              img {
-                filter: drop-shadow(0 0 4px white);
-              }
-            }
-            // For IE display
-            img {
-              &.heart-icon {
-                height: 15px;
-                width: 17px;
-              }
-            }
-          }
-        }
-        .title-text {
-          vertical-align: middle;
-        }
-      }
-      .title-table-header, .title-cell {
-        padding-left: 75px;
-      }
-    }
-    tbody > tr {
-      cursor: pointer;
-      &:hover, &:focus {
-        background-color: rgba(white, 0.2);
-        outline: none;
-      }
-    }
-  }
-  .soundtrack-player {
-    position: fixed;
-    bottom: -120px;
-    left: 0;
-    transition: bottom 0.1s ease;
-    &.active {
-      bottom: 0;
-    }
-  }
-}
-</style>
-
-<!-- Won't work unless scope is removed -->
-<style lang='scss'>
-.soundtrack-wrapper {
-  margin-bottom: 120px;
-}
-
-</style>

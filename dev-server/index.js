@@ -38,7 +38,7 @@ async function startServer() {
     const httpResponse = await telefunc({ url: req.originalUrl, method: req.method, body: req.body, context });
     const { body, statusCode, contentType } = httpResponse;
     res.status(statusCode).type(contentType).send(body);
-  })
+  });
 
   app.get('*', async (req, res, next) => {
     const pageContextInit = {
@@ -54,7 +54,7 @@ async function startServer() {
       res.status(statusCode);
       httpResponse.pipe(res);
     }
-  })
+  });
 
   const port = process.env.PORT || 3000;
   app.listen(port);

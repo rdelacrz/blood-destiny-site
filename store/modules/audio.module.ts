@@ -1,6 +1,6 @@
 import { Module } from 'vuex';
 import { Song } from '@/models';
-import RootState from '@/store/state';
+import { RootState } from '@/store';
 
 import ephemeralMemories from '@/assets/audio/ephemeral_memories.mp3';
 import darkDays from '@/assets/audio/dark_days.mp3';
@@ -25,11 +25,9 @@ export type AudioModuleGetters = {
 
 export type AudioModuleMutations = {
   activateAudioPlayer: (state: AudioModuleState) => void;
+  deactivateAudioPlayer: (state: AudioModuleState) => void;
   toggleFavorite: (state: AudioModuleState, playlistIndex?: number) => void;
-  selectPreviousSong: (state: AudioModuleState) => void;
-  selectNextSong: (state: AudioModuleState) => void;
-  selectRandomSong: (state: AudioModuleState) => void;
-  selectSpecificSong: (state: AudioModuleState, playlistIndex: number) => void;
+  selectSong: (state: AudioModuleState, playlistIndex: number) => void;
 }
 
 export type AudioModuleActions = { }
@@ -132,6 +130,9 @@ const mutations: AudioModuleMutations = {
   activateAudioPlayer: state => {
     state.isActive = true;
   },
+  deactivateAudioPlayer: state => {
+    state.isActive = false;
+  },
   toggleFavorite: (state, playlistIndex?: number) => {
     const playlistCopy = state.playlist ? state.playlist.slice() : [];   // Prop should not be directly modified
 
@@ -148,24 +149,7 @@ const mutations: AudioModuleMutations = {
 
     state.playlist = playlistCopy;
   },
-  selectPreviousSong: state => {
-    if (state.playlistIndex === 0) {
-      state.playlistIndex = (state.playlist || []).length - 1;
-    } else {
-      state.playlistIndex--;
-    }
-  },
-  selectNextSong: state => {
-    if (state.playlistIndex === (state.playlist || []).length - 1) {
-      state.playlistIndex = 0;
-    } else {
-      state.playlistIndex++;
-    }
-  },
-  selectRandomSong: state => {
-    state.playlistIndex = Math.floor(Math.random() * (state.playlist || []).length);
-  },
-  selectSpecificSong: (state, playlistIndex: number) => {
+  selectSong: (state, playlistIndex: number) => {
     state.playlistIndex = playlistIndex;
   },
 }

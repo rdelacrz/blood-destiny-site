@@ -1,21 +1,18 @@
 // https://vike.dev/onBeforeRender
 
-import { renderToNodeStream } from '@vue/server-renderer'
-import type { OnBeforeRenderAsync } from 'vike/types';
-import { createApp } from './app'
+import type { OnBeforeRenderAsync, PageContextClient } from "vike/types";
+import { onBeforeRenderClient } from "./+onBeforeRenderClient";
+import { onBeforeRenderHtml } from "./+onBeforeRenderHtml";
 
-const onBeforeRender: OnBeforeRenderAsync = async (pageContext): ReturnType<OnBeforeRenderAsync> => {
-  const { app, store } = createApp(pageContext);
-  
-  const INITIAL_STATE = store.state;
-  const htmlStream = renderToNodeStream(app);
+// Modified to run on both server and client-side
+export const onBeforeRender: OnBeforeRenderAsync = async (pageContext): ReturnType<OnBeforeRenderAsync> => {
+  // When run on the client-side
+  if (pageContext.config.onBeforeRenderClient) {
+    await onBeforeRenderClient(pageContext as PageContextClient);
+  }
 
-  return {
-    pageContext: {
-      INITIAL_STATE,
-      htmlStream
-    }
+  // When run on the server-side
+  if (pageContext.config.onBeforeRenderHtml) {
+    return await onBeforeRenderHtml(pageContext);
   }
 }
-
-export { onBeforeRender }

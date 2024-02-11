@@ -1,10 +1,12 @@
 <template>
-  <input :id='id' :value='value' @input="$emit('update:value', $event.target.value)" :type='type' :required='required'
-    :class="{'text-input-field form-element': true, [inputClass]: !!inputClass}" :placeholder='placeholder' />
+  <input :id='id' :value='value' @input="handleInputChange" :type='type' :required='required'
+    :class="{'text-input-field form-element': true, [`${inputClass}`]: !!inputClass}" :placeholder='placeholder' />
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import { defineComponent } from 'vue';
+
+export default defineComponent({
   name: 'text-input-field',
   props: {
     id: {
@@ -34,10 +36,11 @@ export default {
     },
   },
   emits: ['update:value'],
-}
+  methods: {
+    handleInputChange(event: Event) {
+      const target = <HTMLInputElement> event.target;
+      this.$emit('update:value', target.value);
+    },
+  }
+});
 </script>
-
-<style lang='scss'>
-.text-input-field {
-}
-</style>

@@ -1,7 +1,9 @@
 // https://vike.dev/onRenderHtml
-import { escapeInject } from 'vike/server';
-import type { OnRenderHtmlAsync } from 'vike/types';
-import { getPageTitle } from './getPageTitle';
+import { escapeInject, dangerouslySkipEscape } from "vike/server";
+import type { OnRenderHtmlAsync } from "vike/types";
+import { dom } from "@fortawesome/fontawesome-svg-core";
+import { getPageTitle } from "@/utilities";
+import favicon from "./favicon.ico";
 
 const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRenderHtmlAsync> => {
   const { htmlStream } = pageContext;
@@ -11,6 +13,8 @@ const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRender
     <html>
       <head>
         <title>${title}</title>
+        <link rel="icon" href=${favicon}>
+        <style type="text/css">${dangerouslySkipEscape(dom.css())}</style>
       </head>
       <body>
         <div id="app">${htmlStream}</div>

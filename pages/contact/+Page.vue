@@ -1,140 +1,118 @@
 <template>
-  <div class='contact-wrapper container'>
-    <div class='title-container'>
-      <div class='title' :style="{'background-image': titleBackground}">Contact Us</div>
-    </div>
-    <div class='contact-content-wrapper'>
-      <form class='contact-form-wrapper' @submit.prevent='handleContactUsSubmit'>
-        <Select id='inquiry' inputClass='form-input' v-model:value='contactInfo.inquiryType' :options='inquiryTypes' required />
-        <TextInput id='name' inputClass='form-input' v-model:value='contactInfo.name' placeholder='NAME' required />
-        <TextInput id='email' inputClass='form-input' v-model:value='contactInfo.email' placeholder='EMAIL' type='email' required />
-        <TextArea id='message' inputClass='form-input' v-model:value='contactInfo.message' placeholder='MESSAGE' required />
-        <AppButton id='contactUsBtn' type='submit' :background-src="contactUsBtnBackground">Contact Us</AppButton>
-      </form>
-      <div class='contact-addresses-wrapper'>
-        <div class='contact-info-container'>
-          <img :src='mailIcon' alt='E-mail Icon' />
-          <a class='contact-link' :href="`mailto:${contacts.email}`">{{contacts.email}}</a>
+  <div class="relative md:grid md:gap-20 md:grid-cols-2 md:grid-rows-1 
+    before:absolute before:left-[-400px] before:top-[-200px] before:block before:h-[800px] before:w-[800px] before:p-10
+    before:bg-gradient-radial before:from-crimson before:from-1% before:to-70% before:opacity-40"
+  >
+    <div class="relative w-full self-center py-4 md:py-20">
+      <h2 class="text-4xl font-semibold uppercase">Contact Form</h2>
+      <p class="mt-4 mb-8">
+        Fill in the form on the right with your preferred name, email address, and message.
+        You can select the type of inquiry using the dropdown (general, bug reporting, etc).
+        Click the Send button afterwards, and an email will be generated and sent to us regarding
+        your inquiry.
+      </p>
+      <div class="flex items-center">
+        <FontAwesomeIcon
+          class="border-2 border-crimson rounded-full p-2"
+          :icon="faEnvelope"
+          size="xl"
+          aria-hidden='true' 
+        />
+        <div class="ml-4 break-all">
+          {{ contacts.email }}
         </div>
       </div>
+    </div>
+    <div class="relative w-full self-center py-4 md:py-20">
+      <v-form
+        :model-value="validated"
+        @submit.prevent='handleContactUsSubmit'
+      >
+        <v-select
+          id="inquiry"
+          label="Inquiry Type"
+          class="my-2"
+          :items="inquiryTypes"
+          :rules="[rules.required('Inquiry Type')]"
+          item-title="text"
+          item-value="value"
+          variant="outlined"
+          :model-value="contactInfo.inquiryType"
+        />
+        <div class="grid gap-8 grid-cols-2 grid-rows-1">
+          <v-text-field
+            id="name"
+            label="Name"
+            class="my-2"
+            variant="outlined"
+            placeholder="Name"
+            :rules="[rules.required('Name')]"
+            :model-value="contactInfo.name"
+          />
+          <v-text-field
+            id="email"
+            label="Email Address"
+            class="my-2"
+            variant="outlined"
+            :rules="[rules.isEmail]"
+            :model-value="contactInfo.email"
+          />
+        </div>
+        <v-textarea
+          id="message"
+          label="Message"
+          class="my-2"
+          variant="outlined"
+          :rules="[rules.required('Message')]"
+          :model-value="contactInfo.message"
+        />
+        
+        <AppButton id="contactUsBtn" type="submit" class="mt-4">
+          Send
+        </AppButton>
+      </v-form>
     </div>
   </div>
 </template>
 
-<script lang='ts'>
-import { defineComponent, defineAsyncComponent } from 'vue';
+<script setup lang="ts">
+import { computed, defineAsyncComponent, ref } from 'vue';
+import { SubmitEventPromise } from "vuetify/lib/framework.mjs";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { ContactInfo, OptionValueSet } from '@/models';
-import { submitContactFormInfo } from './onSubmit.telefunc';
+import { onContactFormSubmit } from './Page.telefunc';
 
-import buttonContactUs from '@/assets/images/backgrounds/buttons/button_contact_us.png';
-import bloodGraphic from '@/assets/images/graphics/blood_center.png';
-import mailIcon from '@/assets/images/icons/icon_mail.png';
+const AppButton = defineAsyncComponent(() => import('@/components/clickable-elements/AppButton.vue'));
 
-export default defineComponent({
-  name: 'contact',
-  components: {
-    TextInput: defineAsyncComponent(() => import('@/components/form-elements/TextInput.vue')),
-    TextArea: defineAsyncComponent(() => import('@/components/form-elements/TextArea.vue')),
-    Select: defineAsyncComponent(() => import('@/components/form-elements/Select.vue')),
-    AppButton: defineAsyncComponent(() => import('@/components/clickable-elements/AppButton.vue')),
-  },
-  data() {
-    const inquiryTypeStrs = [
-      'General Inquiry', 
-      'Report A Bug',
-    ];
-    const contactInfo: ContactInfo = {
-      inquiryType: inquiryTypeStrs[0],
-      name: '',
-      email: '',
-      message: '',
-    };
-    const inquiryTypes: OptionValueSet[] = inquiryTypeStrs.map(str => ({value: str, text: str}));
+const inquiryTypeStrs = [
+  'General Inquiry', 
+  'Report A Bug',
+];
 
-    return {
-      titleBackground: `url(${bloodGraphic})`,
-      contactUsBtnBackground: buttonContactUs,
-      mailIcon,
-      contactInfo,
-      inquiryTypes,
-      contacts: {
-        email: 'projectblooddestiny@gmail.com',
-      },
-    }
-  },
-  methods: {
-    handleContactUsSubmit() {
-      submitContactFormInfo(this.contactInfo);
-    },
-  },
+const validated = ref(false);
+const contactInfo = ref<ContactInfo>({
+  inquiryType: inquiryTypeStrs[0],
+  name: '',
+  email: '',
+  message: '',
 });
+
+const inquiryTypes = computed(() => inquiryTypeStrs.map(str => ({value: str, text: str})) as OptionValueSet[]);
+
+const contacts = {
+  email: 'projectblooddestiny@gmail.com',
+};
+
+const handleContactUsSubmit = async (event: SubmitEventPromise) => {
+  const result = await event;
+  if (result.valid) {
+    onContactFormSubmit(contactInfo.value);
+  }
+}
+
+const rules = {
+  required: (fieldName: string) => ((value: string) => !!value || `${fieldName} is required.`),
+  isEmail: (value: string) => !value || !!value.match("[^\s@]+@[^\s@]+\.[^\s@]+") || "Valid email address is required (if provided)."
+};
 </script>
-
-<style lang='scss' scoped>
-.contact-wrapper {
-  .title-container {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    .title {
-      position: absolute;
-      top: -120px;
-      background-repeat: no-repeat;
-      color: white;
-      text-align: center;
-      font-family: 'Broadway';
-      font-size: 2.25em;
-      height: 415px;
-      width: 347px;
-      padding-top: 180px;
-      text-transform: uppercase;
-    }
-  }
-  .contact-content-wrapper {
-    position: relative;
-    margin-top: 200px;
-    .contact-form-wrapper {
-      display: inline-block;
-      max-width: 400px;
-      width: 100%;
-      .form-input {
-        margin-bottom: 15px;
-      }
-    }
-    .contact-addresses-wrapper {
-      display: inline-block;
-      padding-left: 72px;
-      vertical-align: top;
-      .contact-info-container {
-        display: flex;
-        align-items: center;
-        .contact-link {
-          color: white;
-          font-family: 'Montserrat';
-          font-size: 1.125em;
-          margin-left: 20px;
-          text-decoration: none;
-          &:hover, &:focus {
-            text-decoration: underline;
-            outline: none;
-          }
-        }
-        + .contact-info-container {
-          margin-top: 27px;
-        }
-      }
-    }
-  }
-}
-</style>
-
-<!-- Padding on this layer will not work otherwise -->
-<style lang='scss'>
-.contact-wrapper {
-  padding: 0 150px;
-  #contactUsBtn {
-    min-width: 154px;
-    padding: 8px;
-  }
-}
-</style>

@@ -54,18 +54,3 @@ export default defineComponent({
   },
 })
 </script>
-
-<style lang='scss'>
-.select-field {
-  appearance: none;
-  background-color: rgba(white, 0.2);
-  background-origin: content-box;
-  background-position: right;
-  background-repeat: no-repeat;
-  cursor: pointer;
-  padding: 0.5625em 0.875em;
-  option {
-    color: black;
-  }
-}
-</style>

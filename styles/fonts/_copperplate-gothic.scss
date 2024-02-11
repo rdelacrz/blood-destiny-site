@@ -1,0 +1,9 @@
+/* copperplate-gothic-regular */
+@font-face {
+    font-family: "Copperplate Gothic";
+    font-style: normal;
+    font-weight: 400;
+    src: url("/fonts/copperplate-gothic/copperplate-gothic-regular.otf");
+    src: local("Copperplate Gothic Regular"), local("CopperplateGothic-Regular"),
+         url("/fonts/copperplate-gothic/copperplate-gothic-regular.ttf") format("truetype"), /* Safari, Android, iOS */
+}

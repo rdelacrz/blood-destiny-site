@@ -5,11 +5,11 @@ import { dehydrate, DehydratedState } from "@tanstack/vue-query";
 import { createApp } from "./app";
 
 export async function onBeforeRenderHtml(pageContext: PageContextServer) {
-  const { app, store, queryClient } = createApp(pageContext);
+  const { app, pinia, queryClient } = createApp(pageContext);
   
   const htmlStream = renderToNodeStream(app);
+  const piniaInitialState = pinia.state.value;
   let vueQueryState: DehydratedState | undefined = undefined;
-  const vuexInitialState = store.state;
 
   // Prefetches query data (if any queryFn is provided on page level)
   if (pageContext.config.queryFn) {
@@ -28,8 +28,8 @@ export async function onBeforeRenderHtml(pageContext: PageContextServer) {
   return {
     pageContext: {
       htmlStream,
+      piniaInitialState,
       vueQueryState,
-      vuexInitialState,
     }
   }
 }

@@ -1,8 +1,10 @@
-import internal from 'stream';
-import type { DehydratedState } from '@tanstack/vue-query';
-import type { ComponentPublicInstance } from 'vue';
+import { StateTree } from "pinia";
+import internal from "stream";
+import type { DehydratedState } from "@tanstack/vue-query";
+import type { ComponentPublicInstance } from "vue";
 import { Breadcrumb } from "@/models";
-import { RootState } from '@/store';
+import { RootState } from "@/store";
+import { StateTree } from "pinia";
 
 type Component = ComponentPublicInstance; // https://stackoverflow.com/questions/63985658/how-to-type-vue-instance-out-of-definecomponent-in-vue-3/63986086#63986086
 
@@ -12,8 +14,8 @@ type Page = Component;
 declare global {
   namespace Vike {
     interface PageContext {
-      vuexInitialState: RootState,        // For Vuex
-      vueQueryState?: DehydratedState;    // For vue-query state
+      piniaInitialState: Record<string, StateTree>,       // For Pinia
+      vueQueryState?: DehydratedState;                    // For vue-query state
       htmlStream: internal.Readable;
       Page: Page;
 

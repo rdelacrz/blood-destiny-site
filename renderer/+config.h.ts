@@ -3,7 +3,7 @@ import { onHydrationEnd, onPageTransitionStart, onPageTransitionEnd } from "./on
 
 // https://vike.dev/config
 export default {
-  passToClient: ["title", "routeParams",  "vuexInitialState", "vueQueryState"],
+  passToClient: ["title", "routeParams",  "piniaInitialState", "vueQueryState"],
   clientRouting: true,
   prefetchStaticAssets: "viewport",   // https://vike.dev/clientRouting#link-prefetching
   onHydrationEnd,

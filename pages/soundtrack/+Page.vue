@@ -24,15 +24,15 @@
         >
           <td class="py-4 border-b border-white pl-9">
             <div class="relative flex items-center">
-              <img v-show="isActive && playlistIndex === index" :src="icons.voice" alt="Playing Icon" height="18" width="18"
+              <img v-show="isActive && currentSongIndex === index" :src="icons.voice" alt="Playing Icon" height="18" width="18"
                 class="absolute left-[-25px]"
               />
-              <button class="mr-4" @click="() => toggleFavorite(index)" 
+              <AppIconButton class="mr-4" @click="() => toggleFavorite(index)" 
                   @mouseover="() => setAllowPlayFlag(false)" @mouseout="() => setAllowPlayFlag(true)"
                   @focus="() => setAllowPlayFlag(false)" @blur="() => setAllowPlayFlag(true)">
                 <img class="" :src="getFavoriteIcon(index)" alt="Heart Icon" height="15" width="17" />
-              </button>
-              <span class="">{{song.title}}</span>
+              </AppIconButton>
+              <span class="mr-4">{{song.title}}</span>
             </div>
           </td>
           <td class="py-4 border-b border-white">{{song.artist}}</td>
@@ -41,97 +41,251 @@
       </tbody>
     </table>
 
+    <audio
+      :src="currentSong?.file"
+      ref="audioElem"
+      @canplay="handleCanPlayChange"
+      @ended="handleEnded"
+      @timeupdate="handleAudioCurrentTimeChange" 
+      @durationchange="handleAudioDurationChange"
+      @volumechange="handleAudioVolumeChange"
+    >
+      Your browser does not support the <code>audio</code> element.
+    </audio>
     <AudioPlayer
-      v-model="songIndex" 
+      :currentSong="currentSong"
+      :isPlaying="isPlaying"
       :isActive="isActive"
-      :songList="playlist" 
-      @close="deactivateAudioPlayer" 
+      :timeParam="timeParam"
+      :volumeParam="volumeParam"
+      :playSettings="playSettings"
+      @previous="handlePreviousSong"
+      @playOrPause="handlePlayOrPauseSong"
+      @next="handleNextSong"
+      @timeUpdate="handleTimeSliderUpdate"
+      @repeat="handleRepeat"
+      @shuffle="handleShuffle"
+      @volumeToggle="handleVolumeToggle"
+      @volumeUpdate="handleVolumeUpdate"
+      @close="handleClose"
     />
   </div>
 </template>
 
-<script lang="ts">
-import { defineAsyncComponent, defineComponent } from "vue";
-import { createNamespacedHelpers } from "vuex-composition-helpers";
-import { AudioModuleState, AudioModuleGetters, AudioModuleActions, AudioModuleMutations } from "@/store/modules";
+<script setup lang="ts">
+
+import { computed, defineAsyncComponent, ref } from "vue";
+import { playlist } from "@/utilities";
 
 import voice from "@/assets/images/icons/icon_voice.png";
 import heart from "@/assets/images/icons/icon_heart.png";
 import heartFilled from "@/assets/images/icons/icon_heart_filled.png";
 
-export default defineComponent({
-  name: "soundtrack",
-  components: {
-    AudioPlayer: defineAsyncComponent(() => import("@/components/AudioPlayer.vue")),
-    AppButton: defineAsyncComponent(() => import("@/components/clickable-elements/AppButton.vue")),
-  },
-  setup() {
-    const { useState, useMutations } = createNamespacedHelpers<
-      AudioModuleState,
-      AudioModuleGetters,
-      AudioModuleActions,
-      AudioModuleMutations
-    >("AudioModule");
+const AudioPlayer = defineAsyncComponent(() => import("@/components/AudioPlayer.vue"));
+const AppButton = defineAsyncComponent(() => import("@/components/clickable-elements/AppButton.vue"));
+const AppIconButton = defineAsyncComponent(() => import("@/components/clickable-elements/AppIconButton.vue"));
 
-    const { isActive, playlist, playlistIndex } = useState(["isActive", "playlist", "playlistIndex"]);
-    const { activateAudioPlayer, deactivateAudioPlayer, selectSong, toggleFavorite } = useMutations(
-      ["activateAudioPlayer", "deactivateAudioPlayer", "toggleFavorite", "selectSong"]
-    );
+const icons = {
+  heart,
+  heartFilled,
+  voice,
+};
 
-    return {
-      isActive,
-      playlist,
-      playlistIndex,
-      activateAudioPlayer,
-      deactivateAudioPlayer,
-      selectSong,
-      toggleFavorite,
-    };
-  },
-  data() {
-    return {
-      icons: {
-        voice,
-        heart,
-        heartFilled,
-      },
-      allowPlay: true,    // Only false when focusing/clicking favorite button
-    }
-  },
-  computed: {
-    songIndex: {
-      get() {
-        return this.playlistIndex;
-      },
-      set(playlistIndex: number) {
-        this.selectSong(playlistIndex);
-      }
-    },
-  },
-  methods: {
-    playSoundtrack() {
-      if (this.playlistIndex >= 0) {
-        this.playSong(this.playlistIndex);
-      } else {
-        this.playSong(0);
-      }
-    },
-    playSong(playlistIndex: number) {
-      if (this.allowPlay) {
-        this.activateAudioPlayer();
-        this.selectSong(playlistIndex);
-      }
-    },
-    getFavoriteIcon(playlistIndex: number) {
-      if (this.playlist && playlistIndex < this.playlist.length) {
-        const song = this.playlist[playlistIndex];
-        return song.favorite ? this.$data.icons.heartFilled : this.$data.icons.heart;
-      }
-      return this.$data.icons.heart;
-    },
-    setAllowPlayFlag(allowPlay: boolean) {
-      this.allowPlay = allowPlay;
-    },
-  },
+/* Refs */
+const audioElem = ref<HTMLAudioElement>();
+const isActive = ref<boolean | undefined>(undefined);
+const allowPlay = ref(true);    // Only false when focusing/clicking favorite button
+const isPlaying = ref(false);
+const currentSongIndex = ref(-1);
+const timeParam = ref({
+  currentTime: 0,
+  duration: 0,
 });
+const volumeParam = ref({
+  currentVolume: 1,
+  muted: false,
+});
+const playSettings = ref({
+  repeat: false,
+  shuffle: false,
+});
+const favorites = ref(playlist.map(_ => false));
+
+
+/* Computed variables */
+
+const currentSong = computed(() => {
+  if (currentSongIndex.value >= 0 && currentSongIndex.value < playlist.length) {
+    return playlist[currentSongIndex.value];
+  } else {
+    return undefined;
+  }
+});
+
+
+/* Main page callbacks */
+
+const playSoundtrack = () => {
+  if (currentSongIndex.value >= 0) {
+    playSong(currentSongIndex.value);
+  } else {
+    playSong(0);
+  }
+}
+
+const playSong = (songIndex: number) => {
+  if (allowPlay.value) {
+    isActive.value = true;
+    if (currentSongIndex.value === songIndex) {
+      audioElem.value?.play()
+    } else {
+      currentSongIndex.value = songIndex;
+    }
+  }
+}
+
+const toggleFavorite = (songIndex: number) => {
+  const favoritesCopy = favorites.value.slice();
+  favoritesCopy[songIndex] = !favoritesCopy[songIndex];
+  favorites.value = favoritesCopy;
+}
+
+const getFavoriteIcon = (songIndex: number) => {
+  if (songIndex < favorites.value.length) {
+    const isFavorite = favorites.value[songIndex];
+    return isFavorite ? icons.heartFilled : icons.heart;
+  }
+  return icons.heart;
+}
+
+const setAllowPlayFlag = (allowPlayFlag: boolean) => {
+  allowPlay.value = allowPlayFlag;
+}
+
+
+/* Audio player callbacks */
+
+const handlePreviousSong = () => {
+  if (currentSongIndex.value > 0) {
+    currentSongIndex.value--;
+  } else if (playlist.length) {
+    currentSongIndex.value = playlist.length - 1;
+  }
+}
+
+const handlePlayOrPauseSong = () => {
+  if (isPlaying.value) {
+    audioElem.value?.pause();
+  } else {
+    // Means song has not been loaded yet
+    if (currentSongIndex.value < 0) {
+      currentSongIndex.value = 0;  // emits update:songIndex
+    } else {
+      audioElem.value?.play();
+    }
+  }
+  updateIsPlayingState();
+}
+
+const handleNextSong = () => {
+  if (currentSongIndex.value + 1 < playlist.length) {
+    currentSongIndex.value++;
+  } else {
+    currentSongIndex.value = 0;
+  }
+}
+
+const handleTimeSliderUpdate = (value: number) => {
+  if (audioElem.value) {
+    audioElem.value.currentTime = value;   // Changes audio time based on new slider value
+  }
+}
+
+const handleVolumeToggle = () => {
+  if (audioElem.value) {
+    audioElem.value.muted = !audioElem.value.muted;
+    volumeParam.value.muted = audioElem.value.muted;      // Required for reactivity
+  }
+}
+
+const handleVolumeUpdate = (value: number) => {
+  if (audioElem.value) {
+    audioElem.value.volume = value;
+  }
+}
+
+const handleRepeat = () => {
+  if (audioElem.value) {
+    setRepeatFlag(!audioElem.value.loop);
+    // Sets shuffle to off if repeat is on now
+    if (audioElem.value.loop && playSettings.value.shuffle) {
+      playSettings.value.shuffle = false;
+    }
+  }
+}
+
+const handleShuffle = () => {
+  playSettings.value.shuffle = !playSettings.value.shuffle;
+  // Sets repeat to off if shuffle is on now
+  if (playSettings.value.shuffle && audioElem.value?.loop) {
+    setRepeatFlag(false);
+  }
+}
+
+const handleClose = () => {
+  isActive.value = false;
+  audioElem.value?.pause();
+}
+
+/* Audio element callbacks */
+
+const handleCanPlayChange = () => {
+  // Means either a new song has been traversed to while previous one was still playing, or no song has been played yet
+  audioElem.value?.play();
+  updateIsPlayingState();
+}
+
+const handleEnded = () => {
+  if (playSettings.value.shuffle) {
+    // Ensures that random new index is different from previous one
+    let newIndex;
+    do {
+      newIndex = Math.floor(Math.random() * playlist.length);
+    } while (newIndex === currentSongIndex.value);
+
+    currentSongIndex.value = newIndex;
+  } else if (!playSettings.value.repeat) {
+    // Unlike next button behavior, will not loop back to the beginning if on last song
+    if (currentSongIndex.value + 1 < playlist.length) {
+      currentSongIndex.value++;
+    }
+  }
+}
+
+const handleAudioCurrentTimeChange = (event: Event) => {
+  timeParam.value.currentTime = (event.target as HTMLAudioElement).currentTime;
+}
+
+const handleAudioDurationChange = (event: Event) => {
+  timeParam.value.duration = (event.target as HTMLAudioElement).duration;
+}
+
+const handleAudioVolumeChange = (event: Event) => {
+  volumeParam.value.currentVolume = (event.target as HTMLAudioElement).volume;
+}
+
+
+/* Utility functions */
+
+const updateIsPlayingState = () => {
+  isPlaying.value = !audioElem.value?.paused;
+}
+
+const setRepeatFlag = (repeatFlag: boolean) => {
+  if (audioElem.value) {
+    audioElem.value.loop = repeatFlag;
+    playSettings.value.repeat = repeatFlag;
+  }
+}
+
 </script>

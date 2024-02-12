@@ -3,5 +3,4 @@ export interface Song {
   artist: string;
   length: string;
   file: any;
-  favorite: boolean;
 }

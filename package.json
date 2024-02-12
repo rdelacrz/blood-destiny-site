@@ -24,16 +24,13 @@
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "node-fetch": "^2.6.1",
+    "pinia": "^2.1.7",
     "telefunc": "^0.1.62",
     "unplugin-vue-markdown": "^0.24.3",
     "vike": "^0.4.160",
     "vite": "^5.0.12",
     "vue": "^3.3.4",
-    "vue3-carousel": "^0.3.1",
-    "vue3-perfect-scrollbar": "^1.6.1",
-    "vuetify": "^3.5.2",
-    "vuex": "^4.1.0",
-    "vuex-composition-helpers": "^2.0.3"
+    "vuetify": "^3.5.2"
   },
   "type": "module",
   "devDependencies": {

@@ -1,8 +1,8 @@
 import { createSSRApp, defineComponent, h, markRaw, reactive } from "vue";
 import { QueryClient, VueQueryPlugin } from "@tanstack/vue-query"
+import { createPinia } from "pinia";
 import PageShell from "@/layouts/PageShell.vue";
 import { setPageContext } from "@/hooks";
-import { createStore, storeKey } from "@/store";
 import type { PageContext } from "vike/types";
 import type { Component } from "@/types/vike";
 import { objectAssign } from "@/utilities";
@@ -49,9 +49,9 @@ function createApp(pageContext: PageContext) {
   // Make `pageContext` accessible from any Vue component
   setPageContext(app, pageContextReactive);
 
-  /* Adds Vuex data store to app */
-  const store = createStore();
-  app.use(store, storeKey);
+  /* Adds Pinia data store to app */
+  const pinia = createPinia();
+  app.use(pinia);
 
   /* Adds Vuetify UI */
   app.use(vuetify);
@@ -60,7 +60,7 @@ function createApp(pageContext: PageContext) {
   const queryClient = new QueryClient();
   app.use(VueQueryPlugin, { queryClient });
 
-  return { app, store, queryClient };
+  return { app, pinia, queryClient };
 }
 
 export { createApp }

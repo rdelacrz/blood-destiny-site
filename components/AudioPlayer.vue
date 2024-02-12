@@ -1,6 +1,6 @@
 <template>
   <div 
-    class="fixed left-0 z-40 bg-audio-player rounded-2xl p-1 w-full flex items-center transition-all"
+    class="fixed left-0 z-40 bg-audio-player rounded-tl-2xl rounded-tr-2xl p-1 w-full flex items-center transition-all"
     :style="{'bottom': isActive ? '0' : '-88px'}"
   >
     <div class="px-4">
@@ -48,21 +48,10 @@
       <FontAwesomeIcon :icon="faXmark" size="lg" />
     </AppIconButton>
   </div>
-  <audio
-    :src="currentSong?.file"
-    ref="audioElem"
-    @canplay="handleCanPlayChange"
-    @ended="handleEnded"
-    @timeupdate="handleAudioCurrentTimeChange" 
-    @durationchange="handleAudioDurationChange"
-    @volumechange="handleAudioVolumeChange"
-  >
-    Your browser does not support the <code>audio</code> element.
-  </audio>
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, ref } from "vue";
+import { computed, defineAsyncComponent } from "vue";
 import { 
   faBackwardStep, 
   faForwardStep, 
@@ -86,51 +75,34 @@ import volumeMuteIcon from "@/assets/images/icons/icon_volume_mute.svg";
 import volumeOffIcon from "@/assets/images/icons/icon_volume_off.svg";
 
 const props = defineProps<{
+  currentSong?: Song;
+  isPlaying?: boolean;
   isActive?: boolean;
-  songList?: readonly Song[];
+  timeParam: { currentTime: number; duration: number; };
+  volumeParam: { currentVolume: number; muted: boolean; };
+  playSettings: { repeat: boolean; shuffle: boolean; };
 }>();
 
-const songIndex = defineModel({ type: Number, default: -1 });
-
-const emits = defineEmits(["close"]);
-
-/* Refs */
-const audioElem = ref<HTMLAudioElement>();
-const hadFirstPlay = ref(false);
-const isPlaying = ref(false);
-const timeParam = ref({
-  currentTime: 0,
-  duration: 0,
-});
-const volumeParam = ref({
-  currentVolume: 1,
-  muted: false,
-});
-const playSettings = ref({
-  repeat: false,
-  shuffle: false,
-});
-
-
-/* Computed */
-
-const currentSong = computed(() => {
-  const songList = props.songList || [];
-  if (songIndex.value >= 0 && songIndex.value < songList.length) {
-    return songList[songIndex.value];
-  } else {
-    return undefined;
-  }
-});
+const emits = defineEmits([
+  "previous",
+  "playOrPause",
+  "next",
+  "timeUpdate",
+  "repeat",
+  "shuffle",
+  "volumeToggle",
+  "volumeUpdate",
+  "close",
+]);
 
 const volumeIcon = computed(() => {
-  if (volumeParam.value.muted) {
+  if (props.volumeParam.muted) {
     return volumeMuteIcon;
-  } else if (volumeParam.value.currentVolume === 0) {
+  } else if (props.volumeParam.currentVolume === 0) {
     return volumeOffIcon;
-  } else if (volumeParam.value.currentVolume <= 0.33) {
+  } else if (props.volumeParam.currentVolume <= 0.33) {
     return volumeLowIcon;
-  } else if (volumeParam.value.currentVolume <= 0.67) {
+  } else if (props.volumeParam.currentVolume <= 0.67) {
     return volumeMediumIcon;
   } else {
     return volumeHighIcon;
@@ -140,113 +112,43 @@ const volumeIcon = computed(() => {
 
 /* Button callbacks */
 
-const handlePreviousSongButton = () => {
-  if (songIndex.value > 0) {
-    songIndex.value--;
-  } else if (props.songList?.length) {
-    songIndex.value = props.songList.length - 1;
-  }
+const handlePreviousSongButton = (event: Event) => {
+  emits("previous", event);
 }
 
-const handlePlayOrPauseButton = () => {
-  if (isPlaying.value) {
-    audioElem.value?.pause();
-  } else {
-    // Means song has not been loaded yet
-    if (songIndex.value < 0) {
-      songIndex.value = 0;  // emits update:songIndex
-    } else {
-      audioElem.value?.play();
-    }
-  }
-  updateIsPlayingState();
+const handlePlayOrPauseButton = (event: Event) => {
+  emits("playOrPause", event);
 }
 
-const handleNextSongButton = () => {
-  if (props.songList?.length) {
-    if (songIndex.value + 1 < props.songList.length) {
-      songIndex.value++;
-    } else {
-      songIndex.value = 0;
-    }
-  }
+const handleNextSongButton = (event: Event) => {
+  emits("next", event);
 }
 
 const handleTimeSliderUpdate = (value: number) => {
-  if (audioElem.value) {
-    audioElem.value.currentTime = value;   // Changes audio time based on new slider value
-  }
+  emits("timeUpdate", value);
 }
 
-const handleVolumeToggle = () => {
-  if (audioElem.value) {
-    audioElem.value.muted = !audioElem.value.muted;
-    volumeParam.value.muted = audioElem.value.muted;      // Required for reactivity
-  }
+const handleRepeatButton = (event: Event) => {
+  emits("repeat", event);
+}
+
+const handleShuffleButton = (event: Event) => {
+  emits("shuffle", event);
+}
+
+const handleVolumeToggle = (event: Event) => {
+  emits("volumeToggle", event);
 }
 
 const handleVolumeUpdate = (value: number) => {
-  if (audioElem.value) {
-    audioElem.value.volume = value;
-  }
+  emits("volumeUpdate", value);
 }
 
-const handleRepeatButton = () => {
-  if (audioElem.value) {
-    audioElem.value.loop = !audioElem.value.loop;
-    playSettings.value.repeat = audioElem.value.loop;
-  }
+const handleClose = (event: Event) => {
+  emits("close", event);
 }
-
-const handleShuffleButton = () => {
-  playSettings.value.shuffle = !playSettings.value.shuffle;
-}
-
-const handleClose = () => {
-  audioElem.value?.pause();
-  emits("close");
-}
-
-/* Event callbacks */
-
-const handleCanPlayChange = () => {
-  // Means either a new song has been traversed to while previous one was still playing, or no song has been played yet
-  if (!hadFirstPlay.value || isPlaying.value) {
-    hadFirstPlay.value = true;
-    audioElem.value?.play();
-    updateIsPlayingState();
-  }
-}
-
-const handleEnded = () => {
-  if (playSettings.value.shuffle) {
-    songIndex.value = Math.floor(Math.random() * (props.songList || []).length);
-  } else if (!playSettings.value.repeat) {
-    // Unlike next button behavior, will not loop back to the beginning if on last song
-    if (songIndex.value + 1 < (props.songList?.length || 0)) {
-      songIndex.value++;
-    }
-  }
-}
-
-const handleAudioCurrentTimeChange = (event: Event) => {
-  timeParam.value.currentTime = (event.target as HTMLAudioElement).currentTime;
-}
-
-const handleAudioDurationChange = (event: Event) => {
-  timeParam.value.duration = (event.target as HTMLAudioElement).duration;
-}
-
-const handleAudioVolumeChange = (event: Event) => {
-  volumeParam.value.currentVolume = (event.target as HTMLAudioElement).volume;
-}
-
 
 /* Utility functions */
-
-const updateIsPlayingState = () => {
-  isPlaying.value = !audioElem.value?.paused;
-}
 
 const convertSecondsToTime = (seconds: number) => {
   const totalSeconds = Math.floor(seconds);

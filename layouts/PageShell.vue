@@ -40,12 +40,9 @@
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
 import { usePageContext } from "@/hooks";
-import { useStore } from "@/store";
 import PageFooter from "./footer/Footer.vue";
 import PageHeader from "./header/Header.vue";
 
-const store = useStore();
-const popupParam = computed(() => store.state.popupParam);
 
 const pageContext = usePageContext();
 const isHomePage = computed(() => pageContext.urlPathname === '/');
@@ -60,9 +57,7 @@ const breadcrumbs = computed(() => {
 const backgroundClass = computed(() => pageContext.config.pageBackgroundClass);
 
 onMounted(() => {
-  if (store.state.popupParam?.isActive) {
-    store.commit("setPopupState", null);
-  }
+  // Popup logic
 });
 
 </script>

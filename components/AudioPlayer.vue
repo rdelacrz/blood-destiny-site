@@ -1,15 +1,16 @@
 <template>
   <div 
-    class="fixed left-0 z-40 bg-audio-player rounded-tl-2xl rounded-tr-2xl p-1 w-full flex items-center transition-all"
+    class="fixed left-0 z-40 bg-audio-player rounded-tl-2xl rounded-tr-2xl p-1 w-full 
+      flex items-center transition-all min-h-[88px]"
     :style="{'bottom': isActive ? '0' : '-88px'}"
   >
     <div class="px-4">
-      <div class="h-20 w-20">
+      <div class="h-20 w-20 hidden lg:block">
         Cover
       </div>
     </div>
-    <div class="px-4 min-w-[250px]">
-      <div class="text-lg font-semibold">{{ currentSong?.title }}</div>
+    <div class="px-4 min-w-[200px] lg:min-w-[250px]">
+      <div class="text-lg font-semibold truncate">{{ currentSong?.title }}</div>
       <div class="text-md">{{ currentSong?.artist }}</div>
     </div>
     <div class="flex items-center border-l border-white px-2 py-2 w-full">
@@ -29,7 +30,7 @@
         <Slider :value='timeParam.currentTime' @update='handleTimeSliderUpdate' :max='timeParam.duration' height="6px" />
         <span class="pl-4">{{ convertSecondsToTime(timeParam.duration) }}</span>
       </div>
-      <div class="flex items-center px-2">
+      <div class="hidden md:flex items-center px-2">
         <AppIconButton @click="handleRepeatButton">
           <FontAwesomeIcon :class="{'text-crimson': playSettings.repeat}" :icon="faRepeat" />
         </AppIconButton>

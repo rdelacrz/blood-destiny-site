@@ -81,6 +81,7 @@ import { SubmitEventPromise } from "vuetify/lib/framework.mjs";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { ContactInfo, OptionValueSet } from '@/models';
+import { useDialogStore } from "@/store";
 import { onContactFormSubmit } from './Page.telefunc';
 
 const AppButton = defineAsyncComponent(() => import('@/components/clickable-elements/AppButton.vue'));
@@ -89,6 +90,8 @@ const inquiryTypeStrs = [
   'General Inquiry', 
   'Report A Bug',
 ];
+
+const { openDialog } = useDialogStore();
 
 const validated = ref(false);
 const contactInfo = ref<ContactInfo>({
@@ -108,6 +111,10 @@ const handleContactUsSubmit = async (event: SubmitEventPromise) => {
   const result = await event;
   if (result.valid) {
     onContactFormSubmit(contactInfo.value);
+    openDialog(
+      "Email Sent", 
+      `An email has been sent to our team regarding your inquiry. 
+      We appreciate all the feedback you can provide us regarding Blood Destiny.`);
   }
 }
 

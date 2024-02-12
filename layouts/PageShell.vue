@@ -34,18 +34,28 @@
       </div>
     </main>
     <PageFooter />
+
+    <Dialog v-model="isActive" :dialogTitle="dialogTitle" :dialogText="dialogBody" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted } from "vue";
+import { storeToRefs } from "pinia";
+import { computed, defineAsyncComponent, onMounted } from "vue";
 import { usePageContext } from "@/hooks";
+import { useDialogStore } from "@/store";
 import PageFooter from "./footer/Footer.vue";
 import PageHeader from "./header/Header.vue";
 
+const Dialog = defineAsyncComponent(() => import('@/components/Dialog.vue'));
+
+const store = useDialogStore();
+const { isActive, dialogTitle, dialogBody } = storeToRefs(store);
 
 const pageContext = usePageContext();
+
 const isHomePage = computed(() => pageContext.urlPathname === '/');
+
 const breadcrumbs = computed(() => {
   if (pageContext.config.getBreadcrumbs) {
     return pageContext.config.getBreadcrumbs(pageContext);

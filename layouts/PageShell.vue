@@ -7,22 +7,22 @@
           {'bg-black': !backgroundClass, [backgroundClass]: !!backgroundClass}
         ]">
         <div class="container mx-auto">
-          <h1 class="uppercase text-6xl font-semibold">
+          <h1 class="uppercase text-6xl font-semibold drop-shadow-subtle-outline">
             {{ pageContext.config.pageTitle }}
           </h1>
-          <div class="p-4 max-w-[800px] mx-auto">
+          <div class="p-4 max-w-[800px] mx-auto drop-shadow-subtle-outline">
             {{ pageContext.config.pageDescription }}
           </div>
           <div class="text-3xl">
             <template v-for="breadcrumb in breadcrumbs">
               <template v-if="!!breadcrumb.url">
-                <a class="transition-color ease-in-out duration-300 hover:text-crimson-light" 
+                <a class="transition-color ease-in-out duration-300 hover:text-crimson-light drop-shadow-subtle-outline" 
                   :href="breadcrumb.url"
                 >
                   {{ breadcrumb.text }}
                 </a> /
               </template>
-              <span v-else class="text-crimson">
+              <span v-else class="text-crimson drop-shadow-subtle-outline">
                 {{ breadcrumb.text }}
               </span>
             </template>

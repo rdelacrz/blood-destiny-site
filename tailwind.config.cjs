@@ -17,7 +17,8 @@ export default {
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "valley-night": "url('/assets/images/backgrounds/bkgd_valley_night.png')"
+        "valley-night": "url('/assets/images/backgrounds/bkgd_valley_night.png')",
+        "olympia-hallway": "url('/assets/images/backgrounds/bkgd_olympia_hallway.png')",
       },
       boxShadow: {
         "glow": "0 0 15px 0 var(--tw-shadow)"
@@ -28,6 +29,9 @@ export default {
         "audio-player": "rgb(117 65 72 / 80%)",
         "blue-dark": "#0A101E",
         "white-hover": "rgb(255 255 255 / 20%)"
+      },
+      dropShadow: {
+        "subtle-outline": "1px 1px 1px black"
       },
     },
   },

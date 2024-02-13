@@ -4,8 +4,8 @@
     before:bg-gradient-radial before:from-crimson before:from-1% before:to-70% before:opacity-40"
   >
     <div class="relative w-full self-center py-4 md:py-20">
-      <h2 class="text-4xl font-semibold uppercase">Contact Form</h2>
-      <p class="mt-4 mb-8">
+      <h2 class="font-prosto-one text-[2.5rem] uppercase">Contact Form</h2>
+      <p class="font-poppins mt-4 mb-10">
         Fill in the form on the right with your preferred name, email address, and message.
         You can select the type of inquiry using the dropdown (general, bug reporting, etc).
         Click the Send button afterwards, and an email will be generated and sent to us regarding
@@ -18,7 +18,7 @@
           size="xl"
           aria-hidden='true' 
         />
-        <div class="ml-4 break-all">
+        <div class="font-poppins ml-4 break-all">
           {{ contacts.email }}
         </div>
       </div>

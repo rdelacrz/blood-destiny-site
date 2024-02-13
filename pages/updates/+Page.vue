@@ -8,13 +8,13 @@
         ]"
       >
         <div :class="['self-center', i % 2 === 1 ? 'order-last' : undefined]">
-          <h2 class="text-4xl font-semibold mb-4">
+          <h2 class="font-prosto-one text-[2.5rem] mb-4">
             {{update.title}}
           </h2>
-          <div class="text-lg text-crimson font-semibold mb-2">
+          <div class="font-poppins text-xl text-crimson font-semibold mb-2">
             {{formatDate(update.date)}}
           </div>
-          <div v-html="update.description" class="injected-html" />
+          <div v-html="update.description" class="font-poppins injected-html" />
         </div>
         <div class="self-center justify-self-center flex items-center justify-center h-[600px] w-[600px]
           before:absolute before:block before:h-[600px] before:w-[600px] before:p-10

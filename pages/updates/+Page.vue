@@ -1,5 +1,5 @@
 <template>
-  <div class="py-4">
+  <div class="pt-4 pb-20">
     <template v-if="!isLoading">
       <div v-for="(update, i) in displayedUpdates" :key="update.postId" 
         :class="[

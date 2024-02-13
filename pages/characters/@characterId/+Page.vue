@@ -1,10 +1,10 @@
 <template>
   <div class="py-20 grid gap-20 grid-rows-1 grid-cols-2">
     <div class="self-center">
-      <h2 class="text-4xl font-semibold mb-4">
+      <h2 class="font-prosto-one text-[4rem] mb-4">
         {{character.name}}
       </h2>
-      <div v-html="character.description" class="injected-html" />
+      <div v-html="character.description" class="font-poppins injected-html" />
     </div>
     <div ref="sectionContainer" class="self-center justify-self-center flex items-center justify-center
         before:absolute before:block before:h-[700px] before:w-[700px] before:p-10

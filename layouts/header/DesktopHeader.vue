@@ -1,16 +1,16 @@
 <template>
-  <header class="hidden sm:flex bg-blue-dark py-7">
+  <header class="hidden sm:flex bg-blue-dark py-9">
     <div class="flex justify-between items-center container mx-auto px-4">
       <a href="/">
-        <img :src="logoSrc" alt="Blood Destiny Logo" width="180" />
+        <img :src="logoSrc" alt="Blood Destiny Logo" width="132" />
       </a>
       <ul class="flex">
-        <li><AppLink to="/">Home</AppLink></li>
-        <li><AppLink to="/about">About</AppLink></li>
-        <li><AppLink to="/characters">Characters</AppLink></li>
-        <li><AppLink to="/soundtrack">Soundtrack</AppLink></li>
-        <li><AppLink to="/updates">Updates</AppLink></li>
-        <li><AppLink to="/contact">Contact</AppLink></li>
+        <li class="mx-1 xl:mx-4"><AppLink to="/">Home</AppLink></li>
+        <li class="mx-1 xl:mx-4"><AppLink to="/about">About</AppLink></li>
+        <li class="mx-1 xl:mx-4"><AppLink to="/characters">Characters</AppLink></li>
+        <li class="mx-1 xl:mx-4"><AppLink to="/soundtrack">Soundtrack</AppLink></li>
+        <li class="mx-1 xl:mx-4"><AppLink to="/updates">Updates</AppLink></li>
+        <li class="mx-1 xl:mx-4"><AppLink to="/contact">Contact</AppLink></li>
       </ul>
       <ul class="flex">
         <li>

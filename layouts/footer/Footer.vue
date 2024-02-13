@@ -1,10 +1,10 @@
 <template>
-  <footer class="container mx-auto bg-crimson rounded-tl-[80px] rounded-tr-[80px] min-h-10 px-8 pt-8 pb-4">
+  <footer class="container mx-auto bg-crimson rounded-tl-[60px] rounded-tr-[60px] min-h-10 px-8 pt-8 pb-4">
     <div class="pb-8">
-      <img class="mx-auto" :src="logoWhite" alt="White Blood Destiny Logo" width="200" />
+      <img class="mx-auto" :src="logoWhite" alt="White Blood Destiny Logo" width="218" />
     </div>
-    <div class="flex justify-between border-t border-white pt-2">
-      <div class="leading-8">Copyright &#169; 2024</div>
+    <div class="flex justify-between border-t border-white pt-4">
+      <div class="font-poppins leading-8">Copyright &#169; 2024</div>
       <div>
         <AppIconLink href="https://twitter.com/BloodDestinyVN" target="_blank" :icon="icons.twitter" />
       </div>

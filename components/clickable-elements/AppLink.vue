@@ -1,7 +1,7 @@
 <template>
-  <div :class="['p-3 border', {'border-crimson': active, 'border-transparent': !active}]">
+  <div :class="['p-[10px] border', {'border-crimson': active, 'border-transparent': !active}]">
     <a :href="to" :class="[
-        'uppercase transition-color ease-in-out duration-300', 
+        'font-poppins leading-6 uppercase transition-color ease-in-out duration-300', 
         {'text-crimson ': active, 'text-white hover:text-crimson-light': !active}
       ]"
     >

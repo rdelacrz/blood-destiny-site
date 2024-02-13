@@ -7,6 +7,8 @@
     "preview": "vite build && vite preview"
   },
   "dependencies": {
+    "@fontsource/poppins": "^5.0.8",
+    "@fontsource/prosto-one": "^5.0.18",
     "@fortawesome/fontawesome-free": "^6.4.2",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.5.1",

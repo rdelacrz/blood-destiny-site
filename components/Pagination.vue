@@ -1,121 +1,119 @@
 <template>
-  <div :class="{'pagination-container': true, [`${paginationWrapper}`]: !!paginationWrapper}">
-    <button class='pagination-button' @click='() => setPage(currentPage - 1)'>
-      <img :src='icons.prev' alt='Previous Icon' />
-    </button>
+  <div class="w-full text-center">
+    <v-btn v-bind="getButtonProps()" @click='() => setPage(currentPage - 1)'>
+      <FontAwesomeIcon :icon="faArrowLeft" />
+    </v-btn>
 
-    <button v-if='total >= 1' :class='buttonClass(1)' @click="$emit('update:currentPage', 1)">
-      1
-    </button>
+    <v-btn v-bind="getButtonProps(1)" v-if='total >= 1' @click="setPage(1)">
+      <span>1</span>
+    </v-btn>
 
-    <button v-if='currentPage >= maxDisplay && total > maxDisplay' class='pagination-button' @click='() => changePageSet(false)'>
-      ...
-    </button>
+    <v-btn v-bind="getButtonProps()" v-if='currentPage >= maxDisplay && total > maxDisplay' @click='() => changePageSet(false)'>
+      <span>...</span>
+    </v-btn>
 
-    <button v-for='page in innerPageList' :key='page' :class='buttonClass(page)' @click="$emit('update:currentPage', page)">
-      {{ page }}
-    </button>
+    <v-btn v-bind="getButtonProps(page)"  v-for='page in innerPageList' :key='page' @click="setPage(page)">
+      <span>{{ page }}</span>
+    </v-btn>
 
-    <button v-if='currentPage <= total - maxDisplay + 2 && total > maxDisplay' class='pagination-button' @click='() => changePageSet(true)'>
-      ...
-    </button>
+    <v-btn v-bind="getButtonProps()" v-if='currentPage <= total - maxDisplay + 2 && total > maxDisplay' @click='() => changePageSet(true)'>
+      <span>...</span>
+    </v-btn>
 
-    <button v-if='total >= 2' :class='buttonClass(total)' @click="$emit('update:currentPage', total)">
-      {{ total }}
-    </button>
+    <v-btn v-bind="getButtonProps(total)" v-if='total >= 2' @click="setPage(total)">
+      <span>{{ total }}</span>
+    </v-btn>
 
-    <button class='pagination-button' @click='() => setPage(currentPage + 1)'>
-      <img :src='icons.next' alt='Next Icon' />
-    </button>
+    <v-btn v-bind="getButtonProps()" @click='() => setPage(currentPage + 1)'>
+      <FontAwesomeIcon :icon="faArrowRight" />
+    </v-btn>
   </div>
 </template>
 
-<script lang='ts'>
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { computed } from "vue";
+import { faArrowLeft, faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 
-import prev from '@/assets/images/icons/icon_previous.png';
-import next from '@/assets/images/icons/icon_next.png';
-
-export default defineComponent({
-  props: {
-    paginationWrapper: {
-      type: String,
-    },
-    currentPage: {
-      type: Number,
-      default: 1,
-    },
-    total: {
-      type: Number,
-      default: 1,
-    },
-    maxDisplay: {
-      type: Number,
-      default: 5,
-    },
+const props = defineProps({
+  total: {
+    type: Number,
+    default: 1,
   },
-  emits: ['update:currentPage'],
-  data() {
-    return {
-      icons: {
-        prev,
-        next,
-      },
-    };
-  },
-  computed: {
-    numOfInnerPages() {
-      return Math.min(this.maxDisplay, this.total) - 2;   // Max page number of displays - first and last page displays
-    },
-    firstInnerPage() {
-      if (this.currentPage < this.maxDisplay) {
-        return 2;
-      }
-      if (this.currentPage > this.total - this.numOfInnerPages) {
-        return this.total - this.numOfInnerPages;
-      }
-      return this.currentPage - (this.currentPage % this.numOfInnerPages);
-    },
-    lastInnerPage() {
-      if (this.currentPage > this.total - this.numOfInnerPages) {
-        return this.total - 1;
-      }
-      return this.firstInnerPage + this.numOfInnerPages - 1;
-    },
-    innerPageList() {
-      if (this.total <= 2) {
-        return [];
-      }
-
-      const pageNumbers: number[] = [];
-      for (let page = this.firstInnerPage; page <= this.lastInnerPage; page++) {
-        pageNumbers.push(page);
-      }
-      
-      return pageNumbers;
-    },
-  },
-  methods: {
-    setPage(page: number) {
-      if (page < 1) {
-        page = 1;
-      } else if (page > this.total) {
-        page = this.total;
-      }
-      this.$emit('update:currentPage', page);
-    },
-    changePageSet(forward: boolean) {
-      let page: number;
-      if (forward) {
-        page = this.lastInnerPage < this.total ? this.lastInnerPage + 1 : this.total;
-      } else {
-        page = this.firstInnerPage > 1 ? this.firstInnerPage - 1 : 1;
-      }
-      this.$emit('update:currentPage', page);
-    },
-    buttonClass(page: number) {
-      return {'pagination-button': true, 'current': page === this.currentPage};
-    },
+  maxDisplay: {
+    type: Number,
+    default: 5,
   }
 });
+
+const currentPage = defineModel("currentPage", { type: Number, default: 1 });
+
+
+/* Computed */
+
+const numOfInnerPages = computed(() => {
+  return Math.min(props.maxDisplay, props.total) - 2;   // Max page number of displays - first and last page displays
+});
+
+const firstInnerPage = computed(() => {
+  if (currentPage.value < props.maxDisplay) {
+    return 2;
+  }
+  if (currentPage.value > props.total - numOfInnerPages.value) {
+    return props.total - numOfInnerPages.value;
+  }
+  return currentPage.value - (currentPage.value % numOfInnerPages.value);
+});
+
+const lastInnerPage = computed(() => {
+  if (currentPage.value > props.total - numOfInnerPages.value) {
+    return props.total - 1;
+  }
+  return firstInnerPage.value + numOfInnerPages.value - 1;
+});
+
+const innerPageList = computed(() => {
+  if (props.total <= 2) {
+    return [];
+  }
+
+  const pageNumbers: number[] = [];
+  for (let page = firstInnerPage.value; page <= lastInnerPage.value; page++) {
+    pageNumbers.push(page);
+  }
+  
+  return pageNumbers;
+});
+
+
+/* Functions */
+
+const setPage = (page: number) => {
+  if (page < 1) {
+    page = 1;
+  } else if (page > props.total) {
+    page = props.total;
+  }
+  currentPage.value = page;
+}
+
+const changePageSet = (forward: boolean) => {
+  let page: number;
+  if (forward) {
+    page = lastInnerPage.value < props.total ? lastInnerPage.value + 1 : props.total;
+  } else {
+    page = firstInnerPage.value > 1 ? firstInnerPage.value - 1 : 1;
+  }
+  currentPage.value = page;
+}
+
+const getButtonProps = (page?: number) => {
+  const currentPageClass = page === currentPage.value ? " bg-crimson" : "";
+  return {
+    class: "border border-crimson font-prosto-one leading-none text-xl rounded-[5px] mx-[0.4rem]" + currentPageClass,
+    variant: "flat", 
+    size: "2.5rem"
+  } as any;
+}
+
 </script>

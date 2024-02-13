@@ -19,8 +19,7 @@
     "**/*.ts",
     "**/*.vue",
     "api/**/*.js", 
-    "dev-server/index.js",
-    "dev-server/root.js"
+    "dev-server/*.js"
   ],
   "exclude": [
     "node_modules"

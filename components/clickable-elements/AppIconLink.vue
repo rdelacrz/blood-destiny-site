@@ -1,6 +1,6 @@
 <template>
   <a :href='href' :target="target">
-    <FontAwesomeIcon class="text-white text-3xl" :icon="icon" />
+    <FontAwesomeIcon class="text-white text-[1.75rem]" :icon="icon" />
   </a>
 </template> 
 

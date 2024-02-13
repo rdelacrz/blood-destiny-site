@@ -7,13 +7,13 @@
           {'bg-black': !backgroundClass, [backgroundClass]: !!backgroundClass}
         ]">
         <div class="container mx-auto">
-          <h1 class="uppercase text-6xl font-semibold drop-shadow-subtle-outline">
+          <h1 class="uppercase text-[4rem] font-prosto-one drop-shadow-subtle-outline">
             {{ pageContext.config.pageTitle }}
           </h1>
-          <div class="p-4 max-w-[800px] mx-auto drop-shadow-subtle-outline">
+          <div class="pb-3 max-w-[620px] mx-auto font-poppins drop-shadow-subtle-outline">
             {{ pageContext.config.pageDescription }}
           </div>
-          <div class="text-3xl">
+          <div class="text-[1.625rem] font-medium">
             <template v-for="breadcrumb in breadcrumbs">
               <template v-if="!!breadcrumb.url">
                 <a class="transition-color ease-in-out duration-300 hover:text-crimson-light drop-shadow-subtle-outline" 
@@ -29,7 +29,7 @@
           </div>
         </div>
       </div>
-      <div class="container mx-auto px-4 md:px-8 lg:px-16">
+      <div class="container mx-auto px-4 lg:px-16">
         <slot />
       </div>
     </main>

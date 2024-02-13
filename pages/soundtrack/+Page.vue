@@ -1,20 +1,20 @@
 <template>
   <div class="pt-[150px] pb-20">
-    <div class="relative text-center flex flex-col justify-center before:absolute before:block before:h-[300px] before:w-full
-        before:bg-gradient-radial before:from-crimson before:from-1% before:to-70% before:opacity-40">
-      <h2 class="relative text-6xl">Blood Destiny OST</h2>
+    <div class="relative text-center flex flex-col justify-center before:absolute before:block before:h-[248px] before:w-full
+        before:bg-gradient-radial before:from-crimson before:from-1% before:to-70%">
+      <h2 class="relative font-prosto-one text-[4rem] leading-tight">Blood Destiny OST</h2>
     </div>
-    <div class="relative text-lg text-center my-8">The official soundtrack of Blood Destiny, mostly produced by Doommaker</div>
+    <div class="relative font-poppins text-lg text-center my-4">The official soundtrack of Blood Destiny, mostly produced by Doommaker</div>
     <div class="flex justify-center mb-10">
       <AppButton id="playSongBtn" @click="() => playSoundtrack()">Play</AppButton>
     </div>
 
-    <table class="w-full text-left">
+    <table class="w-full font-poppins text-left">
       <thead>
         <tr class="uppercase text-xl">
-          <th class="py-2 border-b-2 border-white pl-9">Title</th>
-          <th class="py-2 border-b-2 border-white">Artist</th>
-          <th class="py-2 border-b-2 border-white">Duration</th>
+          <th class="py-2 border-b-2 border-[#D9D9D9] pl-9">Title</th>
+          <th class="py-2 border-b-2 border-[#D9D9D9]">Artist</th>
+          <th class="py-2 border-b-2 border-[#D9D9D9]">Duration</th>
         </tr>
       </thead>
       <tbody>
@@ -22,7 +22,7 @@
           @keydown.enter="() => playSong(index)" tabindex="0"
           class="text-xl cursor-pointer hover:bg-white-hover"
         >
-          <td class="py-4 border-b border-white pl-9">
+          <td class="py-5 border-b border-[#D9D9D9] pl-9">
             <div class="relative flex items-center">
               <img v-show="isActive && currentSongIndex === index" :src="icons.voice" alt="Playing Icon" height="18" width="18"
                 class="absolute left-[-25px]"

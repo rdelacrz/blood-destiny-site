@@ -8,10 +8,10 @@ export default {
   ],
   theme: {
     screens: {
-      sm: "480px",
-      md: "768px",
-      lg: "976px",
-      xl: "1440px",
+      sm: "600px",
+      md: "968px",
+      lg: "1200px",
+      xl: "1600px",
       "2xl": "1920px",
     },
     extend: {
@@ -21,17 +21,21 @@ export default {
         "olympia-hallway": "url('/assets/images/backgrounds/bkgd_olympia_hallway.png')",
       },
       boxShadow: {
-        "glow": "0 0 15px 0 var(--tw-shadow)"
+        "glow": "0 0 24px 0 var(--tw-shadow)"
       },
       colors: {
         "crimson": "#FF0000",
         "crimson-light": "#f06965 !important",
         "audio-player": "rgb(117 65 72 / 80%)",
         "blue-dark": "#0A101E",
-        "white-hover": "rgb(255 255 255 / 20%)"
+        "white-hover": "rgb(85 85 85 / 60%)"
       },
       dropShadow: {
         "subtle-outline": "1px 1px 1px black"
+      },
+      fontFamily: {
+        "prosto-one": ["Prosto One"],
+        "poppins": ["Poppins"],
       },
     },
   },

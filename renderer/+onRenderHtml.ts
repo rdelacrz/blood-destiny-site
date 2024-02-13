@@ -13,7 +13,7 @@ const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRender
     <html>
       <head>
         <title>${title}</title>
-        <link rel="icon" href=${favicon}>
+        <link rel="icon" href="${favicon}">
         <style type="text/css">${dangerouslySkipEscape(dom.css())}</style>
       </head>
       <body>

@@ -23,7 +23,7 @@
           <img class="relative" :src="updateCover" alt ="Update Cover" />
         </div>
       </div>
-      <Pagination paginationWrapper="updates-pagination" v-model:currentPage="currentPage" :total="totalPages" />
+      <Pagination v-model:currentPage="currentPage" :total="totalPages" />
     </template>
     <v-progress-circular v-else indeterminate />
   </div>

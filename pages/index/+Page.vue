@@ -9,7 +9,7 @@
     <div class="text-lg mb-6 max-w-[650px] font-poppins">
       Prepare to venture into a fascinating new world with supernatural elements, mysterious agendas, and unexpected twists.
     </div>
-    <AppButton id="downloadBtn" @click="handleDownloadClick">DOWNLOAD</AppButton>
+    <AppButton id="downloadBtn" @click="handleDownloadClick" disabled>Work In Progress...</AppButton>
   </div>
 </template>
 

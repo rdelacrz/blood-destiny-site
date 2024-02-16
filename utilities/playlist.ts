@@ -49,12 +49,6 @@ export const playlist: Song[] = [
     file: shiftingShoreline,
   },
   {
-    title: "Calm Before The Storm",
-    artist: "Doommaker",
-    length: "1:40",
-    file: calmBeforeTheStorm,
-  },
-  {
     title: "The Cold Night",
     artist: "Doommaker",
     length: "2:20",

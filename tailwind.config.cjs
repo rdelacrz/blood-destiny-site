@@ -15,8 +15,12 @@ export default {
       "2xl": "1920px",
     },
     extend: {
+      animation: {
+        "spin-step": "spin 1100ms infinite steps(12, end)",
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "red-town": "url('/assets/images/backgrounds/bkgd_town_red_sky.png')",
         "valley-night": "url('/assets/images/backgrounds/bkgd_valley_night.png')",
         "olympia-hallway": "url('/assets/images/backgrounds/bkgd_olympia_hallway.png')",
       },

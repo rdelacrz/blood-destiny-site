@@ -25,7 +25,9 @@
       </div>
       <Pagination v-model:currentPage="currentPage" :total="totalPages" />
     </template>
-    <v-progress-circular v-else indeterminate />
+    <template v-else>
+      <Loader />
+    </template>
   </div>
 </template>
 
@@ -38,6 +40,7 @@ import { onLoad } from "./Page.telefunc";
 
 import updateCover from "@/assets/images/graphics/updates/update_cover.png";
 
+const Loader = defineAsyncComponent(() => import("@/components/Loader.vue"));
 const Pagination = defineAsyncComponent(() => import("@/components/Pagination.vue"));
 
 const MAX_DISPLAY_PER_PAGE = 3;

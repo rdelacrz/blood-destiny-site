@@ -1,3 +1,5 @@
+import plugin from 'tailwindcss/plugin';
+
 /** @type {import("tailwindcss").Config} */
 export default {
   content: [
@@ -20,6 +22,7 @@ export default {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "plane-night": "url('/assets/images/backgrounds/bkgd_plane_night.png')",
         "red-town": "url('/assets/images/backgrounds/bkgd_town_red_sky.png')",
         "valley-night": "url('/assets/images/backgrounds/bkgd_valley_night.png')",
         "olympia-hallway": "url('/assets/images/backgrounds/bkgd_olympia_hallway.png')",
@@ -41,7 +44,22 @@ export default {
         "prosto-one": ["Prosto One"],
         "poppins": ["Poppins"],
       },
+      textShadow: {
+        DEFAULT: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    // For adding text-shadow capabilities
+    plugin(function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'text-shadow': (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme('textShadow') }
+      );
+    }),
+  ],
 }

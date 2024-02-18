@@ -1,4 +1,4 @@
 // https://vike.dev/config
 export default {
-  title: 'Blood Destiny'
+  title: "Blood Destiny"
 }

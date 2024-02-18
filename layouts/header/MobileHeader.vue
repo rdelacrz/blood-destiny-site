@@ -19,14 +19,14 @@
 </template>
 
 <script lang="ts">
-import { defineAsyncComponent } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import AppLink from "@/components/clickable-elements/AppLink.vue";
 
 export default {
   name: "page-header",
   components: {
-    AppLink: defineAsyncComponent(() => import("@/components/clickable-elements/AppLink.vue")),
+    AppLink,
     FontAwesomeIcon,
   },
   data() {

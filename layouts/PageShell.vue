@@ -1,16 +1,16 @@
 <template>
   <div class="flex flex-col min-h-screen bg-blue-dark text-white">
     <PageHeader />
-    <main class="page-content flex-auto">
+    <div class="page-content flex-auto">
       <div v-if="!isHomePage" :class="[
           'bg-black py-[150px] text-center relative z-10 bg-cover bg-center', 
           {'bg-black': !backgroundClass, [backgroundClass]: !!backgroundClass}
         ]">
         <div class="container mx-auto">
-          <h1 class="uppercase text-[4rem] font-prosto-one drop-shadow-subtle-outline">
+          <h1 class="uppercase text-[4rem] font-prosto-one text-shadow">
             {{ pageContext.config.pageTitle }}
           </h1>
-          <div class="pb-3 max-w-[620px] mx-auto font-poppins drop-shadow-subtle-outline">
+          <div class="pb-3 max-w-[620px] mx-auto font-poppins text-shadow">
             {{ pageContext.config.pageDescription }}
           </div>
           <div class="text-[1.625rem] font-medium">
@@ -29,10 +29,10 @@
           </div>
         </div>
       </div>
-      <div class="container mx-auto px-4 lg:px-16">
+      <main class="container mx-auto px-4 lg:px-16">
         <slot />
-      </div>
-    </main>
+      </main>
+    </div>
     <PageFooter />
 
     <Dialog v-model="isActive" :dialogTitle="dialogTitle" :dialogText="dialogBody" />
@@ -47,7 +47,7 @@ import { useDialogStore } from "@/store";
 import PageFooter from "./footer/Footer.vue";
 import PageHeader from "./header/Header.vue";
 
-const Dialog = defineAsyncComponent(() => import('@/components/Dialog.vue'));
+const Dialog = defineAsyncComponent(() => import("@/components/Dialog.vue"));
 
 const store = useDialogStore();
 const { isActive, dialogTitle, dialogBody } = storeToRefs(store);

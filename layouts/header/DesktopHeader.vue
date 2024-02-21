@@ -5,12 +5,24 @@
         <img :src="logoSrc" alt="Blood Destiny Logo" width="132" />
       </a>
       <ul class="flex">
-        <li class="mx-1 xl:mx-4"><AppLink to="/">Home</AppLink></li>
-        <li class="mx-1 xl:mx-4"><AppLink to="/about">About</AppLink></li>
-        <li class="mx-1 xl:mx-4"><AppLink to="/characters">Characters</AppLink></li>
-        <li class="mx-1 xl:mx-4"><AppLink to="/soundtrack">Soundtrack</AppLink></li>
-        <li class="mx-1 xl:mx-4"><AppLink to="/updates">Updates</AppLink></li>
-        <li class="mx-1 xl:mx-4"><AppLink to="/contact">Contact</AppLink></li>
+        <li class="mx-1 xl:mx-4">
+          <AppLink id="homeLink" to="/">Home</AppLink>
+        </li>
+        <li class="mx-1 xl:mx-4">
+          <AppLink id="aboutLink" to="/about">About</AppLink>
+        </li>
+        <li class="mx-1 xl:mx-4">
+          <AppLink id="charactersLink" to="/characters">Characters</AppLink>
+        </li>
+        <li class="mx-1 xl:mx-4">
+          <AppLink id="soundtrackLink" to="/soundtrack">Soundtrack</AppLink>
+        </li>
+        <li class="mx-1 xl:mx-4">
+          <AppLink id="updatesLink" to="/updates">Updates</AppLink>
+        </li>
+        <li class="mx-1 xl:mx-4">
+          <AppLink id="contactLink" to="/contact">Contact</AppLink>
+        </li>
       </ul>
       <ul class="flex">
         <li>

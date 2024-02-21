@@ -4,13 +4,13 @@
 </template>
 
 <script lang="ts">
-import { defineAsyncComponent } from 'vue';
+import { defineAsyncComponent } from "vue";
 
 export default {
-  name: 'page-header',
+  name: "page-header",
   components: {
-    DesktopHeader: defineAsyncComponent(() => import('./DesktopHeader.vue')),
-    MobileHeader: defineAsyncComponent(() => import('./MobileHeader.vue')),
+    DesktopHeader: defineAsyncComponent(() => import("./DesktopHeader.vue")),
+    MobileHeader: defineAsyncComponent(() => import("./MobileHeader.vue")),
   }
 }
 </script>

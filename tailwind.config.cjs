@@ -26,6 +26,7 @@ export default {
         "red-town": "url('/assets/images/backgrounds/bkgd_town_red_sky.png')",
         "valley-night": "url('/assets/images/backgrounds/bkgd_valley_night.png')",
         "olympia-hallway": "url('/assets/images/backgrounds/bkgd_olympia_hallway.png')",
+        "mountain-caves": "url('/assets/images/backgrounds/bkgd_frozen_mountain_caves.png')",
       },
       boxShadow: {
         "glow": "0 0 24px 0 var(--tw-shadow)"

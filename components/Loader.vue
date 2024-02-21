@@ -8,6 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import loaderMoonImg from "@/assets/images/graphics/loader-moon.png";
-import loaderObjectsImg from "@/assets/images/graphics/loader-objects.png";
+import loaderMoonImg from "@/assets/images/graphics/loader_moon.png";
+import loaderObjectsImg from "@/assets/images/graphics/loader_objects.png";
 </script>

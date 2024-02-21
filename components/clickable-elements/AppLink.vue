@@ -5,7 +5,7 @@
         {'text-crimson ': active, 'text-white hover:text-crimson-light': !active}
       ]"
     >
-      <slot></slot>
+      <slot />
     </a>
   </div>
 </template> 

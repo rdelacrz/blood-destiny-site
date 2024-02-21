@@ -12,19 +12,22 @@
         the course of the story, he will be drawn into various conflicts involving legendary creatures, ancient civilizations lost to history, and 
         unsolved mysterious from his own past.
       </p>
-      <p class="font-poppins">
+      <p class="font-poppins mb-6">
         There are several heroines in the story that will serve as potential love interests to Jack. The player may select different choices 
         throughout the novel to influence the story's direction, and potentially which heroine he ends up with. Once every regular route has 
-        been cleared, the final route will be unlocked which will lead to the True Ending of the story. There will also be turn-based RPG battles 
-        where the player will have to fight various enemies.
+        been cleared, the final route will be unlocked which will lead to the True Ending of the story.
+      </p>
+      <p class="font-poppins">
+        Blood Destiny will contain turn-based RPG battles where the player will have to fight various enemies, as well as a sophisticated leveling-up
+        and attribute system that will allow you to precisely control the growth of your characters as you proceed through the visual novel.
       </p>
     </div>
     <div class="self-center justify-self-center">
-      placeholder
+      <img class="max-h-[700px]" :src="promoImage" alt="Promo Image" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-
+import promoImage from "@/assets/images/graphics/jack_fuyumi_promo.png";
 </script>

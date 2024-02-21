@@ -32,5 +32,5 @@ const ClientComponent = defineAsyncComponent({
 const client = ref(false);
 onMounted(() => {
   client.value = true;
-})
+});
 </script>

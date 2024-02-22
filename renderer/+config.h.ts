@@ -5,6 +5,7 @@ import { onHydrationEnd, onPageTransitionStart, onPageTransitionEnd } from "./on
 export default {
   passToClient: ["title", "routeParams",  "piniaInitialState", "vueQueryState"],
   clientRouting: true,
+  hydrationCanBeAborted: true,
   prefetchStaticAssets: "viewport",   // https://vike.dev/clientRouting#link-prefetching
   onHydrationEnd,
   onPageTransitionStart,

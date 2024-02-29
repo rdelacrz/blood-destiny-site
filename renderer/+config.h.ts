@@ -12,6 +12,16 @@ export default {
   onPageTransitionEnd,
   // https://vike.dev/meta
   meta: {
+    onBeforeRender: {
+      // Modify the onBeforeRender() hook to run on both the server and client-side
+      env: { client: true, server: true }
+    },
+    onBeforeRenderHtml: {
+      env: { server: true }
+    },
+    onBeforeRenderClient: {
+      env: { client: true },
+    },
     title: {
       env: { server: true, client: true },
     },

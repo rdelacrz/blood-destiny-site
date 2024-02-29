@@ -51,7 +51,7 @@ function createApp(pageContext: PageContext) {
       Object.assign(pageContextReactive, pageContext);
       rootComponent.Page = markRaw(pageContext.Page);
       rootComponent.config = markRaw(pageContext.config);
-      await nextTick();
+      //await nextTick();
       returned = true;
       if (err) throw err;
     }

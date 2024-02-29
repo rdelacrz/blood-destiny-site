@@ -38,7 +38,7 @@ function createApp(pageContext: PageContext) {
 
   // We use `app.changePage()` to do Client Routing, see `+onRenderClient`
   objectAssign(app, {
-    changePage: async (pageContext: PageContext) => {
+    changePage: (pageContext: PageContext) => {
       let returned = false;
       let err: unknown;
       /*app.config.errorHandler = (err_) => {

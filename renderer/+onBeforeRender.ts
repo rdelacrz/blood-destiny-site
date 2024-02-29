@@ -10,13 +10,13 @@ import { createApp } from "./app";
 const renderToNodeStreamWithErrorHandling = (app: App) => {
   let returned = false;
   let err: unknown;
-  app.config.errorHandler = (err_) => {
+  /*app.config.errorHandler = (err_) => {
     if (returned) {
       console.error(err_);
     } else {
       err = err_;
     }
-  }
+  }*/
   const appHtml = renderToNodeStream(app);
   returned = true;
   if (err) throw err;

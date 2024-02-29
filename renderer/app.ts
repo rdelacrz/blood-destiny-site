@@ -41,13 +41,13 @@ function createApp(pageContext: PageContext) {
     changePage: async (pageContext: PageContext) => {
       let returned = false;
       let err: unknown;
-      app.config.errorHandler = (err_) => {
+      /*app.config.errorHandler = (err_) => {
         if (returned) {
           console.error(err_);
         } else {
           err = err_;
         }
-      }
+      }*/
       Object.assign(pageContextReactive, pageContext);
       rootComponent.Page = markRaw(pageContext.Page);
       rootComponent.config = markRaw(pageContext.config);

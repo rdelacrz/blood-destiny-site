@@ -32,7 +32,7 @@ export const onRenderClient: OnRenderClientAsync = async (pageContext): ReturnTy
   } else {
     // Client-side navigation
     const { app } = createAppProps;
-    app.changePage(pageContext);
+    await app.changePage(pageContext);
   }
   document.title = getPageTitle(pageContext);
 }

@@ -66,10 +66,18 @@
           :rules="[rules.required('Message')]"
           :model-value="contactInfo.message"
         />
-        
-        <AppButton id="contactUsBtn" type="submit" class="mt-4">
+
+        <!-- Server-side rendering causes the button to disappear if AppButton is used in v-form instead -->
+        <v-btn 
+          id="contactUsBtn" 
+          class="mt-4 flex align-middle bg-crimson capitalize text-white font-poppins font-medium 
+            rounded-tl-none rounded-tr-[1.125rem] rounded-bl-[1.25rem] rounded-br-none py-[1.375rem] px-6" 
+          type="submit"
+          color="primary"
+          variant="flat"
+        >
           Send
-        </AppButton>
+        </v-btn>
       </v-form>
     </div>
   </div>
@@ -83,8 +91,6 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { ContactInfo, OptionValueSet } from '@/models';
 import { useDialogStore } from "@/store";
 import { onContactFormSubmit } from './Page.telefunc';
-
-const AppButton = defineAsyncComponent(() => import('@/components/clickable-elements/AppButton.vue'));
 
 const inquiryTypeStrs = [
   'General Inquiry', 

@@ -4,12 +4,14 @@
       flex items-center transition-all min-h-[88px]"
     :style="{'bottom': isActive ? '0' : '-88px'}"
   >
+    <!-- Leave out until artwork for cover is created
     <div class="px-4">
       <div class="h-20 w-20 hidden lg:block">
         Cover
       </div>
     </div>
-    <div class="px-4 min-w-[200px] lg:min-w-[250px]">
+    -->
+    <div class="text-right px-4 min-w-[200px] lg:min-w-[250px]">
       <div class="text-lg font-semibold truncate">{{ currentSong?.title }}</div>
       <div class="text-md">{{ currentSong?.artist }}</div>
     </div>

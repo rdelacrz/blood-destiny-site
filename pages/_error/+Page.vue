@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import { usePageContext } from '@/hooks';
+import { usePageContext } from "vike-vue/usePageContext";
 
 const ctx = usePageContext();
 let { is404, abortReason } = ctx;

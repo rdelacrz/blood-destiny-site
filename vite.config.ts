@@ -11,6 +11,10 @@ const projectRootDir = resolve(__dirname);
 
 const config: UserConfig = {
   publicDir: resolve(projectRootDir, "public"),
+  assetsInclude: ["node_modules/vike-vue/dist/renderer/onRenderHtml.js"],
+  server: {
+    preTransformRequests: false
+  },
   css: {
     preprocessorOptions: {
       scss: {

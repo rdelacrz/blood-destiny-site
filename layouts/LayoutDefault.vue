@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { computed, defineAsyncComponent, onMounted } from "vue";
-import { usePageContext } from "@/hooks";
+import { usePageContext } from "vike-vue/usePageContext";
 import { useDialogStore } from "@/store";
 import PageFooter from "./footer/Footer.vue";
 import PageHeader from "./header/Header.vue";

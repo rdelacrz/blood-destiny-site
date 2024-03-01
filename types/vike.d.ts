@@ -1,6 +1,6 @@
 import { StateTree } from "pinia";
 import internal from "stream";
-import type { DehydratedState } from "@tanstack/vue-query";
+import type { DehydratedState, QueryClient } from "@tanstack/vue-query";
 import type { ComponentPublicInstance } from "vue";
 import { Breadcrumb } from "@/models";
 import { RootState } from "@/store";
@@ -14,10 +14,10 @@ type Page = Component;
 declare global {
   namespace Vike {
     interface PageContext {
-      piniaInitialState: Record<string, StateTree>,       // For Pinia
-      vueQueryState?: DehydratedState;                    // For vue-query state
-      htmlStream: internal.Readable;
-      Page: Page;
+      queryClient: QueryClient;
+      fromHtmlRenderer: {
+        vueQueryState?: DehydratedState;                    // For vue-query state
+      };
 
       config: {
         /** Flag for whether onBeforeRenderHtml hook is to be used (server-side only) */
@@ -50,9 +50,6 @@ declare global {
         /** Key used for query in VueQuery */
         queryKey?: string;
       }
-
-      /** Title defined dynamically by onBeforeRender() */
-      title?: string;
 
       abortReason?: string;
     }

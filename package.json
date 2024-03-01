@@ -30,6 +30,8 @@
     "telefunc": "^0.1.62",
     "unplugin-vue-markdown": "^0.24.3",
     "vike": "^0.4.160",
+    "vike-pinia": "^0.0.2",
+    "vike-vue": "^0.6.3",
     "vite": "^5.0.12",
     "vue": "^3.3.4",
     "vuetify": "^3.5.2"

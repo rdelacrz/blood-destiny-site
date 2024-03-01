@@ -3696,6 +3696,16 @@ vercel@^32.5.3:
     "@vercel/static-build" "2.0.14"
     chokidar "3.3.1"
 
+vike-pinia@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/vike-pinia/-/vike-pinia-0.0.2.tgz#a1817e2ecb401602e60d24dea87c92d8916ebe67"
+  integrity sha512-RzuLUgmFH8JBG5ISTsftXlWPhnDSj915AVzhVKwgazfRPlNpw6nGuhVNAP8AF35fcObscmSCRNAJ//F+TsSFzQ==
+
+vike-vue@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/vike-vue/-/vike-vue-0.6.3.tgz#2043690bb0e8744963e27e6d81e9766c53647995"
+  integrity sha512-oVMWkxJfhiFBu99pID/4P3qng1fnb9C15W+SAQZ5GOr+pXSfL2DAMNi1kCQJ4mccZ/Ec0Xk+jfYMp0LZOucltw==
+
 vike@^0.4.160:
   version "0.4.160"
   resolved "https://registry.yarnpkg.com/vike/-/vike-0.4.160.tgz#b13d1503815c8f892b586439beb621fe33e5e4fc"

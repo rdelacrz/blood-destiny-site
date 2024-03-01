@@ -25,7 +25,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
-import { usePageContext } from '@/hooks';
+import { usePageContext } from "vike-vue/usePageContext";
 import { getCharacter } from "@/utilities";
 import { useGoTo } from "vuetify";
 

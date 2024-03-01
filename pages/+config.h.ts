@@ -1,15 +1,19 @@
 import type { Config } from "vike/types";
-import { onHydrationEnd, onPageTransitionStart, onPageTransitionEnd } from "./onPageTransitionHooks";
+import vikePinia from "vike-pinia";
+import vikeVue from "vike-vue/config";
+import Head from "@/layouts/HeadDefault.vue";
+import Layout from "@/layouts/LayoutDefault.vue";
+import { onRenderHtml } from "./onRenderHtml";
+import favicon from '@/assets/favicon.ico';
 
 // https://vike.dev/config
 export default {
   passToClient: ["title", "routeParams",  "piniaInitialState", "vueQueryState"],
-  clientRouting: true,
-  hydrationCanBeAborted: true,
   prefetchStaticAssets: "viewport",   // https://vike.dev/clientRouting#link-prefetching
-  onHydrationEnd,
-  onPageTransitionStart,
-  onPageTransitionEnd,
+  Head,
+  Layout,
+  favicon,
+  onRenderHtml,
   // https://vike.dev/meta
   meta: {
     title: {
@@ -33,5 +37,6 @@ export default {
     queryKey: {
       env: { server: true, client: true },
     },
-  }
+  },
+  extends: [vikeVue, vikePinia]
 } satisfies Config

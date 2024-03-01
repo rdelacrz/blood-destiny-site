@@ -35,7 +35,7 @@
 import { computed, defineAsyncComponent, ref } from "vue";
 import { format } from "date-fns";
 import { useQuery } from "@tanstack/vue-query";
-import { usePageContext } from '@/hooks';
+import { usePageContext } from "vike-vue/usePageContext";
 import { onLoad } from "./Page.telefunc";
 
 import updateCover from "@/assets/images/graphics/updates/update_cover.png";

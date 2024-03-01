@@ -11,7 +11,7 @@
 </template> 
 
 <script setup lang="ts">
-import { usePageContext } from "@/hooks";
+import { usePageContext } from "vike-vue/usePageContext";
 import { computed } from "vue";
 
 const props = defineProps<{

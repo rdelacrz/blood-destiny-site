@@ -7,5 +7,4 @@ export default {
     Blood Destiny's development.
   `,
   pageBackgroundClass: "bg-temple-entrance",
-  queryKey: "getUpdatePosts",
 }

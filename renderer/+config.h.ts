@@ -3,7 +3,7 @@ import { onHydrationEnd, onPageTransitionStart, onPageTransitionEnd } from "./on
 
 // https://vike.dev/config
 export default {
-  passToClient: ["title", "routeParams",  "piniaInitialState", "vueQueryState"],
+  passToClient: ["title", "routeParams", "fromBeforeRender"],
   clientRouting: true,
   hydrationCanBeAborted: true,
   prefetchStaticAssets: "viewport",   // https://vike.dev/clientRouting#link-prefetching
@@ -12,16 +12,6 @@ export default {
   onPageTransitionEnd,
   // https://vike.dev/meta
   meta: {
-    onBeforeRender: {
-      // Modify the onBeforeRender() hook to run on both the server and client-side
-      env: { client: true, server: true }
-    },
-    onBeforeRenderHtml: {
-      env: { server: true }
-    },
-    onBeforeRenderClient: {
-      env: { client: true },
-    },
     title: {
       env: { server: true, client: true },
     },
@@ -35,12 +25,6 @@ export default {
       env: { server: true, client: true },
     },
     getBreadcrumbs: {
-      env: { server: true, client: true },
-    },
-    queryFn: {
-      env: { server: true },   // Backend queryFn should not be exposed to client side
-    },
-    queryKey: {
       env: { server: true, client: true },
     },
   }

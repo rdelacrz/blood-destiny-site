@@ -4,7 +4,7 @@ import { createPinia } from "pinia";
 import PageShell from "@/layouts/PageShell.vue";
 import { setPageContext } from "@/hooks";
 import type { Config, PageContext } from "vike/types";
-import type { Component } from "@/types/vike";
+import type { Component, PageContextWithoutExtras } from "@/types/vike";
 import { objectAssign } from "@/utilities";
 import { vuetify } from './vuetify';
 
@@ -58,14 +58,18 @@ function createApp(pageContext: PageContext) {
   });
 
   // When doing Client Routing, we mutate pageContext and therefore use a reactive pageContext
-  const pageContextReactive = reactive(pageContext);
+  const pageContextReactive = reactive(pageContext as PageContextWithoutExtras);
 
   // Make `pageContext` accessible from any Vue component
   setPageContext(app, pageContextReactive);
 
+  // Makes app object accessible in page context
+  objectAssign(pageContext, { app });
+
   /* Adds Pinia data store to app */
   const pinia = createPinia();
   app.use(pinia);
+  objectAssign(pageContext, { pinia });
 
   /* Adds Vuetify UI */
   app.use(vuetify);
@@ -73,8 +77,9 @@ function createApp(pageContext: PageContext) {
   /* Adds VueQuery capabilities */
   const queryClient = new QueryClient();
   app.use(VueQueryPlugin, { queryClient });
+  objectAssign(pageContext, { queryClient });
 
-  return { app, pinia, queryClient };
+  return app;
 }
 
 export { createApp }

@@ -41,7 +41,7 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { computed, defineAsyncComponent, onMounted } from "vue";
+import { computed, defineAsyncComponent } from "vue";
 import { usePageContext } from "@/hooks";
 import { useDialogStore } from "@/store";
 import PageFooter from "./footer/Footer.vue";
@@ -65,9 +65,4 @@ const breadcrumbs = computed(() => {
 });
 
 const backgroundClass = computed(() => pageContext.config.pageBackgroundClass);
-
-onMounted(() => {
-  // Popup logic
-});
-
 </script>

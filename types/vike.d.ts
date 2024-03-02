@@ -1,23 +1,44 @@
-import { StateTree } from "pinia";
+import { Pinia, StateTree } from "pinia";
 import internal from "stream";
-import type { DehydratedState } from "@tanstack/vue-query";
+import type { QueryClient } from "@tanstack/vue-query";
 import type { ComponentPublicInstance } from "vue";
 import { Breadcrumb } from "@/models";
 import { RootState } from "@/store";
-import { StateTree } from "pinia";
+import { App } from "vue";
 
 type Component = ComponentPublicInstance; // https://stackoverflow.com/questions/63985658/how-to-type-vue-instance-out-of-definecomponent-in-vue-3/63986086#63986086
 
 type Page = Component;
 
+type VikeApp = App<Element> & {
+  changePage: (pageContext: PageContext) => Promise<void>;
+};
+
+type PageContextWithoutExtras = PageContext & { 
+  app: undefined,
+  queryClient: undefined,
+  pinia: undefined,
+};
+
 // https://vike.dev/pageContext#typescript
 declare global {
   namespace Vike {
     interface PageContext {
-      piniaInitialState: Record<string, StateTree>,       // For Pinia
-      vueQueryState?: DehydratedState;                    // For vue-query state
       htmlStream: internal.Readable;
+
       Page: Page;
+
+      app: VikeApp;
+
+      queryClient: QueryClient;
+
+      pinia: Pinia;
+
+      // Set by onBeforeRender
+      fromBeforeRender: {
+        piniaInitialState: Record<string, StateTree>,       // For Pinia
+        vueQueryState?: unknown;                    // For vue-query state
+      };
 
       config: {
         /** Flag for whether onBeforeRenderHtml hook is to be used (server-side only) */
@@ -40,15 +61,6 @@ declare global {
 
         /** Generates breadcrumbs for the page. */
         getBreadcrumbs?: (pageContext: PageContext) => Breadcrumb[];
-
-        /** Function used to query data in VueQuery */
-        queryFn?: <T>(...args: any[]) => Promise<T[]>;
-
-        /** Arguments passed to queryFn (if any) */
-        queryArgs?: any[];
-
-        /** Key used for query in VueQuery */
-        queryKey?: string;
       }
 
       /** Title defined dynamically by onBeforeRender() */
@@ -59,4 +71,4 @@ declare global {
   }
 }
 
-export { Component }
+export { Component, PageContextWithoutExtras, VikeApp }

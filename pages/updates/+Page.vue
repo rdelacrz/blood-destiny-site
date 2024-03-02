@@ -1,85 +1,16 @@
 <template>
-  <div class="pt-4 pb-20">
-    <template v-if="!isLoading">
-      <div v-for="(update, i) in displayedUpdates" :key="update.postId" 
-        :class="[
-          'py-8 grid gap-20 grid-rows-1 grid-cols-2',
-          i < displayedUpdates.length - 1 ? 'border-b border-white' : undefined
-        ]"
-      >
-        <div :class="['self-center', i % 2 === 1 ? 'order-last' : undefined]">
-          <h2 class="font-prosto-one text-[2.5rem] mb-4">
-            {{update.title}}
-          </h2>
-          <div class="font-poppins text-xl text-crimson font-semibold mb-2">
-            {{formatDate(update.date)}}
-          </div>
-          <div v-html="update.description" class="font-poppins injected-html" />
-        </div>
-        <div class="self-center justify-self-center flex items-center justify-center h-[600px] w-[600px]
-          before:absolute before:block before:h-[600px] before:w-[600px] before:p-10
-          before:bg-gradient-radial before:from-crimson before:from-1% before:to-70% before:opacity-40"
-        >
-          <img class="relative" :src="updateCover" alt ="Update Cover" />
-        </div>
-      </div>
-      <Pagination v-model:currentPage="currentPage" :total="totalPages" />
-    </template>
-    <template v-else>
+  <!-- Errors get thrown when Suspended from PageShell level, likely due to Vike routing logic -->
+  <Suspense>
+    <UpdateContent />
+    <template #fallback>
       <Loader />
     </template>
-  </div>
+  </Suspense>
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, ref } from "vue";
-import { format } from "date-fns";
-import { useQuery } from "@tanstack/vue-query";
-import { usePageContext } from '@/hooks';
-import { onLoad } from "./Page.telefunc";
-
-import updateCover from "@/assets/images/graphics/updates/update_cover.png";
+import { defineAsyncComponent } from "vue";
+import UpdateContent from "./UpdateContent.vue";
 
 const Loader = defineAsyncComponent(() => import("@/components/Loader.vue"));
-const Pagination = defineAsyncComponent(() => import("@/components/Pagination.vue"));
-
-const MAX_DISPLAY_PER_PAGE = 3;
-
-// Queries data
-const pageContext = usePageContext();
-const { data: updateList, isLoading } = useQuery({
-  queryKey: [pageContext.config.queryKey],
-  queryFn: onLoad,
-});
-
-const currentIndex = ref(0);
-
-const displayedUpdates = computed(() => updateList.value?.slice(currentIndex.value, currentIndex.value + MAX_DISPLAY_PER_PAGE) || []);
-
-const currentPage = computed({
-  get() {
-    return Math.floor(currentIndex.value / MAX_DISPLAY_PER_PAGE) + 1;
-  },
-  set(page: number) {
-    currentIndex.value = (page - 1) * MAX_DISPLAY_PER_PAGE;
-  }
-});
-
-const totalPages = computed(() => {
-  const count = updateList.value?.length || 0;
-  const fullPages = Math.floor(count / MAX_DISPLAY_PER_PAGE);
-  const remainder = count % MAX_DISPLAY_PER_PAGE;
-  return remainder === 0 ? fullPages : fullPages + 1;
-});
-
-const formatDate = (date: Date) => {
-  if (date) {
-    try {
-      return format(date, "LLL-dd-yyyy hh:mm:ss aa");
-    } catch(e) {
-      console.error(e);
-    }
-  }
-  return date;
-}
 </script>

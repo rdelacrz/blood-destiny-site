@@ -10,7 +10,7 @@ const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRender
   const title = getPageTitle(pageContext);
 
   const documentHtml = escapeInject`<!DOCTYPE html>
-    <html>
+    <html lang="en">
       <head>
         <title>${title}</title>
         <link rel="icon" href="${favicon}">

@@ -41,7 +41,7 @@ const MAX_DISPLAY_PER_PAGE = 3;
 // Queries data
 const { data: updateList, suspense } = useQuery({
   queryKey: ["getUpdatePosts"],
-  queryFn: onLoad,
+  queryFn: async () => await onLoad(),
 });
 onServerPrefetch(suspense);
 

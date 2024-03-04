@@ -30,7 +30,7 @@
 import { computed, ref, onServerPrefetch } from "vue";
 import { format } from "date-fns";
 import { useQuery } from "@tanstack/vue-query";
-import { onLoad } from "./Page.telefunc";
+import { onLoad } from "./UpdateContent.telefunc";
 
 import updateCover from "@/assets/images/graphics/updates/update_cover.png";
 
@@ -75,4 +75,4 @@ const formatDate = (date: Date) => {
   }
   return date;
 }
-</script>
+</script>./UpdateContent.telefunc

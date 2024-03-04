@@ -31,7 +31,7 @@ const onRenderClient: OnRenderClientAsync = async (pageContext): ReturnType<OnRe
     app.mount("#app");
   } else {
     // Client-side navigation
-    await app.changePage(pageContext);
+    app.changePage(pageContext);
   }
   document.title = getPageTitle(pageContext);
 }

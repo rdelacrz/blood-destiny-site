@@ -38,22 +38,10 @@ function createApp(pageContext: PageContext) {
 
   // We use `app.changePage()` to do Client Routing, see `+onRenderClient`
   objectAssign(app, {
-    changePage: async (pageContext: PageContext) => {
-      let returned = false;
-      let err: unknown;
-      app.config.errorHandler = (err_) => {
-        if (returned) {
-          console.error(err_);
-        } else {
-          err = err_;
-        }
-      }
+    changePage: (pageContext: PageContext) => {
       Object.assign(pageContextReactive, pageContext);
       rootComponent.Page = markRaw(pageContext.Page);
       rootComponent.config = markRaw(pageContext.config);
-      await nextTick();
-      returned = true;
-      if (err) throw err;
     }
   });
 

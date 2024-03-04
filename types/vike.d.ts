@@ -11,7 +11,7 @@ type Component = ComponentPublicInstance; // https://stackoverflow.com/questions
 type Page = Component;
 
 type VikeApp = App<Element> & {
-  changePage: (pageContext: PageContext) => void;
+  changePage: (pageContext: PageContext) => Promise<void>;
 };
 
 type PageContextWithoutExtras = PageContext & { 

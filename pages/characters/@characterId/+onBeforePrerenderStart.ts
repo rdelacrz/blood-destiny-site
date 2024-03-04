@@ -2,5 +2,5 @@
 import { characterList } from "@/utilities";
 
 export async function onBeforePrerenderStart() {
-  return characterList.map((_, i) => "/characters/" + i);
+  return characterList.map((_, index) => "/characters/" + index);
 }

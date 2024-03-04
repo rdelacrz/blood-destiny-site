@@ -75,4 +75,4 @@ const formatDate = (date: Date) => {
   }
   return date;
 }
-</script>./UpdateContent.telefunc
+</script>

@@ -15,7 +15,7 @@ export const playlist: Song[] = [
   {
     title: "Ephemeral Memories",
     artist: "Doommaker",
-    length: "2:42",
+    length: "2:54",
     file: ephemeralMemories,
   },
   {

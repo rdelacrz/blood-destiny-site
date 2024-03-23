@@ -1,6 +1,7 @@
 import { Song } from "@/models";
 
 import ephemeralMemories from "@/assets/audio/ephemeral_memories.mp3";
+import trauma from "@/assets/audio/trauma.mp3";
 import darkDays from "@/assets/audio/dark_days.mp3";
 import endOfTheDream from "@/assets/audio/end_of_the_dream.mp3";
 import calmBeforeTheStorm from "@/assets/audio/calm_before_the_storm.mp3";
@@ -17,6 +18,12 @@ export const playlist: Song[] = [
     artist: "Doommaker",
     length: "2:54",
     file: ephemeralMemories,
+  },
+  {
+    title: "Trauma",
+    artist: "Doommaker",
+    length: "1:53",
+    file: trauma,
   },
   {
     title: "Dark Days",

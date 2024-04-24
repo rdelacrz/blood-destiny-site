@@ -40,7 +40,7 @@ export const playlist: Song[] = [
   {
     title: "Just An Ordinary Day",
     artist: "Doommaker",
-    length: "0:44",
+    length: "1:06",
     file: justAnOrdinaryDay,
   },
   {

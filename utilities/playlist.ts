@@ -29,7 +29,7 @@ export const playlist: Song[] = [
   {
     title: "Echoes of the Nephilim",
     artist: "Doommaker",
-    length: "3:13",
+    length: "3:14",
     file: echoesOfTheNephilim,
   },
   {

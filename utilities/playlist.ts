@@ -3,6 +3,7 @@ import { Song } from "@/models";
 import ephemeralMemories from "@/assets/audio/ephemeral_memories.mp3";
 import trauma from "@/assets/audio/trauma.mp3";
 import darkDays from "@/assets/audio/dark_days.mp3";
+import echoesOfTheNephilim from "@/assets/audio/echoes_of_the_nephilim.mp3";
 import endOfTheDream from "@/assets/audio/end_of_the_dream.mp3";
 import calmBeforeTheStorm from "@/assets/audio/calm_before_the_storm.mp3";
 import justAnOrdinaryDay from "@/assets/audio/just_an_ordinary_day.mp3";
@@ -24,6 +25,12 @@ export const playlist: Song[] = [
     artist: "Doommaker",
     length: "1:53",
     file: trauma,
+  },
+  {
+    title: "Echoes of the Nephilim",
+    artist: "Doommaker",
+    length: "3:13",
+    file: echoesOfTheNephilim,
   },
   {
     title: "Dark Days",

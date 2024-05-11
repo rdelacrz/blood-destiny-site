@@ -4,7 +4,7 @@
         before:bg-gradient-radial before:from-crimson before:from-1% before:to-70%">
       <h2 class="relative font-prosto-one text-[4rem] leading-tight">Blood Destiny OST</h2>
     </div>
-    <div class="relative font-poppins text-lg text-center my-4">The official soundtrack of Blood Destiny, mostly produced by Doommaker</div>
+    <div class="relative font-poppins text-lg text-center my-4">The official soundtrack of Blood Destiny, mostly produced by BloodD.</div>
     <div class="flex justify-center mb-10">
       <AppButton id="playSongBtn" @click="() => playSoundtrack()">Play</AppButton>
     </div>

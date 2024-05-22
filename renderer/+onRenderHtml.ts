@@ -5,8 +5,6 @@ import { dom } from "@fortawesome/fontawesome-svg-core";
 import { getPageTitle } from "@/utilities";
 import favicon from "./favicon.ico";
 
-import "@/styles/global.scss";
-
 const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRenderHtmlAsync> => {
   const { htmlStream } = pageContext;
   const title = getPageTitle(pageContext);

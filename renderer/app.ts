@@ -8,6 +8,8 @@ import type { Component, PageContextWithoutExtras } from "@/types/vike";
 import { objectAssign } from "@/utilities";
 import { vuetify } from './vuetify';
 
+import "@/styles/global.scss";
+
 function createApp(pageContext: PageContext) {
   const { Page } = pageContext;
 

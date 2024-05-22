@@ -6,8 +6,6 @@ import type { VikeApp } from "@/types/vike";
 import { getPageTitle } from "@/utilities";
 import { createApp } from "./app";
 
-import "@/styles/global.scss";
-
 const onBeforeMount = (pageContext: PageContextClient) => {
   const { pinia, queryClient, fromBeforeRender } = pageContext;
   const { piniaInitialState, vueQueryInitialState } = fromBeforeRender;

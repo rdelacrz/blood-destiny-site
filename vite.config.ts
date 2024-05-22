@@ -28,9 +28,7 @@ const config: UserConfig = {
   },
   plugins: [
     vike({
-      prerender: {
-        partial: true,
-      },
+      prerender: true,
     }),
     vue({
       include: [/\.vue$/, /\.md$/],

@@ -10,13 +10,13 @@ import "@/styles/global.scss";
 
 const onBeforeMount = (pageContext: PageContextClient) => {
   const { pinia, queryClient, fromBeforeRender } = pageContext;
-  const { piniaInitialState, vueQueryState } = fromBeforeRender;
+  const { piniaInitialState, vueQueryInitialState } = fromBeforeRender;
 
   // Sets the Pinia store's state to the initial one passed from server-side
   pinia.state.value = piniaInitialState;
 
-  // Hydrates queryClient with dehydrated vueQueryState from server-side
-  hydrate(queryClient, vueQueryState);
+  // Hydrates queryClient with dehydrated vueQueryInitialState from server-side
+  hydrate(queryClient, vueQueryInitialState);
 
   // Disable the automatic insertion of CSS into the head of the document (it is already inserted on server-side)
   config.autoAddCss = false;

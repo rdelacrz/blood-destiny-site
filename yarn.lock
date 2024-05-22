@@ -39,10 +39,17 @@
   resolved "https://registry.yarnpkg.com/@brillout/require-shim/-/require-shim-0.1.2.tgz#a3a93e2f46608735d0363c7f38979fcd1bbfb2ad"
   integrity sha512-3I4LRHnVZXoSAsEoni5mosq9l6eiJED58d9V954W4CIZ88AUfYBanWGBGbJG3NztaRTpFHEA6wB3Hn93BmmJdg==
 
-"@brillout/vite-plugin-server-entry@^0.4.2", "@brillout/vite-plugin-server-entry@^0.4.3":
+"@brillout/vite-plugin-server-entry@^0.4.2":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@brillout/vite-plugin-server-entry/-/vite-plugin-server-entry-0.4.3.tgz#44de8f93479ba1f728a0e99e6877f514ad25a00c"
   integrity sha512-JDWFZOsSJfDo9511r7OJDeNON7x5mwIGNZCi1DQWaVuYK2cs9J/eD3Jwypg4M1ex9iAb/WvI+aSAEfsVGmNeMQ==
+  dependencies:
+    "@brillout/import" "^0.2.3"
+
+"@brillout/vite-plugin-server-entry@^0.4.5":
+  version "0.4.6"
+  resolved "https://registry.yarnpkg.com/@brillout/vite-plugin-server-entry/-/vite-plugin-server-entry-0.4.6.tgz#32f7d65b53a9114c86647d602ae793408db53f14"
+  integrity sha512-VmnbkEVNY9pGnr2ICu+5lFnT3Zz4oblWxKZ1D4kutkzljxDOOBld8oWQI1RVup7c5OiG7XOHFJYYZS38BAXiLw==
   dependencies:
     "@brillout/import" "^0.2.3"
 
@@ -3696,16 +3703,16 @@ vercel@^32.5.3:
     "@vercel/static-build" "2.0.14"
     chokidar "3.3.1"
 
-vike@^0.4.160:
-  version "0.4.160"
-  resolved "https://registry.yarnpkg.com/vike/-/vike-0.4.160.tgz#b13d1503815c8f892b586439beb621fe33e5e4fc"
-  integrity sha512-sC+MR1gkY/wgPSbVOlc05PF429CSja3Cc5Ps7+vgccsIH5fhRTm8gS6TwmEK130stK0xauiS2hK9T7BvFTv5rA==
+vike@0.4.171:
+  version "0.4.171"
+  resolved "https://registry.yarnpkg.com/vike/-/vike-0.4.171.tgz#b7fa670520635a08559207a6a4837709d4aa376e"
+  integrity sha512-B14tkH5AFFSxL/hdkPOREER8gJYvyInubKPNqwFkOCU7vZZxA02N82pSig7ultP9WIFKUmIhU8rV6UKGXFA1LA==
   dependencies:
     "@brillout/import" "^0.2.3"
     "@brillout/json-serializer" "^0.5.8"
     "@brillout/picocolors" "^1.0.10"
     "@brillout/require-shim" "^0.1.2"
-    "@brillout/vite-plugin-server-entry" "^0.4.3"
+    "@brillout/vite-plugin-server-entry" "^0.4.5"
     acorn "^8.0.0"
     cac "^6.0.0"
     es-module-lexer "^1.0.0"

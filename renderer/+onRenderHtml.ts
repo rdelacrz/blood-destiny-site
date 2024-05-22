@@ -21,12 +21,18 @@ const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRender
       </body>
     </html>`;
 
-  return {
-    documentHtml,
-    pageContext: {
+  // Waits until the stream has ended in order for onServerPrefetch to finish collecting data
+  // https://vike.dev/streaming#initial-data-after-stream-end
+  const pageContextPromise = async () => {
+    return {
       // https://vike.dev/stream
       enableEagerStreaming: true
     }
+  }
+
+  return {
+    documentHtml,
+    pageContext: pageContextPromise,
   }
 }
 

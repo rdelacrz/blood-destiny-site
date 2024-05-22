@@ -37,7 +37,7 @@ declare global {
       // Set by onBeforeRender
       fromBeforeRender: {
         piniaInitialState: Record<string, StateTree>,       // For Pinia
-        vueQueryState?: unknown;                    // For vue-query state
+        vueQueryInitialState?: unknown;                    // For vue-query state
       };
 
       config: {

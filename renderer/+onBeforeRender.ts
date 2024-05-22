@@ -15,7 +15,7 @@ export const onBeforeRender: OnBeforeRenderAsync = async (pageContext): ReturnTy
       htmlStream,
       fromBeforeRender: {
         piniaInitialState: pinia.state.value,
-        vueQueryState: { toJSON: () => dehydrate(queryClient) },
+        vueQueryInitialState: { toJSON: () => dehydrate(queryClient) },
       },
     }
   }

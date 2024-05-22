@@ -1,5 +1,8 @@
 <template>
-  <div class="pt-4 pb-20">
+  <template v-if="isLoading">
+    <Loader />
+  </template>
+  <div v-else class="pt-4 pb-20">
     <div v-for="(update, i) in displayedUpdates" :key="update.postId" 
       :class="[
         'py-8 grid gap-20 grid-rows-1 grid-cols-2',
@@ -34,12 +37,13 @@ import { onLoad } from "./UpdateContent.telefunc";
 
 import updateCover from "@/assets/images/graphics/updates/update_cover.png";
 
+import Loader from "@/components/Loader.vue";
 import Pagination from "@/components/Pagination.vue";
 
 const MAX_DISPLAY_PER_PAGE = 3;
 
 // Queries data
-const { data: updateList, suspense } = useQuery({
+const { data: updateList, isLoading, suspense } = useQuery({
   queryKey: ["getUpdatePosts"],
   queryFn: async () => await onLoad(),
 });

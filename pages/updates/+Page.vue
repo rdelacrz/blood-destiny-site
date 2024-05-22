@@ -9,8 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
+import Loader from "@/components/Loader.vue";
 import UpdateContent from "./UpdateContent.vue";
-
-const Loader = defineAsyncComponent(() => import("@/components/Loader.vue"));
 </script>

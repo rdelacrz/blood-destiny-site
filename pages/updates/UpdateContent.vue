@@ -1,8 +1,8 @@
 <template>
-  <template v-if="isLoading">
-    <Loader />
-  </template>
-  <div v-else class="pt-4 pb-20">
+  <div class="pt-4 pb-20">
+    <template v-if="isLoading">
+      <Loader />
+    </template>
     <div v-for="(update, i) in displayedUpdates" :key="update.postId" 
       :class="[
         'py-8 grid gap-20 grid-rows-1 grid-cols-2',

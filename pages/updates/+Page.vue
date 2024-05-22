@@ -3,7 +3,9 @@
   <Suspense>
     <UpdateContent />
     <template #fallback>
-      <Loader />
+      <div class="pt-4 pb-20">
+        <Loader />
+      </div>
     </template>
   </Suspense>
 </template>

@@ -34,7 +34,9 @@ const config: UserConfig = {
       include: [/\.vue$/, /\.md$/],
     }),
     vuetify({ 
-      autoImport: true,
+      styles: {
+        configFile: "styles/_vuetify-settings.scss"
+      }
     }),
     md({}),
     telefunc(),

@@ -35,8 +35,8 @@ const config: UserConfig = {
     }),
     vuetify({ 
       styles: {
-        configFile: "styles/_vuetify-settings.scss"
-      }
+        configFile: "styles/vuetify-settings.scss"
+      },
     }),
     md({}),
     telefunc(),

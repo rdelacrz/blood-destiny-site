@@ -51,24 +51,6 @@ export const playlist: Song[] = [
     file: justAnOrdinaryDay,
   },
   {
-    title: "End Of The Dream",
-    artist: "BlooD.",
-    length: "1:49",
-    file: endOfTheDream,
-  },
-  {
-    title: "Shifting Shoreline",
-    artist: "BlooD.",
-    length: "0:54",
-    file: shiftingShoreline,
-  },
-  {
-    title: "The Cold Night",
-    artist: "BlooD.",
-    length: "2:20",
-    file: theColdNight,
-  },
-  {
     title: "Beginning of the End",
     artist: "BlooD.",
     length: "3:33",

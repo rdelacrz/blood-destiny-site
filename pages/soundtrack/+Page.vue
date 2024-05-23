@@ -27,10 +27,12 @@
               <img v-show="isActive && currentSongIndex === index" :src="icons.voice" alt="Playing Icon" height="18" width="18"
                 class="absolute left-[-25px]"
               />
-              <AppIconButton class="mr-4" @click="() => copyShareLink(index)" 
-                  @mouseover="() => setAllowPlayFlag(false)" @mouseout="() => setAllowPlayFlag(true)"
-                  @focus="() => setAllowPlayFlag(false)" @blur="() => setAllowPlayFlag(true)">
-                  <FontAwesomeIcon :icon="faShareNodes" size="xs" />
+              <AppIconButton class="mr-4" @click="() => copyShareLink(song.file)" 
+                @mouseover="() => setAllowPlayFlag(false)" @mouseout="() => setAllowPlayFlag(true)"
+                @focus="() => setAllowPlayFlag(false)" @blur="() => setAllowPlayFlag(true)"
+                :title="`Share link to ${song.title}`"
+              >
+                <FontAwesomeIcon :icon="faShareNodes" size="xs" />
               </AppIconButton>
               <span class="mr-4">{{song.title}}</span>
             </div>
@@ -40,6 +42,19 @@
         </tr>
       </tbody>
     </table>
+    <v-snackbar
+      :timeout="1500"
+      color="primary"
+      location="top"
+      elevation="24"
+      v-model="shareSnackbar"
+    >
+      <p class="text-white">
+        Song link <a target="_blank" :href="shareSongLink" class="underline">
+          {{ shareSongLink }}
+        </a> copied to clickboard.
+      </p>
+    </v-snackbar>
 
     <audio
       :src="currentSong?.file"
@@ -88,9 +103,12 @@ import voice from "@/assets/images/icons/icon_voice.png";
 import heart from "@/assets/images/icons/icon_heart.png";
 import heartFilled from "@/assets/images/icons/icon_heart_filled.png";
 
+// Needs to be loaded synchronously for Snackbar functionality to work
+import AppIconButton from "@/components/clickable-elements/AppIconButton.vue";
+
 const AudioPlayer = defineAsyncComponent(() => import("@/components/AudioPlayer.vue"));
 const AppButton = defineAsyncComponent(() => import("@/components/clickable-elements/AppButton.vue"));
-const AppIconButton = defineAsyncComponent(() => import("@/components/clickable-elements/AppIconButton.vue"));
+
 
 const icons = {
   heart,
@@ -119,6 +137,8 @@ const playSettings = ref({
   repeat: false,
   shuffle: false,
 });
+const shareSnackbar = ref(false);
+const shareSongLink = ref("");
 
 
 /* Computed variables */
@@ -129,6 +149,14 @@ const currentSong = computed(() => {
   } else {
     return undefined;
   }
+});
+
+const fileToIndexMap = computed(() => {
+  const songMap = playlist.reduce((songMap, song, index) => {
+    songMap[song.file] = index;
+    return songMap;
+  }, {} as {[id: string]: number});
+  return songMap;
 });
 
 
@@ -154,9 +182,11 @@ const playSong = (songIndex: number) => {
   }
 }
 
-const copyShareLink = (songIndex: number) => {
-  const copyUrl = `${window.location.origin}${pageContext.urlPathname}?playOnLoad=${songIndex}`;
-  copy(copyUrl);
+const copyShareLink = (songFile: string) => {
+  const encodedFileName = encodeURIComponent(songFile);
+  shareSongLink.value = `${window.location.origin}${pageContext.urlPathname}?playOnLoad=${encodedFileName}`;
+  shareSnackbar.value = true;
+  copy(shareSongLink.value);
 }
 
 const setAllowPlayFlag = (allowPlayFlag: boolean) => {
@@ -281,10 +311,11 @@ const handleAudioVolumeChange = (event: Event) => {
 const handleAudioPlayerOnMounted = () => {
   const playOnLoadParams = pageContext.urlParsed.searchAll["playOnLoad"];
   if (playOnLoadParams?.length) {
-    const playOnLoad = Number.parseInt(playOnLoadParams[0], 10);
-    if (!Number.isNaN(playOnLoad) && playOnLoad < playlist.length) {
+    const decodedFile = decodeURIComponent(playOnLoadParams[0]);
+    const songIndex = fileToIndexMap.value[decodedFile];
+    if (!Number.isNaN(songIndex) && songIndex < playlist.length) {
       isActive.value = true;
-      currentSongIndex.value = playOnLoad;
+      currentSongIndex.value = songIndex;
     }
   }
 }

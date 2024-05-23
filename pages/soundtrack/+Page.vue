@@ -56,6 +56,7 @@
       :currentSong="currentSong"
       :isPlaying="isPlaying"
       :isActive="isActive"
+      :triggeredByUser="triggeredByUser"
       :timeParam="timeParam"
       :volumeParam="volumeParam"
       :playSettings="playSettings"
@@ -68,6 +69,7 @@
       @volumeToggle="handleVolumeToggle"
       @volumeUpdate="handleVolumeUpdate"
       @close="handleClose"
+      @onMounted="handleAudioPlayerOnMounted"
     />
   </div>
 </template>
@@ -75,6 +77,7 @@
 <script setup lang="ts">
 
 import { computed, defineAsyncComponent, ref } from "vue";
+import { usePageContext } from "@/hooks";
 import { playlist } from "@/utilities";
 
 import voice from "@/assets/images/icons/icon_voice.png";
@@ -91,9 +94,12 @@ const icons = {
   voice,
 };
 
+const pageContext = usePageContext();
+
 /* Refs */
 const audioElem = ref<HTMLAudioElement>();
 const isActive = ref<boolean | undefined>(undefined);
+const triggeredByUser = ref<boolean | undefined>(false);    // Audio cannot play without user interaction
 const allowPlay = ref(true);    // Only false when focusing/clicking favorite button
 const isPlaying = ref(false);
 const currentSongIndex = ref(-1);
@@ -134,6 +140,7 @@ const playSoundtrack = () => {
 }
 
 const playSong = (songIndex: number) => {
+  triggeredByUser.value = true;
   if (allowPlay.value) {
     isActive.value = true;
     if (currentSongIndex.value === songIndex) {
@@ -174,12 +181,13 @@ const handlePreviousSong = () => {
 }
 
 const handlePlayOrPauseSong = () => {
+  triggeredByUser.value = true;
   if (isPlaying.value) {
     audioElem.value?.pause();
   } else {
     // Means song has not been loaded yet
     if (currentSongIndex.value < 0) {
-      currentSongIndex.value = 0;  // emits update:songIndex
+      currentSongIndex.value = 0;
     } else {
       audioElem.value?.play();
     }
@@ -241,8 +249,10 @@ const handleClose = () => {
 
 const handleCanPlayChange = () => {
   // Means either a new song has been traversed to while previous one was still playing, or no song has been played yet
-  audioElem.value?.play();
-  updateIsPlayingState();
+  if (triggeredByUser.value) {
+    audioElem.value?.play();
+    updateIsPlayingState();
+  }
 }
 
 const handleEnded = () => {
@@ -272,6 +282,17 @@ const handleAudioDurationChange = (event: Event) => {
 
 const handleAudioVolumeChange = (event: Event) => {
   volumeParam.value.currentVolume = (event.target as HTMLAudioElement).volume;
+}
+
+const handleAudioPlayerOnMounted = () => {
+  const playOnLoadParams = pageContext.urlParsed.searchAll["playOnLoad"];
+  if (playOnLoadParams?.length) {
+    const playOnLoad = Number.parseInt(playOnLoadParams[0], 10);
+    if (!Number.isNaN(playOnLoad) && playOnLoad < playlist.length) {
+      isActive.value = true;
+      currentSongIndex.value = playOnLoad;
+    }
+  }
 }
 
 

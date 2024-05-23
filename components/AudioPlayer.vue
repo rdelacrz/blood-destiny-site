@@ -21,7 +21,7 @@
           <FontAwesomeIcon :icon="faBackwardStep" />
         </AppIconButton>
         <AppIconButton @click="handlePlayOrPauseButton">
-          <FontAwesomeIcon :icon="isPlaying ? faPause : faPlay" />
+          <FontAwesomeIcon :icon="isPlaying ? faPause : faPlay" :beat="!triggeredByUser" />
         </AppIconButton>
         <AppIconButton @click="handleNextSongButton">
           <FontAwesomeIcon :icon="faForwardStep" />
@@ -54,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent } from "vue";
+import { computed, onMounted } from "vue";
 import { 
   faBackwardStep, 
   faForwardStep, 
@@ -65,10 +65,9 @@ import {
   faXmark
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import AppIconButton from "@/components/clickable-elements/AppIconButton.vue";
+import Slider from "@/components/Slider.vue";
 import { Song } from "@/models";
-
-const AppIconButton = defineAsyncComponent(() => import("@/components/clickable-elements/AppIconButton.vue"));
-const Slider = defineAsyncComponent(() => import("@/components/Slider.vue"));
 
 // Font Awesome does not have a free icon for medium volume, so custom volume set is used instead
 import volumeHighIcon from "@/assets/images/icons/icon_volume_high.svg";
@@ -81,6 +80,7 @@ const props = defineProps<{
   currentSong?: Song;
   isPlaying?: boolean;
   isActive?: boolean;
+  triggeredByUser?: boolean;
   timeParam: { currentTime: number; duration: number; };
   volumeParam: { currentVolume: number; muted: boolean; };
   playSettings: { repeat: boolean; shuffle: boolean; };
@@ -96,6 +96,7 @@ const emits = defineEmits([
   "volumeToggle",
   "volumeUpdate",
   "close",
+  "onMounted",
 ]);
 
 const volumeIcon = computed(() => {
@@ -150,6 +151,14 @@ const handleVolumeUpdate = (value: number) => {
 const handleClose = (event: Event) => {
   emits("close", event);
 }
+
+/* Lifecycle functions */
+
+onMounted(() => {
+  emits("onMounted");
+});
+
+
 
 /* Utility functions */
 

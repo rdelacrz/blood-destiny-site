@@ -1,7 +1,10 @@
 <template>
   <div class="flex flex-col min-h-screen bg-blue-dark text-white">
     <PageHeader />
-    <div class="page-content flex-auto">
+    <div :class="[
+      'page-content flex-auto',
+      {'bg-tower-red-sky bg-cover bg-center h-fit md:h-[700px] xl:h-[800px] mb-20': isHomePage}
+    ]">
       <div v-if="!isHomePage" :class="[
           'bg-black py-[150px] text-center relative z-10 bg-cover bg-center', 
           {'bg-black': !backgroundClass, [backgroundClass]: !!backgroundClass}

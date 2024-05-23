@@ -22,6 +22,7 @@ export default {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "tower-red-sky": "url('/assets/images/backgrounds/bkgd_tower_red_sky.png')",
         "plane-night": "url('/assets/images/backgrounds/bkgd_plane_night.png')",
         "red-town": "url('/assets/images/backgrounds/bkgd_town_red_sky.png')",
         "valley-night": "url('/assets/images/backgrounds/bkgd_valley_night.png')",

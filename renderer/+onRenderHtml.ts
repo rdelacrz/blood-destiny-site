@@ -15,8 +15,8 @@ const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRender
       <head>
         <title>${title}</title>
         <link rel="icon" href="${favicon}">
-        <meta property="og:title" content="${title}" />
-        <meta property="og:image" content="${towerRedSkyPng}" />
+        <meta property="og:title" content="${title}">
+        <meta property="og:image" content="${towerRedSkyPng}">
         <style type="text/css">${dangerouslySkipEscape(dom.css())}</style>
       </head>
       <body>

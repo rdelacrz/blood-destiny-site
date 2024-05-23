@@ -27,10 +27,10 @@
               <img v-show="isActive && currentSongIndex === index" :src="icons.voice" alt="Playing Icon" height="18" width="18"
                 class="absolute left-[-25px]"
               />
-              <AppIconButton class="mr-4" @click="() => toggleFavorite(index)" 
+              <AppIconButton class="mr-4" @click="() => copyShareLink(index)" 
                   @mouseover="() => setAllowPlayFlag(false)" @mouseout="() => setAllowPlayFlag(true)"
                   @focus="() => setAllowPlayFlag(false)" @blur="() => setAllowPlayFlag(true)">
-                <img class="" :src="getFavoriteIcon(index)" alt="Heart Icon" height="15" width="17" />
+                  <FontAwesomeIcon :icon="faShareNodes" size="xs" />
               </AppIconButton>
               <span class="mr-4">{{song.title}}</span>
             </div>
@@ -77,8 +77,12 @@
 <script setup lang="ts">
 
 import { computed, defineAsyncComponent, ref } from "vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import copy from "clipboard-copy";
 import { usePageContext } from "@/hooks";
 import { playlist } from "@/utilities";
+
+import { faShareNodes } from "@fortawesome/free-solid-svg-icons";
 
 import voice from "@/assets/images/icons/icon_voice.png";
 import heart from "@/assets/images/icons/icon_heart.png";
@@ -100,7 +104,7 @@ const pageContext = usePageContext();
 const audioElem = ref<HTMLAudioElement>();
 const isActive = ref<boolean | undefined>(undefined);
 const triggeredByUser = ref<boolean | undefined>(false);    // Audio cannot play without user interaction
-const allowPlay = ref(true);    // Only false when focusing/clicking favorite button
+const allowPlay = ref(true);    // Only false when focusing/clicking share button
 const isPlaying = ref(false);
 const currentSongIndex = ref(-1);
 const timeParam = ref({
@@ -115,7 +119,6 @@ const playSettings = ref({
   repeat: false,
   shuffle: false,
 });
-const favorites = ref(playlist.map(_ => false));
 
 
 /* Computed variables */
@@ -151,18 +154,9 @@ const playSong = (songIndex: number) => {
   }
 }
 
-const toggleFavorite = (songIndex: number) => {
-  const favoritesCopy = favorites.value.slice();
-  favoritesCopy[songIndex] = !favoritesCopy[songIndex];
-  favorites.value = favoritesCopy;
-}
-
-const getFavoriteIcon = (songIndex: number) => {
-  if (songIndex < favorites.value.length) {
-    const isFavorite = favorites.value[songIndex];
-    return isFavorite ? icons.heartFilled : icons.heart;
-  }
-  return icons.heart;
+const copyShareLink = (songIndex: number) => {
+  const copyUrl = `${window.location.origin}${pageContext.urlPathname}?playOnLoad=${songIndex}`;
+  copy(copyUrl);
 }
 
 const setAllowPlayFlag = (allowPlayFlag: boolean) => {

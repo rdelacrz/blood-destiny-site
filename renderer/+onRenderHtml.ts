@@ -2,6 +2,7 @@
 import { escapeInject, dangerouslySkipEscape } from "vike/server";
 import type { OnRenderHtmlAsync } from "vike/types";
 import { dom } from "@fortawesome/fontawesome-svg-core";
+import towerRedSkyPng from "@/assets/images/backgrounds/bkgd_tower_red_sky.png";
 import { getPageTitle } from "@/utilities";
 import favicon from "./favicon.ico";
 
@@ -14,6 +15,8 @@ const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRender
       <head>
         <title>${title}</title>
         <link rel="icon" href="${favicon}">
+        <meta property="og:title" content="${title}" />
+        <meta property="og:image" content="${towerRedSkyPng}" />
         <style type="text/css">${dangerouslySkipEscape(dom.css())}</style>
       </head>
       <body>

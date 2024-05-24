@@ -5,7 +5,7 @@
     </template>
     <div v-for="(update, i) in displayedUpdates" :key="update.postId" 
       :class="[
-        'py-8 grid gap-20 grid-rows-1 grid-cols-2',
+        'py-8 grid gap-20 grid-rows-1 grid-cols-1 lg:grid-cols-2',
         i < displayedUpdates.length - 1 ? 'border-b border-white' : undefined
       ]"
     >
@@ -18,8 +18,9 @@
         </div>
         <div v-html="update.description" class="font-poppins injected-html" />
       </div>
-      <div class="self-center justify-self-center flex items-center justify-center h-[600px] w-[600px]
-        before:absolute before:block before:h-[600px] before:w-[600px] before:p-10
+      <div class="hidden lg:flex self-center justify-self-center items-center justify-center 
+        h-[400px] lg:h-[600px] w-[400px] lg:w-[600px]
+        before:absolute before:block before:h-[400px] before:lg:h-[600px] before:w-[400px] before:lg:w-[600px] before:p-10
         before:bg-gradient-radial before:from-crimson before:from-1% before:to-70% before:opacity-40"
       >
         <img class="relative" :src="updateCover" alt ="Update Cover" />

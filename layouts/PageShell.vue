@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen bg-blue-dark text-white">
+  <div class="flex flex-col min-h-screen bg-blue-dark text-white overflow-x-hidden">
     <PageHeader />
     <div :class="[
       'page-content flex-auto',

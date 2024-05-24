@@ -34,7 +34,6 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps } from "vue";
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import AppIconLink from "@/components/clickable-elements/AppIconLink.vue";
 import AppLink from "@/components/clickable-elements/AppLink.vue";

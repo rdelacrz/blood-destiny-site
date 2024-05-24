@@ -1,13 +1,14 @@
 <template>
   <header>
-    <!-- Never display DesktopHeader in mobile environments -->
-    <DesktopHeader v-if="!hasMobileUserAgent" />
+    <!-- Never display DesktopHeader in mobile environments. TODO: Implement further-->
+    <DesktopHeader />
 
     <!-- 
       Desktop environments can potentially display MobileHeader with smaller widths.
       Mobile environments will always display MobileHeader.
+      TODO: Implement further
     -->
-    <MobileHeader :hasMobileUserAgent="hasMobileUserAgent" />
+    <MobileHeader />
   </header>
 </template>
 

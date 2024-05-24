@@ -1,5 +1,5 @@
 <template>
-  <header class="block sm:hidden">
+  <div :class="['block', {'sm:hidden': !hasMobileUserAgent}]">
     <div class="menu-button-container">
       <button class="menu-button" @click="toggleMenu">
         <FontAwesomeIcon class="text-white" :icon="icons.bars" />
@@ -15,32 +15,27 @@
         <li><AppLink to="/contact" @click="toggleMenu">Contact</AppLink></li>
       </ul>
     </Transition>
-  </header>
+  </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { defineProps, ref } from "vue";
+import AppLink from "@/components/clickable-elements/AppLink.vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import AppLink from "@/components/clickable-elements/AppLink.vue";
 
-export default {
-  name: "page-header",
-  components: {
-    AppLink,
-    FontAwesomeIcon,
-  },
-  data() {
-    return {
-      menuActive: false,
-      icons: {
-        bars: faBars,
-      },
-    }
-  },
-  methods: {
-    toggleMenu() {
-      this.menuActive = !this.menuActive;
-    }
-  },
+defineProps<{
+  hasMobileUserAgent?: boolean;
+}>();
+
+const icons = {
+  bars: faBars,
 }
+
+const menuActive = ref(false);
+
+const toggleMenu = () => {
+  menuActive.value = !menuActive.value;
+}
+
 </script>

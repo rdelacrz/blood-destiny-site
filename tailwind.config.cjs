@@ -30,17 +30,17 @@ export default {
         "temple-entrance": "url('/assets/images/backgrounds/bkgd_temple_entrance.png')",
       },
       boxShadow: {
-        "glow": "0 0 24px 0 var(--tw-shadow)"
+        "glow": "0 0 24px 0 var(--tw-shadow)",
       },
       colors: {
         "crimson": "#FF0000",
         "crimson-light": "#f06965 !important",
         "audio-player": "rgb(117 65 72 / 80%)",
         "blue-dark": "#0A101E",
-        "white-hover": "rgb(85 85 85 / 60%)"
+        "white-hover": "rgb(85 85 85 / 60%)",
       },
       dropShadow: {
-        "subtle-outline": "1px 1px 1px black"
+        "subtle-outline": "1px 1px 1px black",
       },
       fontFamily: {
         "prosto-one": ["Prosto One"],

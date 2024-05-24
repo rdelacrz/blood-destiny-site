@@ -3,12 +3,12 @@
     <PageHeader />
     <div :class="[
       'page-content flex-auto',
-      {'bg-tower-red-sky bg-cover bg-center h-fit md:h-[700px] xl:h-[800px] mb-20': isHomePage}
+      {'bg-tower-red-sky bg-cover bg-center h-fit md:h-[700px] xl:h-[800px] 2xl:h-[900px] mb-20': isHomePage}
     ]">
       <div v-if="!isHomePage" :class="[
-          'bg-black py-[150px] text-center relative z-10 bg-cover bg-center', 
-          {'bg-black': !backgroundClass, [backgroundClass]: !!backgroundClass}
-        ]">
+        'bg-black py-[150px] text-center relative z-10 bg-cover bg-center', 
+        {'bg-black': !backgroundClass, [backgroundClass]: !!backgroundClass}
+      ]">
         <div class="container mx-auto">
           <h1 class="uppercase text-[4rem] font-prosto-one text-shadow">
             {{ pageContext.config.pageTitle }}

@@ -1,5 +1,5 @@
 <template>
-  <header class="hidden sm:flex bg-blue-dark py-9">
+  <div class="hidden sm:flex bg-blue-dark py-9">
     <div class="flex justify-between items-center container mx-auto px-4">
       <a href="/">
         <img :src="logoSrc" alt="Blood Destiny Logo" width="132" />
@@ -30,10 +30,11 @@
         </li>
       </ul>
     </div>
-  </header>
+  </div>
 </template>
 
 <script setup lang="ts">
+import { defineProps } from "vue";
 import { faXTwitter } from "@fortawesome/free-brands-svg-icons";
 import AppIconLink from "@/components/clickable-elements/AppIconLink.vue";
 import AppLink from "@/components/clickable-elements/AppLink.vue";

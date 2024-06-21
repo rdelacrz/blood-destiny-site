@@ -2,6 +2,7 @@ import { Song } from "@/models";
 
 import ephemeralMemories from "@/assets/audio/ephemeral_memories.mp3";
 import trauma from "@/assets/audio/trauma.mp3";
+import warTime from "@/assets/audio/war_time.mp3";
 import darkDays from "@/assets/audio/dark_days.mp3";
 import echoesOfTheNephilim from "@/assets/audio/echoes_of_the_nephilim.mp3";
 import endOfTheDream from "@/assets/audio/end_of_the_dream.mp3";
@@ -25,6 +26,12 @@ export const playlist: Song[] = [
     artist: "BlooD.",
     length: "1:53",
     file: trauma,
+  },
+  {
+    title: "War Time",
+    artist: "BlooD.",
+    length: "2:41",
+    file: warTime,
   },
   {
     title: "Echoes of the Nephilim",

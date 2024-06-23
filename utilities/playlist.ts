@@ -30,7 +30,7 @@ export const playlist: Song[] = [
   {
     title: "War Time",
     artist: "BlooD.",
-    length: "2:41",
+    length: "2:38",
     file: warTime,
   },
   {

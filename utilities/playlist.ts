@@ -2,7 +2,7 @@ import { Song } from "@/models";
 
 import ephemeralMemories from "@/assets/audio/ephemeral_memories.mp3";
 import trauma from "@/assets/audio/trauma.mp3";
-import warTime from "@/assets/audio/war_time.mp3";
+import prepareForWar from "@/assets/audio/prepare_for_war.mp3";
 import darkDays from "@/assets/audio/dark_days.mp3";
 import echoesOfTheNephilim from "@/assets/audio/echoes_of_the_nephilim.mp3";
 import endOfTheDream from "@/assets/audio/end_of_the_dream.mp3";
@@ -28,10 +28,10 @@ export const playlist: Song[] = [
     file: trauma,
   },
   {
-    title: "War Time",
+    title: "Prepare for War",
     artist: "BlooD.",
     length: "2:38",
-    file: warTime,
+    file: prepareForWar,
   },
   {
     title: "Echoes of the Nephilim",

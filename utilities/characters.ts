@@ -74,7 +74,7 @@ export const primaryCharacterList: Character[] = [
     name: 'Zayvion "Lionhart" Freeman',
     description: `
       <p>
-        Zayvion Freeman (more popularly known as "Lionhart") is a popular Commander within the organization Olympia, and a good friend of
+        Zayvion Freeman (more commonly known as "Lionhart") is a popular Commander within the organization Olympia, and a good friend of
         Jack Smith. While Fuyumi Tomoe is serious and reserved, Lionhart in contrast is very laid-back and easygoing. He enjoys conversing
         with others, and will often banter with Jack outside of missions. He leads a squad of three, which comprises of
         Denzel Gray, Ophelia Snow, and Naomi Ito.

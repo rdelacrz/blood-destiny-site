@@ -1,9 +1,9 @@
 import { Breadcrumb } from "@/models";
-import { getCharacter } from "@/utilities";
+import { characterMap } from "@/utilities";
 import type { PageContext } from "vike/types";
 
 export function getBreadcrumbs(pageContext: PageContext) {
-  const character = getCharacter(pageContext.routeParams?.characterId);
+  const character = characterMap[pageContext.routeParams?.characterId || ''];
 
   const breadcrumbs: Breadcrumb[] = [
     {

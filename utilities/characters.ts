@@ -13,8 +13,16 @@ import opheliaSnow from '@/assets/images/characters/ophelia_snow.png';
 import naomiItoTop from '@/assets/images/characters/naomi_ito_top.png';
 import naomiIto from '@/assets/images/characters/naomi_ito.png';
 
-export const characterList: Character[] = [
+import alderZekeTop from '@/assets/images/characters/alder_zeke_top.png';
+import alderZeke from '@/assets/images/characters/alder_zeke.png';
+import koyukiTomoeTop from '@/assets/images/characters/koyuki_tomoe_top.png';
+import koyukiTomoe from '@/assets/images/characters/koyuki_tomoe.png';
+import reyDeloreanTop from '@/assets/images/characters/rey_delorean_top.png';
+import reyDelorean from '@/assets/images/characters/rey_delorean.png';
+
+export const primaryCharacterList: Character[] = [
   {
+    id: 'jackSmith',
     name: 'Jack Smith',
     description: `
       <p>
@@ -41,11 +49,12 @@ export const characterList: Character[] = [
     fullImg: jackSmith,
   },
   {
+    id: 'fuyumiTomoe',
     name: 'Fuyumi Tomoe',
     description: `
       <p>
         Fuyumi Tomoe is a Commander-ranked fighter in the organization Olympia, and the commanding officer of Jack Smith.
-        She is extremely powerful, even by meta-human standards, and is feared throughout the world as the "Ice Demon".
+        She is extremely powerful, even by meta-human standards, and is feared throughout the world as the "Demoness of Ice".
         Among all humans in the world, her strength is believed to be ranked within the top twenty.
       </p>
       <p>
@@ -61,11 +70,12 @@ export const characterList: Character[] = [
     fullImg: fuyumiTomoe,
   },
   {
-    name: 'Lionhart Freeman',
+    id: 'lionhartFreeman',
+    name: 'Zayvion "Lionhart" Freeman',
     description: `
       <p>
-        Lionhart Freeman is a popular Commander within the organization Olympia, and a good friend of Jack Smith. While
-        Fuyumi Tomoe is serious and reserved, Lionhart in contrast is very laid-back and easygoing. He enjoys conversing
+        Zayvion Freeman (more popularly known as "Lionhart") is a popular Commander within the organization Olympia, and a good friend of
+        Jack Smith. While Fuyumi Tomoe is serious and reserved, Lionhart in contrast is very laid-back and easygoing. He enjoys conversing
         with others, and will often banter with Jack outside of missions. He leads a squad of three, which comprises of
         Denzel Gray, Ophelia Snow, and Naomi Ito.
       </p>
@@ -80,6 +90,7 @@ export const characterList: Character[] = [
     fullImg: lionhartFreeman,
   },
   {
+    id: 'denzelGray',
     name: 'Denzel Gray',
     description: `
       <p>
@@ -98,6 +109,7 @@ export const characterList: Character[] = [
     fullImg: denzelGray,
   },
   {
+    id: 'opheliaSnow',
     name: 'Ophelia Snow',
     description: `
       <p>
@@ -117,6 +129,7 @@ export const characterList: Character[] = [
     fullImg: opheliaSnow,
   },
   {
+    id: 'naomiIto',
     name: 'Naomi Ito',
     description: `
       <p>
@@ -143,10 +156,93 @@ export const characterList: Character[] = [
   },
 ];
 
-export const getCharacter = (characterId?: string | number) => {
+export const supportingCharacterList: Character[] = [
+  {
+    id: 'alderZeke',
+    name: 'Alder Zeke',
+    description: `
+      <p>
+        Alder Zeke is the stern former Commander of Jack Smith who has been a member of Olympia since its inception 27 years ago. 
+        He was Jack's Commander for three years before retiring at the beginning of the story.
+      </p>
+      <p>
+        Alder possesses a strong sense of justice, believing that mercenaries have no place on the 
+        battlefield unless they demonstrate grit and determination. Through their numerous battles together, 
+        Alder develops a personal attachment to Jack, drawn to the young warrior's unusually powerful drive. 
+        Over time, Alder comes to regard Jack as if he is one of his own sons. During a mission, Alder is 
+        forced to entrust Jack with temporary leadership of his squad while he pursues a powerful entity that 
+        only he can handle alone. However, Jack's decision during the mission leads to devastating consequences,
+        including multiple casualties and the crippling of Alder's squad members. Taking responsibility for 
+        the incident alongside Jack, Alder is forced to retire from his position, ultimately passing on his 
+        duties to Fuyumi Tomoe.
+      </p>
+    `,
+    topImg: alderZekeTop,
+    fullImg: alderZeke,
+  },
+  {
+    id: 'koyukiTomoe',
+    name: 'Koyuki Tomoe',
+    description: `
+      <p>
+        Koyuki Tomoe is the younger sister of Fuyumi Tomoe and currently training to become a full-fledged mercenary.​ Koyuki is a prodigy at fighting and 
+        extremely naturally talented even at her young age, and is expected to eventually surpass her older sister in power.
+      </p>
+      <p>
+        Koyuki is extremely emotionally attached to Fuyumi, which often leads to possessive behavior when she perceives 
+        other men as being overly familiar with her. Consequently, she tends to act impudently towards Jack Smith whenever she sees him with Fuyumi.
+      </p>
+    `,
+    topImg: koyukiTomoeTop,
+    fullImg: koyukiTomoe,
+  },
+  {
+    id: 'reyDeLorean',
+    name: 'Rey DeLorean',
+    description: `
+      <p>
+        Rey DeLorean is the Chief Engineer of Weapons Technology within the R&D Division of
+        Olympia, and is the owner of the DeLorean Laboratories. She oversees the development 
+        and maintenance of synchro weapons, armaments, and other technologies related to synchronization.
+      </p>
+      </p>
+        She is a hardworking woman who is passionate about her work and takes great pride in the 
+        various weapons that she's developed, which are at the very cutting edge of synchronization 
+        technology. Mercenaries in Olympia can set up appointments with her directly or with her 
+        assistants in order to repair their synchro gear, request the development of new gear customized
+        for their own needs, upgrade their existing gear, and receive synchronization modifications. Jack 
+        Smith's weapons were designed and developed by her, and Jack relies on Rey and her team for 
+        continuous maintenance and upgrades. She is typically friendly with Jack and the other mercenaries
+        that make appointments with her, although she has a scary side that manifests itself whenever her 
+        creations are not well taken care of.
+      </p>
+    `,
+    topImg: reyDeloreanTop,
+    fullImg: reyDelorean,
+  },
+]
+
+export const fullCharacterList = [...primaryCharacterList, ...supportingCharacterList];
+
+export const characterMap = fullCharacterList.reduce((map, character) => {
+  if(!map[character.id]) {
+    map[character.id] = character;
+  }
+  return map;
+}, {} as {[id: string]: Character});
+
+export const getPrimaryCharacter = (characterId?: string | number) => {
   const index = Number(characterId || 0);
-  const character = index < characterList.length
-    ? characterList[index]
-    : characterList[0];
+  const character = index < primaryCharacterList.length
+    ? primaryCharacterList[index]
+    : primaryCharacterList[0];
+  return character;
+}
+
+export const getSupportingCharacter = (characterId?: string | number) => {
+  const index = Number(characterId || 0);
+  const character = index < supportingCharacterList.length
+    ? supportingCharacterList[index]
+    : supportingCharacterList[0];
   return character;
 }

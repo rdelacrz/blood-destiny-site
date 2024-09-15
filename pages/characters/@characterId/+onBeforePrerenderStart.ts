@@ -1,6 +1,6 @@
 // https://vike.dev/onBeforePrerenderStart
-import { characterList } from "@/utilities";
+import { fullCharacterList } from "@/utilities";
 
 export async function onBeforePrerenderStart() {
-  return characterList.map((_, index) => "/characters/" + index);
+  return fullCharacterList.map(character => "/characters/" + character.id);
 }

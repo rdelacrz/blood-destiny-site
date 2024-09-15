@@ -26,11 +26,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { usePageContext } from '@/hooks';
-import { getCharacter } from "@/utilities";
+import { characterMap } from "@/utilities";
 import { useGoTo } from "vuetify";
 
 const pageContext = usePageContext();
-const character = computed(() => getCharacter(pageContext.routeParams?.characterId));
+const character = computed(() => characterMap[pageContext.routeParams?.characterId || '']);
 
 const sectionContainer = ref<HTMLDivElement>();
 const showCharacter = ref(false);

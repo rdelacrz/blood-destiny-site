@@ -10,6 +10,7 @@ import calmBeforeTheStorm from "@/assets/audio/calm_before_the_storm.mp3";
 import justAnOrdinaryDay from "@/assets/audio/just_an_ordinary_day.mp3";
 import shiftingShoreline from "@/assets/audio/shifting_shoreline.mp3";
 import theColdNight from "@/assets/audio/the_cold_night.mp3";
+import mementoMori from "@/assets/audio/memento_mori.mp3";
 import beginningOfTheEnd from "@/assets/audio/beginning_of_the_end.mp3";
 import farewell from "@/assets/audio/farewell.mp3";
 import vincentVangloriaTheme from "@/assets/audio/vincent_vangloria_theme.mp3";
@@ -38,6 +39,12 @@ export const playlist: Song[] = [
     artist: "BlooD.",
     length: "3:14",
     file: echoesOfTheNephilim,
+  },
+  {
+    title: "Memento Mori",
+    artist: "BlooD.",
+    length: "1:39",
+    file: mementoMori,
   },
   {
     title: "Dark Days",

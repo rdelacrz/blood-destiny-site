@@ -7,8 +7,8 @@
       <div v-html="character.description" class="font-poppins injected-html" />
     </div>
     <div ref="sectionContainer" class="self-center justify-self-center flex items-center justify-center
-        before:absolute before:block before:h-[700px] before:w-[700px] before:p-10
-        before:bg-gradient-radial before:from-crimson before:from-1% before:to-70% before:opacity-40"
+        before:absolute before:block before:p-10 before:bg-gradient-radial before:from-crimson before:from-1% 
+        before:to-70% before:opacity-40 before:h-[400px] before:w-[400px] before:lg:h-[700px] before:lg:w-[700px]"
       >
       <img 
         :class="[

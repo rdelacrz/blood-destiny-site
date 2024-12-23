@@ -14,6 +14,7 @@ import mementoMori from "@/assets/audio/memento_mori.mp3";
 import beginningOfTheEnd from "@/assets/audio/beginning_of_the_end.mp3";
 import farewell from "@/assets/audio/farewell.mp3";
 import vincentVangloriaTheme from "@/assets/audio/vincent_vangloria_theme.mp3";
+import callOfTheAncients from "@/assets/audio/call_of_the_ancients.mp3";
 
 export const playlist: Song[] = [
   {
@@ -39,6 +40,12 @@ export const playlist: Song[] = [
     artist: "BlooD.",
     length: "3:14",
     file: echoesOfTheNephilim,
+  },
+  {
+    title: "Call of the Ancients",
+    artist: "BlooD.",
+    length: "2:55",
+    file: callOfTheAncients,
   },
   {
     title: "Memento Mori",

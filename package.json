@@ -28,9 +28,9 @@
     "express": "^4.18.2",
     "node-fetch": "^2.6.1",
     "pinia": "^2.1.7",
-    "telefunc": "^0.1.72",
+    "telefunc": "^0.1.82",
     "unplugin-vue-markdown": "^0.26.2",
-    "vike": "0.4.171",
+    "vike": "^0.4.210",
     "vite": "^5.2.11",
     "vue": "^3.3.4",
     "vuetify": "^3.5.2"

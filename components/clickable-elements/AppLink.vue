@@ -1,18 +1,25 @@
 <template>
   <div :class="['p-[10px] border', {'border-crimson': active, 'border-transparent': !active}]">
-    <a :href="to" :class="[
-        'font-poppins leading-6 uppercase transition-color ease-in-out duration-300', 
-        {'text-crimson ': active, 'text-white hover:text-crimson-light': !active}
-      ]"
-    >
+    <AppBaseLink :href="to" :class="[
+      'font-poppins leading-6 uppercase transition-color ease-in-out duration-300', 
+      {
+        'text-crimson ': active,
+        'text-white hover:text-crimson-light': !active,
+        'pointer-events-auto': allowNavigation,
+        'pointer-events-none': !allowNavigation,
+      }
+    ]">
       <slot />
-    </a>
+    </AppBaseLink>
   </div>
 </template> 
 
 <script setup lang="ts">
-import { usePageContext } from "@/hooks";
+import AppBaseLink from "@/components/clickable-elements/AppBaseLink.vue";
+import { useClientSideRendering, usePageContext } from "@/hooks";
 import { computed } from "vue";
+
+const allowNavigation = useClientSideRendering();
 
 const props = defineProps<{
   linkClass?: string;

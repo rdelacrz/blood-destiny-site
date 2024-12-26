@@ -1,10 +1,11 @@
 <template>
-  <a :href='href' :target="target">
+  <AppBaseLink :href='href' :target="target">
     <FontAwesomeIcon class="text-white text-[1.75rem]" :icon="icon" />
-  </a>
+  </AppBaseLink>
 </template> 
 
 <script setup lang="ts">
+import AppBaseLink from "@/components/clickable-elements/AppBaseLink.vue";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 

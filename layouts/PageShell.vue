@@ -19,11 +19,11 @@
           <div class="text-[1.625rem] font-medium">
             <template v-for="breadcrumb in breadcrumbs">
               <template v-if="!!breadcrumb.url">
-                <a class="transition-color ease-in-out duration-300 hover:text-crimson-light drop-shadow-subtle-outline" 
+                <AppBaseLink class="transition-color ease-in-out duration-300 hover:text-crimson-light drop-shadow-subtle-outline" 
                   :href="breadcrumb.url"
                 >
                   {{ breadcrumb.text }}
-                </a> /
+                </AppBaseLink> /
               </template>
               <span v-else class="text-crimson drop-shadow-subtle-outline">
                 {{ breadcrumb.text }}
@@ -50,6 +50,7 @@ import { useDialogStore } from "@/store";
 import PageFooter from "./footer/Footer.vue";
 import PageHeader from "./header/Header.vue";
 
+import AppBaseLink from "@/components/clickable-elements/AppBaseLink.vue";
 const Dialog = defineAsyncComponent(() => import("@/components/Dialog.vue"));
 
 const store = useDialogStore();

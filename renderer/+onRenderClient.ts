@@ -2,6 +2,8 @@
 import type { OnRenderClientAsync, PageContextClient } from "vike/types";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { hydrate } from "@tanstack/vue-query";
+import { inject } from "@vercel/analytics";
+import { injectSpeedInsights } from "@vercel/speed-insights";
 import type { VikeApp } from "@/types/vike";
 import { getPageTitle } from "@/utilities";
 import { createApp } from "./app";
@@ -18,6 +20,10 @@ const onBeforeMount = (pageContext: PageContextClient) => {
 
   // Disable the automatic insertion of CSS into the head of the document (it is already inserted on server-side)
   config.autoAddCss = false;
+
+  // Injects Vercel analytics and speed insights client-side only once
+  inject();
+  injectSpeedInsights();
 }
 
 let app: VikeApp;

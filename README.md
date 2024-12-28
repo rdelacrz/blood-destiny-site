@@ -25,4 +25,3 @@ To build the website for production, run the following command below. All files 
 ```
 yarn vercel-build
 ```
-

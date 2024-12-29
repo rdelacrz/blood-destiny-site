@@ -1,15 +1,26 @@
 <template>
   <div class="flex flex-col min-h-screen bg-blue-dark text-white overflow-x-hidden">
     <PageHeader />
-    <div :class="[
-      'page-content flex-auto',
-      {'bg-tower-red-sky bg-cover bg-center h-fit md:h-[700px] xl:h-[800px] 2xl:h-[900px] mb-20': isHomePage}
-    ]">
-      <div v-if="!isHomePage" :class="[
-        'bg-black py-[150px] text-center relative z-10 bg-cover bg-center', 
-        {'bg-black': !backgroundClass, [backgroundClass]: !!backgroundClass}
-      ]">
-        <div class="container mx-auto">
+    <div class="page-content flex-auto relative">
+      <div v-if="isHomePage" class="w-full sm:h-[500px] md:h-[700px] xl:h-[800px] 2xl:h-[900px] mb-20">
+        <Image
+          class="absolute object-cover sm:h-[500px] md:h-[700px] xl:h-[800px] 2xl:h-[900px]"
+          src="https://blood-destiny.imgix.net/backgrounds/bkgd_tower_red_sky.png"
+          layout="fullWidth"
+          priority
+        />
+        <main class="container mx-auto px-4 lg:px-16">
+          <slot />
+        </main>
+      </div>
+      <div v-else class='text-center relative z-10 min-h-[520px]'>
+        <Image
+          class="absolute object-cover h-[520px]"
+          :src="backgroundUrl"
+          priority
+          layout="fullWidth"
+        />
+        <div class="relative container mx-auto py-[150px] h-[520px]">
           <h1 class="uppercase text-[4rem] font-prosto-one text-shadow">
             {{ pageContext.config.pageTitle }}
           </h1>
@@ -31,10 +42,10 @@
             </template>
           </div>
         </div>
+        <main class="container mx-auto px-4 lg:px-16">
+          <slot />
+        </main>
       </div>
-      <main class="container mx-auto px-4 lg:px-16">
-        <slot />
-      </main>
     </div>
     <PageFooter />
 
@@ -45,6 +56,7 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { computed, defineAsyncComponent } from "vue";
+import { Image } from "@unpic/vue";
 import { usePageContext } from "@/hooks";
 import { useDialogStore } from "@/store";
 import PageFooter from "./footer/Footer.vue";
@@ -68,5 +80,5 @@ const breadcrumbs = computed(() => {
   }
 });
 
-const backgroundClass = computed(() => pageContext.config.pageBackgroundClass);
+const backgroundUrl = computed(() => pageContext.config.backgroundUrl || '');
 </script>

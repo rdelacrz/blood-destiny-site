@@ -17,6 +17,7 @@
     "@fortawesome/vue-fontawesome": "^3.0.5",
     "@sendgrid/mail": "^7.7.0",
     "@tanstack/vue-query": "^5.8.1",
+    "@unpic/vue": "^0.0.51",
     "@vercel/analytics": "^1.4.1",
     "@vercel/postgres": "^0.10.0",
     "@vercel/speed-insights": "^1.1.0",

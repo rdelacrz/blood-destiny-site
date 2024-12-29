@@ -6,5 +6,5 @@ export default {
     Reach out to our team if you have any questions or concerns regarding Blood Destiny, or if you simply wish to 
     report any bugs that you find within the visual novel.
   `,
-  pageBackgroundClass: "bg-plane-night",
+  backgroundUrl: "https://blood-destiny.imgix.net/backgrounds/bkgd_temple_hallway.png"
 }

@@ -17,7 +17,7 @@ export default {
     pageDescription: {
       env: { server: true, client: true },
     },
-    pageBackgroundClass: {
+    backgroundUrl: {
       env: { server: true, client: true },
     },
     getBreadcrumbs: {

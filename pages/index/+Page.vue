@@ -1,5 +1,5 @@
 <template>
-  <div class="py-20">
+  <div class="relative py-20">
     <div class="text-[2.5rem] leading-tight font-prosto-one">
       Ashes Aflame Presents
     </div>

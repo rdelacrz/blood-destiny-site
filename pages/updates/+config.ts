@@ -6,5 +6,5 @@ export default {
     This section will contain updates from out team, which will be periodically made as progress is made on 
     Blood Destiny's development.
   `,
-  pageBackgroundClass: "bg-temple-entrance",
+  backgroundUrl: "https://blood-destiny.imgix.net/backgrounds/bkgd_temple_entrance.png"
 }

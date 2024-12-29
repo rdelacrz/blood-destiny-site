@@ -56,8 +56,8 @@ declare global {
         /** Description of a given page. */
         pageDescription?: string;
 
-        /** Background image class of a given page. */
-        pageBackgroundClass?: any;
+        /** URL pointing to background image.  */
+        backgroundUrl?: string;
 
         /** Generates breadcrumbs for the page. */
         getBreadcrumbs?: (pageContext: PageContext) => Breadcrumb[];

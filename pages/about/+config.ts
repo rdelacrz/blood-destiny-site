@@ -6,5 +6,5 @@ export default {
     We are a small group of visual novel enthusiasts with a unique set of skill sets, and collectively we are known as Ashes Aflame.
     Blood Destiny is a visual novel that we have spent years working on behind the scenes.
   `,
-  pageBackgroundClass: "bg-red-town",
+  backgroundUrl: "https://blood-destiny.imgix.net/backgrounds/bkgd_town_red_sky.png"
 }

@@ -8,7 +8,7 @@
     <div class="grid gap-x-5 gap-y-12 grid-rows-6 md:grid-rows-3 xl:grid-rows-2 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mb-20">
       <div v-bind:key="character.id" v-for="character in primaryCharacterList">
         <div class="bg-blue-dark border border-crimson shadow-glow shadow-crimson mb-8">
-          <img :src="character.topImg" :alt="character.name" />
+          <Image :src="character.topImg" :alt="character.name" />
         </div>
         <div class="font-poppins text-2xl mb-2">{{ character.name }}</div>
         <div v-html="character.description" class="font-poppins mb-4 line-clamp-3" />
@@ -29,7 +29,7 @@
   <div class="grid gap-x-5 gap-y-12 grid-rows-6 md:grid-rows-3 xl:grid-rows-2 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 mb-20">
     <div v-bind:key="character.id" v-for="character in supportingCharacterList">
       <div class="bg-blue-dark border border-crimson shadow-glow shadow-crimson mb-8">
-        <img :src="character.topImg" :alt="character.name" />
+        <Image :src="character.topImg" :alt="character.name" />
       </div>
       <div class="font-poppins text-2xl mb-2">{{ character.name }}</div>
       <div v-html="character.description" class="font-poppins mb-4 line-clamp-3" />
@@ -44,6 +44,7 @@
 
 <script setup lang="ts">
 import { defineAsyncComponent } from "vue";
+import { Image } from "@unpic/vue";
 import { primaryCharacterList, supportingCharacterList } from "@/utilities";
 
 const AppButton = defineAsyncComponent(() => import("@/components/clickable-elements/AppButton.vue"));

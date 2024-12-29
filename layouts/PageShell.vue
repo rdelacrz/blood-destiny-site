@@ -4,7 +4,7 @@
     <div class="page-content flex-auto relative">
       <div v-if="isHomePage" class="w-full sm:h-[500px] md:h-[700px] xl:h-[800px] 2xl:h-[900px] mb-20">
         <Image
-          class="absolute object-cover sm:max-h-[500px] md:max-h-[700px] xl:max-h-[800px] 2xl:max-h-[900px]"
+          class="absolute sm:max-h-[500px] md:max-h-[700px] xl:max-h-[800px] 2xl:max-h-[900px]"
           src="https://blood-destiny.imgix.net/backgrounds/bkgd_tower_red_sky.png"
           layout="fullWidth"
           background="auto"
@@ -17,7 +17,7 @@
       </div>
       <div v-else class='text-center relative z-10 min-h-[520px]'>
         <Image
-          class="absolute object-cover max-h-[520px]"
+          class="absolute max-h-[520px]"
           :src="backgroundUrl"
           layout="fullWidth"
           background="auto"

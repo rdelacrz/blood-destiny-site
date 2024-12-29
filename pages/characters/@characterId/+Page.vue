@@ -10,21 +10,23 @@
         before:absolute before:block before:p-10 before:bg-gradient-radial before:from-crimson before:from-1% 
         before:to-70% before:opacity-40 before:h-[400px] before:w-[400px] before:lg:h-[700px] before:lg:w-[700px]"
       >
-      <img 
+      <Image
         :class="[
           'relative max-h-[700px] transition-all duration-500',
           showCharacter
             ? 'top-0 opacity-100'
             : 'top-[-50px] opacity-0'
         ]"
-        :src="character.fullImg" 
-        :alt="character.name" />
+        :src="character.fullImg"
+        :alt="character.name"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
+import { Image } from "@unpic/vue";
 import { usePageContext } from '@/hooks';
 import { characterMap } from "@/utilities";
 import { useGoTo } from "vuetify";

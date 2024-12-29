@@ -1,25 +1,5 @@
 import { Character } from '@/models';
 
-import jackSmithTop from '@/assets/images/characters/jack_smith_top.png';
-import jackSmith from '@/assets/images/characters/jack_smith.png';
-import fuyumiTomoeTop from '@/assets/images/characters/fuyumi_tomoe_top.png';
-import fuyumiTomoe from '@/assets/images/characters/fuyumi_tomoe.png';
-import lionhartFreemanTop from '@/assets/images/characters/lionhart_freeman_top.png';
-import lionhartFreeman from '@/assets/images/characters/lionhart_freeman.png';
-import denzelGrayTop from '@/assets/images/characters/denzel_gray_top.png';
-import denzelGray from '@/assets/images/characters/denzel_gray.png';
-import opheliaSnowTop from '@/assets/images/characters/ophelia_snow_top.png';
-import opheliaSnow from '@/assets/images/characters/ophelia_snow.png';
-import naomiItoTop from '@/assets/images/characters/naomi_ito_top.png';
-import naomiIto from '@/assets/images/characters/naomi_ito.png';
-
-import alderZekeTop from '@/assets/images/characters/alder_zeke_top.png';
-import alderZeke from '@/assets/images/characters/alder_zeke.png';
-import koyukiTomoeTop from '@/assets/images/characters/koyuki_tomoe_top.png';
-import koyukiTomoe from '@/assets/images/characters/koyuki_tomoe.png';
-import reyDeloreanTop from '@/assets/images/characters/rey_delorean_top.png';
-import reyDelorean from '@/assets/images/characters/rey_delorean.png';
-
 export const primaryCharacterList: Character[] = [
   {
     id: 'jackSmith',
@@ -45,8 +25,8 @@ export const primaryCharacterList: Character[] = [
         The image of that woman has been etched into his memories ever since, and he wonders if he will ever see her again.
       </p>
     `,
-    topImg: jackSmithTop,
-    fullImg: jackSmith,
+    topImg: "https://blood-destiny.imgix.net/characters/jack_smith_top.png",
+    fullImg: "https://blood-destiny.imgix.net/characters/jack_smith.png",
   },
   {
     id: 'fuyumiTomoe',
@@ -65,9 +45,10 @@ export const primaryCharacterList: Character[] = [
       <p>
         She always seeks out the most powerful opponents, with the intention of defeating them and proving to herself (and
         to her father) that she is somebody whose strength deserves acknowledgement.
-      </p>`,
-      topImg: fuyumiTomoeTop,
-    fullImg: fuyumiTomoe,
+      </p>
+    `,
+    topImg: "https://blood-destiny.imgix.net/characters/fuyumi_tomoe_top.png",
+    fullImg: "https://blood-destiny.imgix.net/characters/fuyumi_tomoe.png",
   },
   {
     id: 'lionhartFreeman',
@@ -86,8 +67,8 @@ export const primaryCharacterList: Character[] = [
         sorrow that he felt that day.
       </p>
     `,
-    topImg: lionhartFreemanTop,
-    fullImg: lionhartFreeman,
+    topImg: "https://blood-destiny.imgix.net/characters/lionhart_freeman_top.png",
+    fullImg: "https://blood-destiny.imgix.net/characters/lionhart_freeman.png",
   },
   {
     id: 'denzelGray',
@@ -105,8 +86,8 @@ export const primaryCharacterList: Character[] = [
         is secretly in love with fellow teammate Ophelia Snow but has yet to reveal his feelings for her.
       </p>
     `,
-    topImg: denzelGrayTop,
-    fullImg: denzelGray,
+    topImg: "https://blood-destiny.imgix.net/characters/denzel_gray_top.png",
+    fullImg: "https://blood-destiny.imgix.net/characters/denzel_gray.png",
   },
   {
     id: 'opheliaSnow',
@@ -125,8 +106,8 @@ export const primaryCharacterList: Character[] = [
         personal insecurities and looks up to Jack Smith due to his unwavering confidence and desire to grow stronger.
       </p>
     `,
-    topImg: opheliaSnowTop,
-    fullImg: opheliaSnow,
+    topImg: "https://blood-destiny.imgix.net/characters/ophelia_snow_top.png",
+    fullImg: "https://blood-destiny.imgix.net/characters/ophelia_snow.png",
   },
   {
     id: 'naomiIto',
@@ -151,8 +132,8 @@ export const primaryCharacterList: Character[] = [
         of her family for several years.
       </p>
     `,
-    topImg: naomiItoTop,
-    fullImg: naomiIto,
+    topImg: "https://blood-destiny.imgix.net/characters/naomi_ito_top.png",
+    fullImg: "https://blood-destiny.imgix.net/characters/naomi_ito.png",
   },
 ];
 
@@ -177,8 +158,8 @@ export const supportingCharacterList: Character[] = [
         duties to Fuyumi Tomoe.
       </p>
     `,
-    topImg: alderZekeTop,
-    fullImg: alderZeke,
+    topImg: "https://blood-destiny.imgix.net/characters/alder_zeke_top.png",
+    fullImg: "https://blood-destiny.imgix.net/characters/alder_zeke.png",
   },
   {
     id: 'koyukiTomoe',
@@ -193,8 +174,8 @@ export const supportingCharacterList: Character[] = [
         other men as being overly familiar with her. Consequently, she tends to act impudently towards Jack Smith whenever she sees him with Fuyumi.
       </p>
     `,
-    topImg: koyukiTomoeTop,
-    fullImg: koyukiTomoe,
+    topImg: "https://blood-destiny.imgix.net/characters/koyuki_tomoe_top.png",
+    fullImg: "https://blood-destiny.imgix.net/characters/koyuki_tomoe.png",
   },
   {
     id: 'reyDeLorean',
@@ -217,8 +198,8 @@ export const supportingCharacterList: Character[] = [
         creations are not well taken care of.
       </p>
     `,
-    topImg: reyDeloreanTop,
-    fullImg: reyDelorean,
+    topImg: "https://blood-destiny.imgix.net/characters/rey_delorean_top.png",
+    fullImg: "https://blood-destiny.imgix.net/characters/rey_delorean.png",
   },
 ]
 

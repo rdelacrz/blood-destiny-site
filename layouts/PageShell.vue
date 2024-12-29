@@ -15,7 +15,7 @@
           <slot />
         </main>
       </div>
-      <div v-else class='text-center relative z-10 min-h-[520px]'>
+      <div v-else class='relative z-10 min-h-[520px]'>
         <Image
           class="absolute max-h-[520px]"
           :src="backgroundUrl"
@@ -24,7 +24,7 @@
           alt="Page Background"
           priority
         />
-        <div class="relative container mx-auto py-[150px] h-[520px]">
+        <div class="relative container mx-auto py-[150px] h-[520px] text-center">
           <h1 class="uppercase text-[4rem] font-prosto-one text-shadow">
             {{ pageContext.config.pageTitle }}
           </h1>

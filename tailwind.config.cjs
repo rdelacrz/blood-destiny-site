@@ -22,12 +22,6 @@ export default {
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "tower-red-sky": "url('/assets/images/backgrounds/bkgd_tower_red_sky.png')",
-        "plane-night": "url('/assets/images/backgrounds/bkgd_temple_hallway.png')",
-        "red-town": "url('/assets/images/backgrounds/bkgd_town_red_sky.png')",
-        "valley-night": "url('/assets/images/backgrounds/bkgd_valley_night.png')",
-        "olympia-hallway": "url('/assets/images/backgrounds/bkgd_olympia_dorms_night.png')",
-        "temple-entrance": "url('/assets/images/backgrounds/bkgd_temple_entrance.png')",
       },
       boxShadow: {
         "glow": "0 0 24px 0 var(--tw-shadow)",

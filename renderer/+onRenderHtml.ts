@@ -2,9 +2,10 @@
 import { escapeInject, dangerouslySkipEscape } from "vike/server";
 import type { OnRenderHtmlAsync } from "vike/types";
 import { dom } from "@fortawesome/fontawesome-svg-core";
-import towerRedSkyPng from "@/assets/images/backgrounds/bkgd_tower_red_sky.png";
 import { getPageTitle } from "@/utilities";
 import favicon from "./favicon.ico";
+
+const mainBackground = "https://blood-destiny.imgix.net/backgrounds/bkgd_tower_red_sky.png";
 
 const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRenderHtmlAsync> => {
   const { htmlStream } = pageContext;
@@ -16,7 +17,7 @@ const onRenderHtml: OnRenderHtmlAsync = async (pageContext): ReturnType<OnRender
         <title>${title}</title>
         <link rel="icon" href="${favicon}">
         <meta property="og:title" content="${title}">
-        <meta property="og:image" content="${towerRedSkyPng}">
+        <meta property="og:image" content="${mainBackground}">
         <style type="text/css">${dangerouslySkipEscape(dom.css())}</style>
       </head>
       <body>

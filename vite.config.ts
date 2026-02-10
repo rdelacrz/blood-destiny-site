@@ -49,8 +49,20 @@ const config: UserConfig = {
       ]
     }),
   ],
-  // We manually add a list of dependencies to be pre-bundled, in order to avoid a page reload at dev start which breaks Vike"s CI
-  optimizeDeps: { include: ["cross-fetch"] },
+  // Optimize dependencies for better performance
+  optimizeDeps: { 
+    include: ["cross-fetch", "@tanstack/vue-query", "pinia"],
+    exclude: ["vite-plugin-vuetify"]
+  },
+  // Enable esbuild for faster builds
+  esbuild: {
+    target: "es2022"
+  },
+  // Configure build options
+  build: {
+    target: "es2022",
+    cssTarget: "chrome61",
+  }
 }
 
 export default config;

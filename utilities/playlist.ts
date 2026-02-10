@@ -63,7 +63,7 @@ export const playlist: Song[] = [
   {
     title: "Dark Days",
     artist: "BlooD.",
-    length: "3:20",
+    length: "3:28",
     file: darkDays,
   },
   {

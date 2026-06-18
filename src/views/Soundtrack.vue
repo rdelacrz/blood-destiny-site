@@ -1,0 +1,343 @@
+<script setup lang="ts">
+/* =====================================================================
+   Soundtrack — player + tracklist with a canvas spectrum visualizer.
+
+   The prototype ships no real audio files, so playback is a UI-only
+   preview: a synthetic crimson→steel equalizer plus a progress ticker
+   driven by each track's listed duration. The visualizer is written to be
+   AnalyserNode-ready — when real `audioUrl`s land (see data/soundtrack.ts)
+   create an AudioContext + MediaElementSource + AnalyserNode for an
+   HTMLAudioElement and feed getByteFrequencyData() into draw().
+   ===================================================================== */
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import BreadCrumb from "../components/BreadCrumb.vue";
+import { prefersReducedMotion } from "../composables/atmosphere";
+import { TRACKS } from "../data/soundtrack";
+
+const tracks = TRACKS;
+const current = ref(0);
+const playing = ref(false);
+const progress = ref(0.0);
+const volume = ref(0.8);
+const canvas = ref<HTMLCanvasElement | null>(null);
+const audioEl = ref<HTMLAudioElement | null>(null);
+
+let raf: number | null = null;
+let t0 = 0;
+
+/* --- Web Audio analyser (lazily built on first real playback) --- */
+let audioCtx: AudioContext | null = null;
+let analyser: AnalyserNode | null = null;
+let freq: Uint8Array<ArrayBuffer> | null = null;
+
+const cur = computed(() => tracks[current.value]);
+/** True when the current track has a real, self-hosted audio file. */
+const hasAudio = computed(() => Boolean(cur.value.audioUrl));
+const durSec = computed(() => {
+  const [m, s] = cur.value.duration.split(":").map(Number);
+  return m * 60 + s;
+});
+const fmt = (sec: number): string => {
+  const v = Math.max(0, Math.floor(sec));
+  return Math.floor(v / 60) + ":" + String(v % 60).padStart(2, "0");
+};
+const curTime = computed(() => fmt(progress.value * durSec.value));
+
+/* --- visualizer (synthetic spectrum; AnalyserNode-ready) --- */
+const BARS = 48;
+const draw = (now: number): void => {
+  const c = canvas.value;
+  if (!c) {
+    raf = null;
+    return;
+  }
+  const ctx = c.getContext("2d");
+  if (!ctx) {
+    raf = null;
+    return;
+  }
+  const w = c.width;
+  const h = c.height;
+  ctx.clearRect(0, 0, w, h);
+  const t = (now - t0) / 1000;
+  const gap = 2;
+  const bw = (w - gap * (BARS - 1)) / BARS;
+  // Real spectrum from the AnalyserNode when audio is actually playing.
+  if (analyser && freq && playing.value) analyser.getByteFrequencyData(freq);
+  for (let i = 0; i < BARS; i++) {
+    const p = i / BARS;
+    let amp: number;
+    if (analyser && freq && playing.value) {
+      const idx = Math.floor(p * freq.length * 0.7);
+      amp = (freq[idx] / 255) * (0.45 + 0.55 * Math.sin(p * Math.PI));
+    } else if (playing.value && !prefersReducedMotion()) {
+      amp =
+        (Math.sin(t * 3 + i * 0.5) * 0.5 + 0.5) *
+        (Math.sin(t * 1.7 + i * 0.22) * 0.4 + 0.6) *
+        (0.35 + 0.65 * Math.sin(p * Math.PI));
+    } else {
+      amp = 0.12 + 0.06 * Math.sin(p * Math.PI);
+    }
+    const bh = Math.max(2, amp * h * 0.92);
+    const x = i * (bw + gap);
+    const grad = ctx.createLinearGradient(0, h, 0, h - bh);
+    grad.addColorStop(0, "#C8102E");
+    grad.addColorStop(1, "#7FB5D6");
+    ctx.fillStyle = grad;
+    ctx.fillRect(x, h - bh, bw, bh);
+  }
+  raf = requestAnimationFrame(draw);
+};
+const startViz = (): void => {
+  if (!raf) {
+    t0 = performance.now();
+    raf = requestAnimationFrame(draw);
+  }
+};
+const stopViz = (): void => {
+  if (raf) {
+    cancelAnimationFrame(raf);
+    raf = null;
+  }
+};
+
+const nextTrack = (): void => {
+  current.value = (current.value + 1) % tracks.length;
+};
+
+/* --- real audio playback (used when the track has audioUrl) --- */
+/** Build the AudioContext → AnalyserNode graph once, on first real play. */
+const ensureGraph = (): void => {
+  if (audioCtx || !audioEl.value) return;
+  const Ctx =
+    window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (!Ctx) return;
+  audioCtx = new Ctx();
+  const srcNode = audioCtx.createMediaElementSource(audioEl.value);
+  analyser = audioCtx.createAnalyser();
+  analyser.fftSize = 128;
+  freq = new Uint8Array(analyser.frequencyBinCount);
+  srcNode.connect(analyser);
+  analyser.connect(audioCtx.destination);
+};
+const playReal = async (): Promise<void> => {
+  const el = audioEl.value;
+  if (!el) return;
+  ensureGraph();
+  if (audioCtx?.state === "suspended") await audioCtx.resume();
+  try {
+    await el.play();
+  } catch {
+    /* autoplay blocked until a user gesture — ignore */
+  }
+};
+
+// progress ticker — drives the UI-only preview for tracks without audioUrl
+let tick: number | null = null;
+const stopTick = (): void => {
+  if (tick) cancelAnimationFrame(tick);
+  tick = null;
+};
+const runTick = (): void => {
+  stopTick();
+  let last = performance.now();
+  const step = (n: number): void => {
+    const dt = (n - last) / 1000;
+    last = n;
+    if (playing.value && !hasAudio.value) {
+      progress.value += dt / durSec.value;
+      if (progress.value >= 1) {
+        progress.value = 0;
+        nextTrack();
+      }
+    }
+    tick = requestAnimationFrame(step);
+  };
+  tick = requestAnimationFrame(step);
+};
+
+const sizeCanvas = (): void => {
+  const c = canvas.value;
+  if (!c) return;
+  const r = c.getBoundingClientRect();
+  c.width = r.width * (window.devicePixelRatio || 1);
+  c.height = r.height * (window.devicePixelRatio || 1);
+};
+
+const toggle = (): void => {
+  if (hasAudio.value) {
+    if (playing.value) audioEl.value?.pause();
+    else void playReal();
+  } else {
+    playing.value = !playing.value;
+  }
+};
+const select = (i: number): void => {
+  audioEl.value?.pause();
+  current.value = i;
+  progress.value = 0;
+  // wait for :src to update to the newly selected track before playing
+  nextTick(() => {
+    if (hasAudio.value) void playReal();
+    else playing.value = true;
+  });
+};
+const seek = (e: MouseEvent): void => {
+  const bar = (e.currentTarget as HTMLElement).getBoundingClientRect();
+  const ratio = Math.min(1, Math.max(0, (e.clientX - bar.left) / bar.width));
+  progress.value = ratio;
+  const el = audioEl.value;
+  if (hasAudio.value && el && el.duration) el.currentTime = ratio * el.duration;
+};
+
+/* --- audio element event handlers --- */
+const onPlay = (): void => {
+  playing.value = true;
+  startViz();
+};
+const onPause = (): void => {
+  playing.value = false;
+};
+const onTime = (): void => {
+  const el = audioEl.value;
+  if (!el) return;
+  const d = el.duration || durSec.value;
+  if (d) progress.value = Math.min(1, el.currentTime / d);
+};
+const onEnded = (): void => {
+  nextTrack();
+  nextTick(() => {
+    progress.value = 0;
+    if (hasAudio.value) void playReal();
+    else playing.value = true; // continue into the preview-only track
+  });
+};
+
+const onVis = (): void => {
+  if (document.hidden) stopViz();
+  else startViz();
+};
+
+onMounted(() => {
+  sizeCanvas();
+  if (audioEl.value) audioEl.value.volume = volume.value;
+  window.addEventListener("resize", sizeCanvas);
+  document.addEventListener("visibilitychange", onVis);
+  startViz();
+  runTick();
+});
+onUnmounted(() => {
+  stopViz();
+  stopTick();
+  audioEl.value?.pause();
+  void audioCtx?.close();
+  window.removeEventListener("resize", sizeCanvas);
+  document.removeEventListener("visibilitychange", onVis);
+});
+
+watch(playing, () => {
+  if (playing.value) startViz();
+});
+watch(volume, (v) => {
+  if (audioEl.value) audioEl.value.volume = v;
+});
+
+const pad2 = (n: number): string => String(n).padStart(2, "0");
+</script>
+
+<template>
+  <div class="route-host">
+    <audio
+      ref="audioEl"
+      :src="cur.audioUrl"
+      preload="none"
+      crossorigin="anonymous"
+      @play="onPlay"
+      @pause="onPause"
+      @timeupdate="onTime"
+      @ended="onEnded"
+    ></audio>
+    <div class="wrap page-head">
+      <BreadCrumb here="Soundtrack" />
+      <div class="label" style="margin-top: 1.4rem">Original Soundtrack</div>
+      <h1>The sound of Blood Destiny</h1>
+      <p class="lead page-intro">
+        The soundtrack of Blood Destiny can be listened to here. This page will be updated as more
+        music is produced &mdash; the OST is mostly produced by
+        <span class="text-crimson">BlooD.</span>
+      </p>
+    </div>
+
+    <section class="section" style="padding-top: 1rem">
+      <div class="wrap" style="display: grid; gap: 1.6rem">
+        <div class="surface player" v-reveal="{ y: 24 }">
+          <div class="player__top">
+            <button class="player__btn" @click="toggle" :aria-label="playing ? 'Pause' : 'Play'">
+              <svg v-if="!playing" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              <svg v-else viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7 5h4v14H7zM13 5h4v14h-4z" />
+              </svg>
+            </button>
+            <div class="player__meta">
+              <div class="player__title">{{ cur.title }}</div>
+              <div class="player__artist">{{ cur.artist }}</div>
+            </div>
+            <div class="vol">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M3 9v6h4l5 5V4L7 9H3z" />
+              </svg>
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                v-model.number="volume"
+                aria-label="Volume"
+              />
+            </div>
+          </div>
+          <canvas class="player__viz" ref="canvas" aria-hidden="true"></canvas>
+          <div class="player__seek">
+            <span>{{ curTime }}</span>
+            <div
+              class="seek-bar"
+              @click="seek"
+              role="slider"
+              :aria-valuenow="Math.round(progress * 100)"
+              aria-label="Seek"
+            >
+              <div class="seek-bar__fill" :style="{ width: progress * 100 + '%' }"></div>
+              <div class="seek-bar__knob" :style="{ left: progress * 100 + '%' }"></div>
+            </div>
+            <span>{{ cur.duration }}</span>
+          </div>
+        </div>
+
+        <div class="surface" style="padding: 0.4rem 0.6rem" v-reveal="{ y: 24, delay: 100 }">
+          <table class="tracklist">
+            <tbody>
+              <tr
+                v-for="(t, i) in tracks"
+                :key="t.n"
+                :class="{ 'is-playing': i === current && playing }"
+                @click="select(i)"
+              >
+                <td class="t-n">
+                  <span v-if="i === current && playing" class="eq">
+                    <span></span><span></span><span></span><span></span>
+                  </span>
+                  <template v-else>{{ pad2(t.n) }}</template>
+                </td>
+                <td><span class="t-title">{{ t.title }}</span></td>
+                <td class="t-artist">{{ t.artist }}</td>
+                <td class="t-time">{{ t.duration }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>

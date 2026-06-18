@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Cascade layer order (authoritative, parsed before any bundled CSS):
+         Vuetify's layers first, then Tailwind's — so Tailwind utility classes
+         override Vuetify component styles without !important. Declared here in
+         the head because CSS minifiers strip standalone @layer statements from
+         bundled stylesheets. -->
+    <style>
+      @layer vuetify-core, vuetify-components, vuetify-overrides, vuetify-utilities,
+        vuetify-final, theme, base, components, utilities;
+    </style>
+    <title>Blood Destiny — A Visual Novel by Ashes Aflame</title>
+    <meta name="description" content="Blood Destiny — a dark supernatural visual novel set in the year 2245. Mercenaries, Synchronizers and the secrets of four supernations. By Ashes Aflame." />
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>
+      <div style="max-width:680px;margin:18vh auto;padding:0 2rem;text-align:center;color:#EFE9DD;font-family:sans-serif">
+        <h1 style="font-family:Georgia,serif">Blood Destiny</h1>
+        <p>This cinematic experience requires JavaScript. Please enable it to enter the world of 2245.</p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

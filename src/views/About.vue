@@ -1,0 +1,113 @@
+<script setup lang="ts">
+/* =====================================================================
+   About — the studio + story, with a scroll-reactive promo key art and
+   the feature grid (each card draws its own SVG motif).
+   ===================================================================== */
+import { onMounted, onUnmounted, ref } from "vue";
+import BreadCrumb from "../components/BreadCrumb.vue";
+import { prefersReducedMotion } from "../composables/atmosphere";
+import { ASSETS, FEATURES, STORY } from "../data/site";
+
+const A = ASSETS;
+const story = STORY;
+const features = FEATURES;
+
+const promo = ref<HTMLElement | null>(null);
+let onScroll: (() => void) | null = null;
+
+onMounted(() => {
+  if (!prefersReducedMotion() && promo.value) {
+    onScroll = (): void => {
+      const host = promo.value;
+      if (!host) return;
+      const r = host.getBoundingClientRect();
+      const off = (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight;
+      const img = host.querySelector<HTMLElement>("img");
+      if (img) img.style.transform = `translateY(${off * -16}px) scale(1.1)`;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+  }
+});
+
+onUnmounted(() => {
+  if (onScroll) window.removeEventListener("scroll", onScroll);
+});
+</script>
+
+<template>
+  <div class="route-host">
+    <div class="wrap page-head">
+      <BreadCrumb here="About" />
+      <div class="label" style="margin-top: 1.4rem">About Us</div>
+      <h1>A story years in the making</h1>
+      <p class="lead page-intro">
+        We are a small group of visual novel enthusiasts &mdash; collectively known as
+        <strong>Ashes Aflame</strong>. Blood Destiny is a visual novel we have spent years working
+        on behind the scenes.
+      </p>
+    </div>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="sec-head" v-reveal="{}"><div class="rule-short"></div><h2>The Story</h2></div>
+        <div class="story" style="max-width: 74ch">
+          <p v-for="(p, i) in story" :key="i" :class="{ drop: i === 0 }" v-reveal="{ y: 20 }">
+            {{ p }}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section promo-section">
+      <div class="wrap">
+        <figure class="promo-panel" ref="promo" v-reveal="{ y: 30 }">
+          <div class="promo-figure">
+            <img
+              :src="A.promo"
+              alt="Jack Smith and Fuyumi Tomoe — promotional key art"
+              loading="lazy"
+            />
+          </div>
+          <figcaption class="promo-caption">
+            <span class="promo-caption__line"></span>
+            <span class="promo-caption__txt">Jack Smith &amp; Fuyumi Tomoe</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap">
+        <div class="sec-head center" v-reveal="{}">
+          <div class="label">What Awaits</div>
+          <h2>More than a story</h2>
+        </div>
+        <div class="feat-grid" v-reveal="{ sel: '.feat', stagger: 90, y: 30 }">
+          <div class="surface feat" v-for="f in features" :key="f.title">
+            <svg
+              class="feat__icon"
+              viewBox="0 0 40 40"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+            >
+              <template v-if="f.motif === 'rune'"><path d="M20 4v32M8 12l24 16M32 12L8 28" /></template>
+              <template v-else-if="f.motif === 'crest'"
+                ><path d="M20 4l14 6v10c0 9-6 14-14 16-8-2-14-7-14-16V10z" /></template
+              >
+              <template v-else-if="f.motif === 'blade'"
+                ><path d="M30 6L14 22l-4 8 8-4L34 10zM12 28l-4 6" /></template
+              >
+              <template v-else
+                ><path d="M6 20h8m12 0h8M20 6v8m0 12v8" /><circle cx="20" cy="20" r="6" /></template
+              >
+            </svg>
+            <h3>{{ f.title }}</h3>
+            <p>{{ f.body }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>

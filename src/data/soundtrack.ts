@@ -4,7 +4,7 @@
    without a produced/imported file omit it and fall back to the UI-only
    preview ticker (see Soundtrack).
    ===================================================================== */
-import { asset } from "./site";
+import { asset } from '@/data/site';
 
 /** Self-hosted audio source helper (public/assets/audio → /assets/audio). */
 const audio = (file: string): string => asset(`audio/${file}`);
@@ -20,18 +20,76 @@ export interface Track {
   audioUrl?: string;
 }
 
-export const TRACKS: Track[] = [
-  { n: 1, title: "Ephemeral Memories", artist: "BlooD.", duration: "2:54", audioUrl: audio("ephemeral_memories.mp3") },
-  { n: 2, title: "Trauma", artist: "BlooD.", duration: "1:53" },
-  { n: 3, title: "Prepare for War", artist: "BlooD.", duration: "2:38" },
-  { n: 4, title: "Echoes of the Nephilim", artist: "BlooD.", duration: "3:14" },
-  { n: 5, title: "Call of the Ancients", artist: "BlooD.", duration: "2:55" },
-  { n: 6, title: "Demoness of Ice", artist: "BlooD.", duration: "2:28" },
-  { n: 7, title: "Memento Mori", artist: "BlooD.", duration: "1:39" },
-  { n: 8, title: "Dark Days", artist: "BlooD.", duration: "3:28", audioUrl: audio("dark_days.mp3") },
-  { n: 9, title: "Calm Before the Storm", artist: "BlooD.", duration: "1:40", audioUrl: audio("calm_before_the_storm.mp3") },
-  { n: 10, title: "Just An Ordinary Day", artist: "BlooD.", duration: "1:28", audioUrl: audio("just_an_ordinary_day.mp3") },
-  { n: 11, title: "Beginning of the End", artist: "BlooD.", duration: "3:33", audioUrl: audio("beginning_of_the_end.mp3") },
-  { n: 12, title: "Farewell", artist: "BigRicePiano", duration: "3:16", audioUrl: audio("farewell.mp3") },
-  { n: 13, title: "Vincent Vangloria's Theme", artist: "Brian R.", duration: "4:05", audioUrl: audio("vincent_vangloria_theme.mp3") },
-];
+export const TRACKS: Track[] = [{
+  n: 1,
+  title: 'Ephemeral Memories',
+  artist: 'BlooD.',
+  duration: '2:54',
+  audioUrl: audio('ephemeral_memories.mp3')
+}, {
+  n: 2,
+  title: 'Trauma',
+  artist: 'BlooD.',
+  duration: '1:53'
+}, {
+  n: 3,
+  title: 'Prepare for War',
+  artist: 'BlooD.',
+  duration: '2:38'
+}, {
+  n: 4,
+  title: 'Echoes of the Nephilim',
+  artist: 'BlooD.',
+  duration: '3:14'
+}, {
+  n: 5,
+  title: 'Call of the Ancients',
+  artist: 'BlooD.',
+  duration: '2:55'
+}, {
+  n: 6,
+  title: 'Demoness of Ice',
+  artist: 'BlooD.',
+  duration: '2:28'
+}, {
+  n: 7,
+  title: 'Memento Mori',
+  artist: 'BlooD.',
+  duration: '1:39'
+}, {
+  n: 8,
+  title: 'Dark Days',
+  artist: 'BlooD.',
+  duration: '3:28',
+  audioUrl: audio('dark_days.mp3')
+}, {
+  n: 9,
+  title: 'Calm Before the Storm',
+  artist: 'BlooD.',
+  duration: '1:40',
+  audioUrl: audio('calm_before_the_storm.mp3')
+}, {
+  n: 10,
+  title: 'Just An Ordinary Day',
+  artist: 'BlooD.',
+  duration: '1:28',
+  audioUrl: audio('just_an_ordinary_day.mp3')
+}, {
+  n: 11,
+  title: 'Beginning of the End',
+  artist: 'BlooD.',
+  duration: '3:33',
+  audioUrl: audio('beginning_of_the_end.mp3')
+}, {
+  n: 12,
+  title: 'Farewell',
+  artist: 'BigRicePiano',
+  duration: '3:16',
+  audioUrl: audio('farewell.mp3')
+}, {
+  n: 13,
+  title: 'Vincent Vangloria\'s Theme',
+  artist: 'Brian R.',
+  duration: '4:05',
+  audioUrl: audio('vincent_vangloria_theme.mp3')
+}];

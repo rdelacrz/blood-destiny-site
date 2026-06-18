@@ -2,8 +2,8 @@
    v-reveal — scroll-into-view fade/slide reveal (CSS-transition driven)
    value: { y?, delay?, stagger?, sel? } — sel = child selector to stagger.
    ===================================================================== */
-import type { Directive } from "vue";
-import { prefersReducedMotion } from "../composables/atmosphere";
+import type { Directive } from 'vue';
+import { prefersReducedMotion } from '@/composables/atmosphere';
 
 export interface RevealOptions {
   /** Initial Y offset in px (defaults to the CSS --rv-y of 26px). */
@@ -32,12 +32,12 @@ export const reveal: Directive<HTMLElement, RevealOptions | undefined> = {
     const start = opt.delay ?? 0;
 
     list.forEach((n, i) => {
-      n.classList.add("reveal");
-      if (opt.y != null) n.style.setProperty("--rv-y", opt.y + "px");
-      n.style.transitionDelay = (start + i * staggerMs) / 1000 + "s";
+      n.classList.add('reveal');
+      if (opt.y != null) n.style.setProperty('--rv-y', opt.y + 'px');
+      n.style.transitionDelay = (start + i * staggerMs) / 1000 + 's';
     });
 
-    const revealAll = (): void => list.forEach((n) => n.classList.add("is-in"));
+    const revealAll = (): void => list.forEach((n) => n.classList.add('is-in'));
 
     if (prefersReducedMotion()) {
       revealAll();
@@ -53,7 +53,7 @@ export const reveal: Directive<HTMLElement, RevealOptions | undefined> = {
           }
         });
       },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
     );
     io.observe(el);
     // safety: guarantee visibility even if IO never fires (offscreen/frozen)

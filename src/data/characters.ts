@@ -7,9 +7,9 @@
 // share one asset base. Files live in `public/assets/images/characters/<file>`
 // and are served at `/assets/images/characters/<file>`. The roster cards instead
 // use the cropped bust (`<file>_top.png`) via `cardPortrait()` below.
-import { portrait } from './site'
+import { portrait } from '@/data/site';
 
-export type CharacterGroup = 'playable' | 'supporting'
+export type CharacterGroup = 'playable' | 'supporting';
 
 export interface Character {
   id: string            // matches the route param, e.g. /characters/jackSmith
@@ -37,7 +37,7 @@ export const characters: Character[] = [
   {
     id: 'fuyumiTomoe',
     name: 'Fuyumi Tomoe',
-    role: "Commander · Jack's CO",
+    role: 'Commander · Jack\'s CO',
     group: 'playable',
     image: portrait('fuyumi_tomoe.png'),
     bio: [
@@ -49,7 +49,7 @@ export const characters: Character[] = [
   {
     id: 'lionhartFreeman',
     name: 'Zayvion "Lionhart" Freeman',
-    role: "Commander · Jack's Friend",
+    role: 'Commander · Jack\'s Friend',
     group: 'playable',
     image: portrait('lionhart_freeman.png'),
     bio: [
@@ -65,7 +65,7 @@ export const characters: Character[] = [
     image: portrait('denzel_gray.png'),
     bio: [
       'Denzel Gray is one of the three subordinates serving underneath Lionhart Freeman, and is an Ensign-ranked mercenary who excels in close-ranged combat. He possesses great physical strength and an abundance of ki energy, and he makes the most of these attributes by wielding heavy gauntlets to dish out powerful physical blows on his opponents.',
-      "Denzel is a hot-headed and brash individual whose recklessness rivals even Jack Smith's. He is proud of his strength and will often challenge Jack Smith to compete against him in various ridiculous (and often comedic) contests of physical prowess. While he often bickers with Jack, he does secretly admire him and views him as a rival to eventually surpass. He is secretly in love with fellow teammate Ophelia Snow but has yet to reveal his feelings for her.",
+      'Denzel is a hot-headed and brash individual whose recklessness rivals even Jack Smith\'s. He is proud of his strength and will often challenge Jack Smith to compete against him in various ridiculous (and often comedic) contests of physical prowess. While he often bickers with Jack, he does secretly admire him and views him as a rival to eventually surpass. He is secretly in love with fellow teammate Ophelia Snow but has yet to reveal his feelings for her.',
     ],
   },
   {
@@ -88,7 +88,7 @@ export const characters: Character[] = [
     bio: [
       'Naomi Ito is one of the three subordinates serving underneath Lionhart Freeman, and is a Lieutenant-ranked mercenary who specializes in long-ranged combat. Like Jack Smith, she is a "Synchronizer" who wields a sniper rifle powered by the mana circuits in her right arm (though unlike Jack, she prefers not to show off the exposed mana circuits of her right arm). She is also quite proficient with a katana for close quarters combat.',
       'Naomi has a sarcastic and condescending attitude and gets easily irritated by the antics of Jack Smith and her teammate Denzel Gray. She will often berate them and make snark remarks towards them every time they do things that she views as foolish. In contrast, however, she acts kindly and more understanding towards her other teammate, Ophelia Snow, who Naomi views as someone that needs to be protected.',
-      "She is of noble descent, and was born into a wealthy family situated within the Kyoudan Empire. She is currently estranged from her parents, who had arranged for her (against her will) to get married to a high ranking officer within the Kyoudan Empire's military force. Naomi ended up running away from home in order to avoid that fate. She has not spoken to any member of her family for several years.",
+      'She is of noble descent, and was born into a wealthy family situated within the Kyoudan Empire. She is currently estranged from her parents, who had arranged for her (against her will) to get married to a high ranking officer within the Kyoudan Empire\'s military force. Naomi ended up running away from home in order to avoid that fate. She has not spoken to any member of her family for several years.',
     ],
   },
   // ──────────────────────── Supporting ────────────────────────
@@ -99,8 +99,8 @@ export const characters: Character[] = [
     group: 'supporting',
     image: portrait('alder_zeke.png'),
     bio: [
-      "Alder Zeke is the stern former Commander of Jack Smith who has been a member of Olympia since its inception 27 years ago. He was Jack's Commander for three years before retiring at the beginning of the story.",
-      "Alder possesses a strong sense of justice, believing that mercenaries have no place on the battlefield unless they demonstrate grit and determination. Through their numerous battles together, Alder develops a personal attachment to Jack, drawn to the young warrior's unusually powerful drive. Over time, Alder comes to regard Jack as if he is one of his own sons. During a mission, Alder is forced to entrust Jack with temporary leadership of his squad while he pursues a powerful entity that only he can handle alone. However, Jack's decision during the mission leads to devastating consequences, including multiple casualties and the crippling of Alder's squad members. Taking responsibility for the incident alongside Jack, Alder is forced to retire from his position, ultimately passing on his duties to Fuyumi Tomoe.",
+      'Alder Zeke is the stern former Commander of Jack Smith who has been a member of Olympia since its inception 27 years ago. He was Jack\'s Commander for three years before retiring at the beginning of the story.',
+      'Alder possesses a strong sense of justice, believing that mercenaries have no place on the battlefield unless they demonstrate grit and determination. Through their numerous battles together, Alder develops a personal attachment to Jack, drawn to the young warrior\'s unusually powerful drive. Over time, Alder comes to regard Jack as if he is one of his own sons. During a mission, Alder is forced to entrust Jack with temporary leadership of his squad while he pursues a powerful entity that only he can handle alone. However, Jack\'s decision during the mission leads to devastating consequences, including multiple casualties and the crippling of Alder\'s squad members. Taking responsibility for the incident alongside Jack, Alder is forced to retire from his position, ultimately passing on his duties to Fuyumi Tomoe.',
     ],
   },
   {
@@ -122,15 +122,15 @@ export const characters: Character[] = [
     image: portrait('rey_delorean.png'),
     bio: [
       'Rey DeLorean is the Chief Engineer of Weapons Technology within the R&D Division of Olympia, and is the owner of the DeLorean Laboratories. She oversees the development and maintenance of synchro weapons, armaments, and other technologies related to synchronization.',
-      "She is a hardworking woman who is passionate about her work and takes great pride in the various weapons that she's developed, which are at the very cutting edge of synchronization technology. Mercenaries in Olympia can set up appointments with her directly or with her assistants in order to repair their synchro gear, request the development of new gear customized for their own needs, upgrade their existing gear, and receive synchronization modifications. Jack Smith's weapons were designed and developed by her, and Jack relies on Rey and her team for continuous maintenance and upgrades. She is typically friendly with Jack and the other mercenaries that make appointments with her, although she has a scary side that manifests itself whenever her creations are not well taken care of.",
+      'She is a hardworking woman who is passionate about her work and takes great pride in the various weapons that she\'s developed, which are at the very cutting edge of synchronization technology. Mercenaries in Olympia can set up appointments with her directly or with her assistants in order to repair their synchro gear, request the development of new gear customized for their own needs, upgrade their existing gear, and receive synchronization modifications. Jack Smith\'s weapons were designed and developed by her, and Jack relies on Rey and her team for continuous maintenance and upgrades. She is typically friendly with Jack and the other mercenaries that make appointments with her, although she has a scary side that manifests itself whenever her creations are not well taken care of.',
     ],
   },
-]
+];
 
-export const playableCharacters = characters.filter((c) => c.group === 'playable')
-export const supportingCharacters = characters.filter((c) => c.group === 'supporting')
+export const playableCharacters = characters.filter((c) => c.group === 'playable');
+export const supportingCharacters = characters.filter((c) => c.group === 'supporting');
 export const getCharacter = (id: string): Character | undefined =>
-  characters.find((c) => c.id === id)
+  characters.find((c) => c.id === id);
 
 /** Visual accent: ice for the females and ember for the males. */
 export const accentFor = (c: Character): 'ice' | 'ember' =>
@@ -139,15 +139,15 @@ export const accentFor = (c: Character): 'ice' | 'ember' =>
   c.id === 'naomiIto' ||
   c.id === 'opheliaSnow'
     ? 'ice'
-    : 'ember'
+    : 'ember';
 
 /** Cropped bust portrait shown on the roster cards (full-body art is `image`). */
 export const cardPortrait = (c: Character): string =>
-  c.image.replace(/\.png$/, '_top.png')
+  c.image.replace(/\.png$/, '_top.png');
 
 /** One-line teaser for the roster cards: the first sentence of the bio. */
 export const cardHook = (c: Character): string => {
-  const intro = c.bio[0] ?? ''
-  const end = intro.match(/[.!?](?=\s|$)/)
-  return end ? intro.slice(0, (end.index ?? 0) + 1) : intro
-}
+  const intro = c.bio[0] ?? '';
+  const end = intro.match(/[.!?](?=\s|$)/);
+  return end ? intro.slice(0, (end.index ?? 0) + 1) : intro;
+};

@@ -1,3 +1,141 @@
+<template>
+  <div class="route-host">
+    <audio
+      ref="audioEl"
+      :src="cur.audioUrl"
+      preload="none"
+      crossorigin="anonymous"
+      @play="onPlay"
+      @pause="onPause"
+      @timeupdate="onTime"
+      @ended="onEnded" />
+    <div class="wrap page-head">
+      <BreadCrumb here="Soundtrack" />
+      <div
+        class="label"
+        style="margin-top: 1.4rem">
+        Original Soundtrack
+      </div>
+      <h1>The sound of Blood Destiny</h1>
+      <p class="lead page-intro">
+        The soundtrack of Blood Destiny can be listened to here. This page will be updated as more
+        music is produced &mdash; the OST is mostly produced by
+        <span class="text-crimson">BlooD.</span>
+      </p>
+    </div>
+
+    <section
+      class="section"
+      style="padding-top: 1rem">
+      <div
+        class="wrap"
+        style="display: grid; gap: 1.6rem">
+        <div
+          v-reveal="{ y: 24 }"
+          class="surface player">
+          <div class="player__top">
+            <button
+              class="player__btn"
+              :aria-label="playing ? 'Pause' : 'Play'"
+              @click="toggle">
+              <svg
+                v-if="!playing"
+                viewBox="0 0 24 24"
+                fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+              <svg
+                v-else
+                viewBox="0 0 24 24"
+                fill="currentColor">
+                <path d="M7 5h4v14H7zM13 5h4v14h-4z" />
+              </svg>
+            </button>
+            <div class="player__meta">
+              <div class="player__title">
+                {{ cur.title }}
+              </div>
+              <div class="player__artist">
+                {{ cur.artist }}
+              </div>
+            </div>
+            <div class="vol">
+              <svg
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="currentColor">
+                <path d="M3 9v6h4l5 5V4L7 9H3z" />
+              </svg>
+              <input
+                v-model.number="volume"
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                aria-label="Volume">
+            </div>
+          </div>
+          <canvas
+            ref="canvas"
+            class="player__viz"
+            aria-hidden="true" />
+          <div class="player__seek">
+            <span>{{ curTime }}</span>
+            <div
+              class="seek-bar"
+              role="slider"
+              :aria-valuenow="Math.round(progress * 100)"
+              aria-label="Seek"
+              @click="seek">
+              <div
+                class="seek-bar__fill"
+                :style="{ width: progress * 100 + '%' }" />
+              <div
+                class="seek-bar__knob"
+                :style="{ left: progress * 100 + '%' }" />
+            </div>
+            <span>{{ cur.duration }}</span>
+          </div>
+        </div>
+
+        <div
+          v-reveal="{ y: 24, delay: 100 }"
+          class="surface"
+          style="padding: 0.4rem 0.6rem">
+          <table class="tracklist">
+            <tbody>
+              <tr
+                v-for="(t, i) in tracks"
+                :key="t.n"
+                :class="{ 'is-playing': i === current && playing }"
+                @click="select(i)">
+                <td class="t-n">
+                  <span
+                    v-if="i === current && playing"
+                    class="eq">
+                    <span /><span /><span /><span />
+                  </span>
+                  <template v-else>
+                    {{ pad2(t.n) }}
+                  </template>
+                </td>
+                <td><span class="t-title">{{ t.title }}</span></td>
+                <td class="t-artist">
+                  {{ t.artist }}
+                </td>
+                <td class="t-time">
+                  {{ t.duration }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>
+
 <script setup lang="ts">
 /* =====================================================================
    Soundtrack — player + tracklist with a canvas spectrum visualizer.
@@ -9,10 +147,10 @@
    create an AudioContext + MediaElementSource + AnalyserNode for an
    HTMLAudioElement and feed getByteFrequencyData() into draw().
    ===================================================================== */
-import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
-import BreadCrumb from "../components/BreadCrumb.vue";
-import { prefersReducedMotion } from "../composables/atmosphere";
-import { TRACKS } from "../data/soundtrack";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import BreadCrumb from '@/components/BreadCrumb.vue';
+import { prefersReducedMotion } from '@/composables/atmosphere';
+import { TRACKS } from '@/data/soundtrack';
 
 const tracks = TRACKS;
 const current = ref(0);
@@ -30,28 +168,57 @@ let audioCtx: AudioContext | null = null;
 let analyser: AnalyserNode | null = null;
 let freq: Uint8Array<ArrayBuffer> | null = null;
 
+/* --- visualizer (synthetic spectrum; AnalyserNode-ready) --- */
+const BARS = 48;
+
+// progress ticker — drives the UI-only preview for tracks without audioUrl
+let tick: number | null = null;
+
 const cur = computed(() => tracks[current.value]);
 /** True when the current track has a real, self-hosted audio file. */
 const hasAudio = computed(() => Boolean(cur.value.audioUrl));
 const durSec = computed(() => {
-  const [m, s] = cur.value.duration.split(":").map(Number);
+  const [m, s] = cur.value.duration.split(':').map(Number);
   return m * 60 + s;
 });
-const fmt = (sec: number): string => {
-  const v = Math.max(0, Math.floor(sec));
-  return Math.floor(v / 60) + ":" + String(v % 60).padStart(2, "0");
-};
 const curTime = computed(() => fmt(progress.value * durSec.value));
 
-/* --- visualizer (synthetic spectrum; AnalyserNode-ready) --- */
-const BARS = 48;
+watch(playing, () => {
+  if (playing.value) startViz();
+});
+watch(volume, (v) => {
+  if (audioEl.value) audioEl.value.volume = v;
+});
+
+onMounted(() => {
+  sizeCanvas();
+  if (audioEl.value) audioEl.value.volume = volume.value;
+  window.addEventListener('resize', sizeCanvas);
+  document.addEventListener('visibilitychange', onVis);
+  startViz();
+  runTick();
+});
+onUnmounted(() => {
+  stopViz();
+  stopTick();
+  audioEl.value?.pause();
+  void audioCtx?.close();
+  window.removeEventListener('resize', sizeCanvas);
+  document.removeEventListener('visibilitychange', onVis);
+});
+
+const fmt = (sec: number): string => {
+  const v = Math.max(0, Math.floor(sec));
+  return Math.floor(v / 60) + ':' + String(v % 60).padStart(2, '0');
+};
+
 const draw = (now: number): void => {
   const c = canvas.value;
   if (!c) {
     raf = null;
     return;
   }
-  const ctx = c.getContext("2d");
+  const ctx = c.getContext('2d');
   if (!ctx) {
     raf = null;
     return;
@@ -81,8 +248,8 @@ const draw = (now: number): void => {
     const bh = Math.max(2, amp * h * 0.92);
     const x = i * (bw + gap);
     const grad = ctx.createLinearGradient(0, h, 0, h - bh);
-    grad.addColorStop(0, "#C8102E");
-    grad.addColorStop(1, "#7FB5D6");
+    grad.addColorStop(0, '#C8102E');
+    grad.addColorStop(1, '#7FB5D6');
     ctx.fillStyle = grad;
     ctx.fillRect(x, h - bh, bw, bh);
   }
@@ -124,7 +291,7 @@ const playReal = async (): Promise<void> => {
   const el = audioEl.value;
   if (!el) return;
   ensureGraph();
-  if (audioCtx?.state === "suspended") await audioCtx.resume();
+  if (audioCtx?.state === 'suspended') await audioCtx.resume();
   try {
     await el.play();
   } catch {
@@ -132,8 +299,6 @@ const playReal = async (): Promise<void> => {
   }
 };
 
-// progress ticker — drives the UI-only preview for tracks without audioUrl
-let tick: number | null = null;
 const stopTick = (): void => {
   if (tick) cancelAnimationFrame(tick);
   tick = null;
@@ -218,126 +383,5 @@ const onVis = (): void => {
   else startViz();
 };
 
-onMounted(() => {
-  sizeCanvas();
-  if (audioEl.value) audioEl.value.volume = volume.value;
-  window.addEventListener("resize", sizeCanvas);
-  document.addEventListener("visibilitychange", onVis);
-  startViz();
-  runTick();
-});
-onUnmounted(() => {
-  stopViz();
-  stopTick();
-  audioEl.value?.pause();
-  void audioCtx?.close();
-  window.removeEventListener("resize", sizeCanvas);
-  document.removeEventListener("visibilitychange", onVis);
-});
-
-watch(playing, () => {
-  if (playing.value) startViz();
-});
-watch(volume, (v) => {
-  if (audioEl.value) audioEl.value.volume = v;
-});
-
-const pad2 = (n: number): string => String(n).padStart(2, "0");
+const pad2 = (n: number): string => String(n).padStart(2, '0');
 </script>
-
-<template>
-  <div class="route-host">
-    <audio
-      ref="audioEl"
-      :src="cur.audioUrl"
-      preload="none"
-      crossorigin="anonymous"
-      @play="onPlay"
-      @pause="onPause"
-      @timeupdate="onTime"
-      @ended="onEnded"
-    ></audio>
-    <div class="wrap page-head">
-      <BreadCrumb here="Soundtrack" />
-      <div class="label" style="margin-top: 1.4rem">Original Soundtrack</div>
-      <h1>The sound of Blood Destiny</h1>
-      <p class="lead page-intro">
-        The soundtrack of Blood Destiny can be listened to here. This page will be updated as more
-        music is produced &mdash; the OST is mostly produced by
-        <span class="text-crimson">BlooD.</span>
-      </p>
-    </div>
-
-    <section class="section" style="padding-top: 1rem">
-      <div class="wrap" style="display: grid; gap: 1.6rem">
-        <div class="surface player" v-reveal="{ y: 24 }">
-          <div class="player__top">
-            <button class="player__btn" @click="toggle" :aria-label="playing ? 'Pause' : 'Play'">
-              <svg v-if="!playing" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-              <svg v-else viewBox="0 0 24 24" fill="currentColor">
-                <path d="M7 5h4v14H7zM13 5h4v14h-4z" />
-              </svg>
-            </button>
-            <div class="player__meta">
-              <div class="player__title">{{ cur.title }}</div>
-              <div class="player__artist">{{ cur.artist }}</div>
-            </div>
-            <div class="vol">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                <path d="M3 9v6h4l5 5V4L7 9H3z" />
-              </svg>
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.01"
-                v-model.number="volume"
-                aria-label="Volume"
-              />
-            </div>
-          </div>
-          <canvas class="player__viz" ref="canvas" aria-hidden="true"></canvas>
-          <div class="player__seek">
-            <span>{{ curTime }}</span>
-            <div
-              class="seek-bar"
-              @click="seek"
-              role="slider"
-              :aria-valuenow="Math.round(progress * 100)"
-              aria-label="Seek"
-            >
-              <div class="seek-bar__fill" :style="{ width: progress * 100 + '%' }"></div>
-              <div class="seek-bar__knob" :style="{ left: progress * 100 + '%' }"></div>
-            </div>
-            <span>{{ cur.duration }}</span>
-          </div>
-        </div>
-
-        <div class="surface" style="padding: 0.4rem 0.6rem" v-reveal="{ y: 24, delay: 100 }">
-          <table class="tracklist">
-            <tbody>
-              <tr
-                v-for="(t, i) in tracks"
-                :key="t.n"
-                :class="{ 'is-playing': i === current && playing }"
-                @click="select(i)"
-              >
-                <td class="t-n">
-                  <span v-if="i === current && playing" class="eq">
-                    <span></span><span></span><span></span><span></span>
-                  </span>
-                  <template v-else>{{ pad2(t.n) }}</template>
-                </td>
-                <td><span class="t-title">{{ t.title }}</span></td>
-                <td class="t-artist">{{ t.artist }}</td>
-                <td class="t-time">{{ t.duration }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-  </div>
-</template>

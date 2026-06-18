@@ -28,3 +28,6 @@ dist-ssr
 *.iml
 *.iws
 *.ipr
+
+# AI
+.claude/*

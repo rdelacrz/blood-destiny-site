@@ -1,3 +1,78 @@
+<template>
+  <v-app-bar
+    class="site-bar"
+    :class="{ 'is-solid': solid, 'is-ready': ready }"
+    :height="solid ? 64 : 76"
+    flat
+    :elevation="0"
+    :scroll-behavior="undefined">
+    <div class="bar-row">
+      <router-link
+        to="/"
+        class="nav__brand"
+        aria-label="Blood Destiny — home"
+        @click="close">
+        <img
+          class="brand-logo"
+          :src="logoWhite"
+          alt="Blood Destiny">
+      </router-link>
+      <nav
+        class="nav__links"
+        aria-label="Primary">
+        <router-link
+          v-for="l in nav"
+          :key="l.to"
+          :to="l.to"
+          class="nav__link"
+          :class="{ 'is-active': route.path === l.to }">
+          {{ l.label }}
+        </router-link>
+        <a
+          class="nav__x"
+          :href="social.url"
+          target="_blank"
+          rel="noopener"
+          :aria-label="'Twitter / X — ' + social.handle">
+          <XIcon />
+        </a>
+      </nav>
+      <v-app-bar-nav-icon
+        class="bar-toggle"
+        :aria-expanded="open"
+        aria-label="Menu"
+        @click="open = !open" />
+    </div>
+  </v-app-bar>
+
+  <v-navigation-drawer
+    v-model="open"
+    class="site-drawer"
+    temporary
+    location="right"
+    :width="320">
+    <nav
+      class="drawer-menu"
+      aria-label="Mobile">
+      <router-link
+        v-for="(l, i) in nav"
+        :key="l.to"
+        :to="l.to"
+        :class="{ 'is-active': route.path === l.to }"
+        @click="close">
+        <span class="num">{{ pad2(i) }}</span>{{ l.label }}
+      </router-link>
+      <a
+        class="drawer-x"
+        :href="social.url"
+        target="_blank"
+        rel="noopener">
+        <span class="drawer-x__icon"><XIcon /></span>{{ social.handle }}
+      </a>
+    </nav>
+  </v-navigation-drawer>
+</template>
+
 <script setup lang="ts">
 /* =====================================================================
    NavBar — Vuetify v-app-bar that stays transparent over the hero and
@@ -5,10 +80,10 @@
    (replacing the hand-rolled hamburger overlay). Desktop link styling
    reuses the bespoke global .nav__link* classes.
    ===================================================================== */
-import { onMounted, onUnmounted, ref } from "vue";
-import { useRoute } from "vue-router";
-import { NAV, SOCIAL, ASSETS } from "../data/site";
-import XIcon from "./XIcon.vue";
+import { onMounted, onUnmounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { NAV, SOCIAL, ASSETS } from '@/data/site';
+import XIcon from '@/components/XIcon.vue';
 
 const route = useRoute();
 const nav = NAV;
@@ -19,89 +94,24 @@ const solid = ref(false);
 const open = ref(false);
 const ready = ref(false);
 
-const onScroll = (): void => {
-  solid.value = window.scrollY > 40;
-};
-
 onMounted(() => {
-  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
   // CSS-driven logo entrance (frozen-rAF safe)
   window.setTimeout(() => (ready.value = true), 90);
 });
-onUnmounted(() => window.removeEventListener("scroll", onScroll));
+onUnmounted(() => window.removeEventListener('scroll', onScroll));
+
+const onScroll = (): void => {
+  solid.value = window.scrollY > 40;
+};
 
 const close = (): void => {
   open.value = false;
 };
 
-const pad2 = (i: number): string => String(i + 1).padStart(2, "0");
+const pad2 = (i: number): string => String(i + 1).padStart(2, '0');
 </script>
-
-<template>
-  <v-app-bar
-    class="site-bar"
-    :class="{ 'is-solid': solid, 'is-ready': ready }"
-    :height="solid ? 64 : 76"
-    flat
-    :elevation="0"
-    :scroll-behavior="undefined"
-  >
-    <div class="bar-row">
-      <router-link to="/" class="nav__brand" aria-label="Blood Destiny — home" @click="close">
-        <img class="brand-logo" :src="logoWhite" alt="Blood Destiny" />
-      </router-link>
-      <nav class="nav__links" aria-label="Primary">
-        <router-link
-          v-for="l in nav"
-          :key="l.to"
-          :to="l.to"
-          class="nav__link"
-          :class="{ 'is-active': route.path === l.to }"
-          >{{ l.label }}</router-link
-        >
-        <a
-          class="nav__x"
-          :href="social.url"
-          target="_blank"
-          rel="noopener"
-          :aria-label="'Twitter / X — ' + social.handle"
-        >
-          <XIcon />
-        </a>
-      </nav>
-      <v-app-bar-nav-icon
-        class="bar-toggle"
-        :aria-expanded="open"
-        aria-label="Menu"
-        @click="open = !open"
-      />
-    </div>
-  </v-app-bar>
-
-  <v-navigation-drawer
-    v-model="open"
-    class="site-drawer"
-    temporary
-    location="right"
-    :width="320"
-  >
-    <nav class="drawer-menu" aria-label="Mobile">
-      <router-link
-        v-for="(l, i) in nav"
-        :key="l.to"
-        :to="l.to"
-        @click="close"
-        :class="{ 'is-active': route.path === l.to }"
-      >
-        <span class="num">{{ pad2(i) }}</span>{{ l.label }}
-      </router-link>
-      <a class="drawer-x" :href="social.url" target="_blank" rel="noopener">
-        <span class="drawer-x__icon"><XIcon /></span>{{ social.handle }}
-      </a>
-    </nav>
-  </v-navigation-drawer>
-</template>
 
 <style scoped>
 /* ---- bar shell: transparent over hero → solid on scroll ---- */

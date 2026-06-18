@@ -1,48 +1,66 @@
-import { createRouter, createWebHashHistory } from "vue-router";
-import type { RouteRecordRaw } from "vue-router";
-import { routeSweep } from "../composables/atmosphere";
-import { getCharacter } from "../data/characters";
-import type { BackgroundKey } from "../data/site";
+import { createRouter, createWebHashHistory } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router';
+import { routeSweep } from '@/composables/atmosphere';
+import { getCharacter } from '@/data/characters';
+import type { BackgroundKey } from '@/data/site';
 
 /* Views are imported eagerly rather than via () => import(): the site is
    small, and lazy chunks made the first visit to a page block on a separate
    network fetch (prod) or on-demand compile (dev). That delay read as a
    "dead" first click that only worked on the second try. Bundling the views
    keeps navigation instant on the first click. */
-import Home from "../views/Home.vue";
-import About from "../views/About.vue";
-import Characters from "../views/Characters.vue";
-import CharacterDetail from "../views/CharacterDetail.vue";
-import Soundtrack from "../views/Soundtrack.vue";
-import Updates from "../views/Updates.vue";
-import Contact from "../views/Contact.vue";
+import HomeView from '@/views/HomeView.vue';
+import AboutView from '@/views/AboutView.vue';
+import CharactersView from '@/views/CharactersView.vue';
+import CharacterDetailView from '@/views/CharacterDetailView.vue';
+import SoundtrackView from '@/views/SoundtrackView.vue';
+import UpdatesView from '@/views/UpdatesView.vue';
+import ContactView from '@/views/ContactView.vue';
 
-/* Per-route background key is read by BackgroundSystem via route.meta.bg. */
-declare module "vue-router" {
+/* Per-route background key is read by TheBackgroundSystem via route.meta.bg. */
+declare module 'vue-router' {
   interface RouteMeta {
     bg?: BackgroundKey;
   }
 }
 
-const routes: RouteRecordRaw[] = [
-  { path: "/", component: Home, meta: { bg: "tower" } },
-  { path: "/about", component: About, meta: { bg: "town" } },
-  { path: "/characters", component: Characters, meta: { bg: "dorms" } },
-  {
-    // Detail page shares the Characters night/dorms background. The guard
-    // redirects unknown ids to /characters, so the view always resolves a
-    // character (and can assert it) instead of rendering a not-found state.
-    path: "/characters/:id",
-    component: CharacterDetail,
-    meta: { bg: "dorms" },
-    beforeEnter: (to) =>
-      getCharacter(to.params.id as string) ? true : { path: "/characters" },
-  },
-  { path: "/soundtrack", component: Soundtrack, meta: { bg: "valley" } },
-  { path: "/updates", component: Updates, meta: { bg: "town" } },
-  { path: "/contact", component: Contact, meta: { bg: "tower" } },
-  { path: "/:pathMatch(.*)*", redirect: "/" },
-];
+const routes: RouteRecordRaw[] = [{
+  path: '/',
+  component: HomeView,
+  meta: { bg: 'tower' },
+}, {
+  path: '/about',
+  component: AboutView,
+  meta: { bg: 'town' },
+}, {
+  path: '/characters',
+  component: CharactersView,
+  meta: { bg: 'dorms' },
+}, {
+  // Detail page shares the Characters night/dorms background. The guard
+  // redirects unknown ids to /characters, so the view always resolves a
+  // character (and can assert it) instead of rendering a not-found state.
+  path: '/characters/:id',
+  component: CharacterDetailView,
+  meta: { bg: 'dorms' },
+  beforeEnter: (to) =>
+    getCharacter(to.params.id as string) ? true : { path: '/characters' },
+}, {
+  path: '/soundtrack',
+  component: SoundtrackView,
+  meta: { bg: 'valley' },
+}, {
+  path: '/updates',
+  component: UpdatesView,
+  meta: { bg: 'town' },
+}, {
+  path: '/contact',
+  component: ContactView,
+  meta: { bg: 'tower' },
+}, {
+  path: '/:pathMatch(.*)*',
+  redirect: '/',
+}];
 
 const router = createRouter({
   history: createWebHashHistory(), // hash mode = zero-config static hosting

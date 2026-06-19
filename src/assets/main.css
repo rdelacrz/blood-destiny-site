@@ -6,6 +6,14 @@
    Tailwind's (theme/base/components/utilities), Tailwind utility classes
    win the cascade over Vuetify component styles WITHOUT !important.
    (Our own unlayered rules below still beat both, by design.)
+
+   CAVEAT: this name-list declaration is dropped by the production CSS
+   minifier, so the effective order there falls back to block load order —
+   which also lands Tailwind's Preflight (@layer base) ABOVE the vuetify
+   layers. Preflight's `*{ padding:0; border:0 solid }` therefore strips
+   Vuetify component padding/borders (e.g. v-field). Components that need it
+   back must restore it with UNLAYERED rules, which outrank every layer in
+   both dev and prod — see ContactView's field styling.
    ===================================================================== */
 @layer vuetify-core, vuetify-components, vuetify-overrides, vuetify-utilities,
   vuetify-final, theme, base, components, utilities;
@@ -228,7 +236,8 @@ p { margin: 0; }
 .page-head { padding-top: calc(var(--nav-h) + clamp(2rem, 7vh, 5rem)); }
 .page-head h1 { font-family: var(--f-display); font-size: var(--t-h1); margin: 0.7rem 0 0.5rem; }
 .page-head .lead { max-width: 60ch; }
-.page-intro { max-width: 70ch; }
+/* balance keeps the last line from dropping a lone orphan word (e.g. "on X.") */
+.page-intro { max-width: 70ch; text-wrap: balance; }
 
 /* ---------- route host (App shell + every routed view root) ---------- */
 .route-host { position: relative; min-height: 60vh; }

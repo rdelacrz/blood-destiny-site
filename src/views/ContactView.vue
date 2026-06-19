@@ -44,7 +44,9 @@
             rel="noopener"
             class="btn btn-primary"
             style="justify-self: start"
-          >Open on X <span class="arr">&rarr;</span></a>
+          >
+            Open on X <span class="arr">&rarr;</span>
+          </a>
         </div>
 
         <div
@@ -117,7 +119,7 @@
               type="submit"
               block
               size="large"
-              class="bg-blood-500 text-bone tracking-[0.18em] mt-2"
+              class="bg-blood-500 text-bone tracking-[0.18em] mt-6"
             >
               Send Message <span class="arr ms-2">&rarr;</span>
             </v-btn>
@@ -252,14 +254,34 @@ const submit = async (): Promise<void> => {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--bd-bone-dim);
+  /* Group each label tightly with the field BELOW it (small margin-bottom)
+     while opening clear air ABOVE it, so the spacing between groups is bigger
+     than within a group and the label/field pairing reads unambiguously. */
+  margin-top: 1.5rem;
   margin-bottom: 0.5rem;
 }
+.field-label:first-of-type {
+  margin-top: 0;
+}
+/* Tailwind's Preflight (@layer base) lands above Vuetify's layers in the
+   cascade (see main.css header), so its `*{ padding:0; border:0 solid }` reset
+   strips the v-field's input padding AND the outlined-variant border, leaving
+   the placeholder crammed into the top-left with no field outline. These
+   UNLAYERED scoped rules outrank every layer in both dev and prod, so they
+   restore Vuetify's intended field chrome reliably. */
 .contact-form :deep(.v-field) {
   background: rgba(8, 8, 11, 0.82);
   font-family: var(--f-body);
+  border: 1px solid var(--bd-ash-line);
 }
 .contact-form :deep(.v-field__input) {
   color: var(--bd-bone);
+  /* Restore the stripped inner padding (Vuetify's outlined/comfortable spacing)
+     and pin a sane line-height — the input otherwise inherits the global body
+     1.65, which is too tall for the well. */
+  padding-inline: 16px;
+  padding-block: 0.6rem;
+  line-height: 1.5;
 }
 /* Placeholders default to a low opacity that washes out over the corridor —
    pin them to a readable muted bone. */
@@ -267,9 +289,10 @@ const submit = async (): Promise<void> => {
   color: var(--bd-bone-mute);
   opacity: 1;
 }
-/* Keep keyboard/active focus unmistakable over the busy art: the outlined
-   field already turns crimson on focus; add a soft crimson ring around it. */
+/* Keep keyboard/active focus unmistakable over the busy art: turn the restored
+   field border crimson and add a soft crimson ring around it. */
 .contact-form :deep(.v-field--focused) {
+  border-color: var(--bd-crimson);
   box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.22);
 }
 .snack-row {

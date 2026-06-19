@@ -207,11 +207,39 @@ const submit = async (): Promise<void> => {
 
 <style scoped>
 /* =========================================================
+   PAGE ATMOSPHERE — extra scrim tuned to the temple-hallway
+   art (dark corridor, but saturated cyan glyph bands + a warm
+   floor right where the panels land). Mounts/unmounts with the
+   view, so it's per-route: it sits above the shared background
+   (z-index -2) and global scrim (-1) but below page content.
+   The corridor is already dark, so this leans on a centred
+   vignette to settle the glyph glare rather than a flat dim.
+   ========================================================= */
+.route-host::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    linear-gradient(180deg,
+      rgba(8, 8, 11, 0.52) 0%, rgba(8, 8, 11, 0.32) 45%,
+      rgba(8, 8, 11, 0.5) 100%),
+    radial-gradient(120% 100% at 50% 40%, transparent 46%, rgba(8, 8, 11, 0.64) 100%);
+}
+
+/* =========================================================
    CONTACT LAYOUT
    ========================================================= */
 .contact-grid { display: grid; gap: clamp(1.5rem, 4vw, 3rem); grid-template-columns: 1fr; }
 @media (min-width: 880px) { .contact-grid { grid-template-columns: 0.9fr 1.1fr; } }
 .x-card { padding: clamp(1.6rem, 4vw, 2.6rem); display: grid; gap: 1.2rem; align-content: start; }
+
+/* Both panels ride over the glyph corridor — push the shared .surface ink to
+   near-opaque glass and deepen the blur so copy + input text stay readable. */
+.x-card,
+.contact-form {
+  background: linear-gradient(180deg, rgba(18, 18, 23, 0.93), rgba(8, 8, 11, 0.97));
+  border-color: rgba(58, 58, 66, 0.85);
+  backdrop-filter: blur(12px);
+}
 .x-big { display: inline-flex; align-items: center; gap: 0.8rem; font-family: var(--f-display); font-size: clamp(1.6rem, 4vw, 2.4rem); }
 .x-big svg { width: 34px; height: 34px; }
 
@@ -223,15 +251,26 @@ const submit = async (): Promise<void> => {
   font-size: 0.68rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--bd-bone-mute);
+  color: var(--bd-bone-dim);
   margin-bottom: 0.5rem;
 }
 .contact-form :deep(.v-field) {
-  background: rgba(10, 10, 12, 0.6);
+  background: rgba(8, 8, 11, 0.82);
   font-family: var(--f-body);
 }
 .contact-form :deep(.v-field__input) {
   color: var(--bd-bone);
+}
+/* Placeholders default to a low opacity that washes out over the corridor —
+   pin them to a readable muted bone. */
+.contact-form :deep(.v-field__input)::placeholder {
+  color: var(--bd-bone-mute);
+  opacity: 1;
+}
+/* Keep keyboard/active focus unmistakable over the busy art: the outlined
+   field already turns crimson on focus; add a soft crimson ring around it. */
+.contact-form :deep(.v-field--focused) {
+  box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.22);
 }
 .snack-row {
   display: flex;

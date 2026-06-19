@@ -52,11 +52,11 @@ const routes: RouteRecordRaw[] = [{
 }, {
   path: '/updates',
   component: UpdatesView,
-  meta: { bg: 'town' },
+  meta: { bg: 'temple' },
 }, {
   path: '/contact',
   component: ContactView,
-  meta: { bg: 'tower' },
+  meta: { bg: 'temple-hall' },
 }, {
   path: '/:pathMatch(.*)*',
   redirect: '/',

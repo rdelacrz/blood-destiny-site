@@ -208,12 +208,35 @@ const renderBody = (body: string): string =>
 
 <style scoped>
 /* =========================================================
+   PAGE ATMOSPHERE — extra scrim tuned to the bright, busy
+   temple-entrance art (snow-bright flanks + glowing door).
+   Mounts/unmounts with the view, so it's per-route by
+   construction: it sits above the shared background system
+   (z-index -2) and the global scrim (-1) but below page
+   content, darkening only the art the text rides on.
+   ========================================================= */
+.route-host::before {
+  content: "";
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    /* knock the bright snowy top band + foreground down hard */
+    linear-gradient(180deg,
+      rgba(8, 8, 11, 0.66) 0%, rgba(8, 8, 11, 0.24) 34%,
+      rgba(8, 8, 11, 0.3) 64%, rgba(8, 8, 11, 0.62) 100%),
+    /* pull shadow into the over-bright snow on the flanks */
+    radial-gradient(118% 92% at 50% 32%, transparent 40%, rgba(8, 8, 11, 0.7) 100%);
+}
+
+/* =========================================================
    TIMELINE
    ========================================================= */
 .timeline { position: relative; max-width: 880px; margin-inline: auto; }
 .timeline__line {
   position: absolute; left: 18px; top: 0; bottom: 0; width: 2px;
-  background: linear-gradient(180deg, var(--bd-crimson), rgba(200,16,46,0.1));
+  /* Hold the rail's lower fade up so the connector still reads where it
+     crosses the bright snow; the dark edge keeps it crisp over busy art. */
+  background: linear-gradient(180deg, var(--bd-crimson), rgba(200,16,46,0.4));
+  box-shadow: 0 0 0 1px rgba(8,8,11,0.55);
   transform-origin: top; will-change: transform;
 }
 .tl-item { position: relative; padding: 0 0 2.4rem 3.4rem; }
@@ -225,11 +248,16 @@ const renderBody = (body: string): string =>
 .tl-item.is-in .tl-item__dot { animation: tl-pop 0.5s var(--ease-out) both; }
 @keyframes tl-pop { 0% { transform: scale(0); } 70% { transform: scale(1.25); } 100% { transform: scale(1); } }
 
+/* The meta row (date + tag) rides directly on the temple art, not on a
+   panel — lift the date to bone-dim and give both a dark text-shadow so
+   they stay legible over the bright snow. */
 .tl-item__meta { display: flex; align-items: center; flex-wrap: wrap; gap: 0.7rem; }
-.tl-item__date { font-family: var(--f-ui); font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--bd-bone-mute); }
-.tl-item__tag { display: inline-block; font-family: var(--f-ui); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bd-crimson-hi); border: 1px solid rgba(200,16,46,0.35); border-radius: 3px; padding: 0.15em 0.6em; }
+.tl-item__date { font-family: var(--f-ui); font-size: 0.68rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--bd-bone-dim); text-shadow: 0 1px 4px rgba(8,8,11,0.95); }
+.tl-item__tag { display: inline-block; font-family: var(--f-ui); font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bd-crimson-hi); background: rgba(8,8,11,0.55); border: 1px solid rgba(200,16,46,0.45); border-radius: 3px; padding: 0.15em 0.6em; backdrop-filter: blur(2px); text-shadow: 0 1px 4px rgba(8,8,11,0.95); }
 
-.tl-item__card { margin-top: 0.7rem; padding: 1.3rem 1.5rem; transition: transform 0.4s var(--ease-out), border-color 0.4s ease, box-shadow 0.4s ease; }
+/* Card sits over the busy entrance art: push the shared .surface ink to near-
+   opaque and deepen the blur so body copy holds high contrast. */
+.tl-item__card { margin-top: 0.7rem; padding: 1.3rem 1.5rem; background: linear-gradient(180deg, rgba(18,18,23,0.94), rgba(8,8,11,0.97)); border-color: rgba(58,58,66,0.85); backdrop-filter: blur(10px); transition: transform 0.4s var(--ease-out), border-color 0.4s ease, box-shadow 0.4s ease; }
 .tl-item__card:hover { transform: translateY(-4px); border-color: rgba(200,16,46,0.4); box-shadow: 0 14px 34px -16px rgba(0,0,0,0.8), 0 0 26px -10px rgba(200,16,46,0.4); }
 .tl-item__cover { width: 100%; height: 200px; object-fit: cover; border-radius: var(--rad); border: 1px solid var(--bd-ash); filter: saturate(0.9) brightness(0.88); margin-bottom: 1rem; }
 .tl-item__title { font-family: var(--f-display); font-size: 1.5rem; margin-bottom: 0.4rem; }

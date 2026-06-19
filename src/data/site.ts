@@ -19,7 +19,8 @@ export const ix = (path: string, _w = 2000): string => asset(`images/${path}`);
 export const portrait = (file: string, _w = 1100): string =>
   ix(`characters/${file}`);
 
-export type BackgroundKey = 'tower' | 'town' | 'dorms' | 'valley';
+export type BackgroundKey =
+  | 'tower' | 'town' | 'dorms' | 'valley' | 'temple' | 'temple-hall';
 
 export interface SiteAssets {
   logoColor: string;
@@ -37,6 +38,8 @@ export const ASSETS: SiteAssets = {
     town: ix('backgrounds/bkgd_town_red_sky.png'),
     dorms: ix('backgrounds/bkgd_olympia_dorms_night.png'),
     valley: ix('backgrounds/bkgd_valley_night.png'),
+    temple: ix('backgrounds/bkgd_temple_entrance.png'),       // Updates — snowy shrine door
+    'temple-hall': ix('backgrounds/bkgd_temple_hallway.png'), // Contact — glyph corridor
   },
 };
 

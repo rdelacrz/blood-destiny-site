@@ -9,7 +9,7 @@
    ===================================================================== */
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import type { Update } from '@/data/updates';
-import { UPDATES } from '@/data/updates';
+import { updates as UPDATES } from '@/data/updates';
 import { fetchUpdates, hasUpdatesEndpoint } from '@/api/updates';
 
 export type UpdatesStatus = 'loading' | 'success' | 'empty' | 'error';

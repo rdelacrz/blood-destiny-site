@@ -472,13 +472,22 @@ p { margin: 0; }
 /* =========================================================
    CHARACTER CARDS
    ========================================================= */
-.char-grid { display: grid; gap: clamp(0.9rem, 2vw, 1.4rem); grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+/* Flex (not grid) so an incomplete last row stays CENTERED rather than
+   left-aligned. Cards take a fixed fraction of the row via --cols, so every
+   card is the same width and full rows fill edge-to-edge; the remainder row
+   centers via justify-content. --cols steps down responsively. */
+.char-grid { --grid-gap: clamp(0.9rem, 2vw, 1.4rem); --cols: 3;
+  display: flex; flex-wrap: wrap; justify-content: center; gap: var(--grid-gap); }
+@media (max-width: 900px) { .char-grid { --cols: 2; } }
+@media (max-width: 560px) { .char-grid { --cols: 1; } }
 .char-card {
   position: relative; display: block; overflow: hidden; border-radius: var(--rad);
   background: var(--bd-charcoal); border: 1px solid var(--bd-ash);
   aspect-ratio: 3 / 4.2; cursor: pointer;
+  flex: 0 0 auto;
+  width: calc((100% - (var(--cols) - 1) * var(--grid-gap)) / var(--cols));
 }
-a.char-card, button.char-card { width: 100%; font: inherit; color: inherit; text-align: left; padding: 0; }
+a.char-card, button.char-card { font: inherit; color: inherit; text-align: left; padding: 0; }
 .char-card__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center;
   transition: transform .6s var(--ease-out), filter .6s ease; filter: saturate(0.85) brightness(0.82); }
 .char-card__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 30%, rgba(10,10,12,0.55) 62%, rgba(10,10,12,0.96) 100%); }

@@ -135,9 +135,10 @@ export const getCharacter = (id: string): Character | undefined =>
 /** Visual accent: ice for the females and ember for the males. */
 export const accentFor = (c: Character): 'ice' | 'ember' =>
   c.id === 'fuyumiTomoe' ||
-  c.id === 'koyukiTomoe' ||
-  c.id === 'naomiIto' ||
-  c.id === 'opheliaSnow'
+    c.id === 'opheliaSnow' ||
+    c.id === 'naomiIto' ||
+    c.id === 'koyukiTomoe' ||
+    c.id === 'reyDeLorean'
     ? 'ice'
     : 'ember';
 

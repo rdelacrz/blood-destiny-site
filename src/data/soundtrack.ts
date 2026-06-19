@@ -30,32 +30,38 @@ export const TRACKS: Track[] = [{
   n: 2,
   title: 'Trauma',
   artist: 'BlooD.',
-  duration: '1:53'
+  duration: '1:53',
+  audioUrl: audio('trauma.mp3')
 }, {
   n: 3,
   title: 'Prepare for War',
   artist: 'BlooD.',
-  duration: '2:38'
+  duration: '2:38',
+  audioUrl: audio('prepare_for_war.mp3')
 }, {
   n: 4,
   title: 'Echoes of the Nephilim',
   artist: 'BlooD.',
-  duration: '3:14'
+  duration: '3:14',
+  audioUrl: audio('echoes_of_the_nephilim.mp3')
 }, {
   n: 5,
   title: 'Call of the Ancients',
   artist: 'BlooD.',
-  duration: '2:55'
+  duration: '2:55',
+  audioUrl: audio('call_of_the_ancients.mp3')
 }, {
   n: 6,
   title: 'Demoness of Ice',
   artist: 'BlooD.',
-  duration: '2:28'
+  duration: '2:28',
+  audioUrl: audio('demoness_of_ice.mp3')
 }, {
   n: 7,
   title: 'Memento Mori',
   artist: 'BlooD.',
-  duration: '1:39'
+  duration: '1:39',
+  audioUrl: audio('memento_mori.mp3')
 }, {
   n: 8,
   title: 'Dark Days',

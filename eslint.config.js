@@ -47,10 +47,19 @@ export default defineConfigWithVueTs(
         'error',
         { singleline: 'ignore', multiline: 'below' },
       ],
-      // Closing bracket stays on the last attribute's line (not its own line).
+      // Multi-line (multi-attribute) tags drop the closing bracket onto its own
+      // line, aligned with the opening '<'; single-attribute tags keep it inline.
       'vue/html-closing-bracket-newline': [
         'error',
-        { singleline: 'never', multiline: 'never' },
+        { singleline: 'never', multiline: 'always' },
+      ],
+      // Content + closing tag drop onto their own lines, including for
+      // attribute-less elements (ignoreWhenNoAttributes: false). The rule's
+      // default `ignores` is kept, so genuinely inline elements (span, a, code,
+      // …) and whitespace-sensitive pre/textarea stay on one line.
+      'vue/singleline-html-element-content-newline': [
+        'error',
+        { ignoreWhenNoAttributes: false, ignoreWhenEmpty: true },
       ],
       'vue/attributes-order': 'error',
       'vue/component-name-in-template-casing': ['error', 'PascalCase'],

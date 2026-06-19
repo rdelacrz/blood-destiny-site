@@ -1,17 +1,20 @@
 <template>
   <div
     class="bg-system"
-    aria-hidden="true">
+    aria-hidden="true"
+  >
     <div
       v-if="prev"
       class="bg-layer"
       :style="{ backgroundImage: `url(${prev})` }"
-      :class="{ 'is-active': !active }" />
+      :class="{ 'is-active': !active }"
+    />
     <div
       v-if="cur"
       class="bg-layer"
       :style="{ backgroundImage: `url(${cur})` }"
-      :class="{ 'is-active': active }" />
+      :class="{ 'is-active': active }"
+    />
   </div>
 </template>
 
@@ -48,3 +51,20 @@ const swap = (): void => {
   nextTick(() => requestAnimationFrame(() => (active.value = true)));
 };
 </script>
+
+<style scoped>
+.bg-system { position: fixed; inset: 0; z-index: -2; background: var(--bd-black); overflow: hidden; }
+.bg-layer {
+  position: absolute; inset: -4%;
+  background-size: cover; background-position: center;
+  opacity: 0;
+  transition: opacity 1.1s ease, transform 1.1s var(--ease-out);
+  transform: scale(1.04);
+  will-change: opacity, transform;
+}
+.bg-layer.is-active { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-layer { transition: opacity .4s ease; transform: scale(1.02); }
+}
+</style>

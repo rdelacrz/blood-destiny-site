@@ -5,27 +5,32 @@
     :height="solid ? 64 : 76"
     flat
     :elevation="0"
-    :scroll-behavior="undefined">
+    :scroll-behavior="undefined"
+  >
     <div class="bar-row">
       <router-link
         to="/"
         class="nav__brand"
         aria-label="Blood Destiny — home"
-        @click="close">
+        @click="close"
+      >
         <img
           class="brand-logo"
           :src="logoWhite"
-          alt="Blood Destiny">
+          alt="Blood Destiny"
+        >
       </router-link>
       <nav
         class="nav__links"
-        aria-label="Primary">
+        aria-label="Primary"
+      >
         <router-link
           v-for="l in nav"
           :key="l.to"
           :to="l.to"
           class="nav__link"
-          :class="{ 'is-active': route.path === l.to }">
+          :class="{ 'is-active': route.path === l.to }"
+        >
           {{ l.label }}
         </router-link>
         <a
@@ -33,7 +38,8 @@
           :href="social.url"
           target="_blank"
           rel="noopener"
-          :aria-label="'Twitter / X — ' + social.handle">
+          :aria-label="'Twitter / X — ' + social.handle"
+        >
           <XIcon />
         </a>
       </nav>
@@ -41,7 +47,8 @@
         class="bar-toggle"
         :aria-expanded="open"
         aria-label="Menu"
-        @click="open = !open" />
+        @click="open = !open"
+      />
     </div>
   </v-app-bar>
 
@@ -50,23 +57,27 @@
     class="site-drawer"
     temporary
     location="right"
-    :width="320">
+    :width="320"
+  >
     <nav
       class="drawer-menu"
-      aria-label="Mobile">
+      aria-label="Mobile"
+    >
       <router-link
         v-for="(l, i) in nav"
         :key="l.to"
         :to="l.to"
         :class="{ 'is-active': route.path === l.to }"
-        @click="close">
+        @click="close"
+      >
         <span class="num">{{ pad2(i) }}</span>{{ l.label }}
       </router-link>
       <a
         class="drawer-x"
         :href="social.url"
         target="_blank"
-        rel="noopener">
+        rel="noopener"
+      >
         <span class="drawer-x__icon"><XIcon /></span>{{ social.handle }}
       </a>
     </nav>
@@ -213,5 +224,39 @@ const pad2 = (i: number): string => String(i + 1).padStart(2, '0');
 .drawer-x__icon {
   width: 16px;
   display: inline-flex;
+}
+
+/* ---- brand + desktop links (reused by the bar shell above) ---- */
+.nav__brand { display: flex; align-items: center; gap: 0.7rem; }
+
+.nav__links { display: flex; align-items: center; gap: clamp(0.6rem, 1.6vw, 1.6rem); }
+.nav__link {
+  position: relative;
+  font-family: var(--f-ui); font-weight: 500;
+  font-size: 0.74rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--bd-bone-dim);
+  padding: 0.5rem 0.1rem;
+  transition: color .3s ease;
+}
+.nav__link::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1.5px;
+  background: var(--bd-crimson);
+  transform: scaleX(0); transform-origin: left; transition: transform .35s var(--ease-out);
+}
+.nav__link:hover { color: var(--bd-bone); }
+.nav__link:hover::after, .nav__link.is-active::after { transform: scaleX(1); }
+.nav__link.is-active { color: var(--bd-bone); }
+
+.nav__x {
+  display: grid; place-items: center; width: 38px; height: 38px;
+  border: 1px solid var(--bd-ash-line); border-radius: 50%;
+  color: var(--bd-bone-dim); transition: all .3s ease; margin-left: 0.4rem;
+}
+.nav__x:hover { color: var(--bd-bone); border-color: var(--bd-crimson); box-shadow: 0 0 18px -4px var(--bd-crimson); }
+.nav__x svg { width: 16px; height: 16px; }
+
+/* desktop links collapse into the v-navigation-drawer below this width */
+@media (max-width: 860px) {
+  .nav__links { display: none; }
 }
 </style>

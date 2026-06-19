@@ -4,21 +4,26 @@
       <BreadCrumb here="Contact" />
       <div
         class="label"
-        style="margin-top: 1.4rem">
+        style="margin-top: 1.4rem"
+      >
         Get In Touch
       </div>
-      <h1>Say hello to Ashes Aflame</h1>
+      <h1>
+        Say hello to Ashes Aflame
+      </h1>
       <p class="lead page-intro">
         Questions, press, or just want to follow the journey? Reach out below or find us on X.
       </p>
     </div>
     <section
       class="section"
-      style="padding-top: 1.5rem">
+      style="padding-top: 1.5rem"
+    >
       <div class="wrap contact-grid">
         <div
           v-reveal="{ y: 24 }"
-          class="surface x-card">
+          class="surface x-card"
+        >
           <div class="label">
             Follow the journey
           </div>
@@ -26,7 +31,8 @@
             class="x-big"
             :href="social.url"
             target="_blank"
-            rel="noopener">
+            rel="noopener"
+          >
             <span><XIcon /></span> {{ social.handle }}
           </a>
           <p class="muted">
@@ -37,24 +43,29 @@
             target="_blank"
             rel="noopener"
             class="btn btn-primary"
-            style="justify-self: start">Open on X <span class="arr">&rarr;</span></a>
+            style="justify-self: start"
+          >Open on X <span class="arr">&rarr;</span></a>
         </div>
 
         <div
           v-reveal="{ y: 24, delay: 100 }"
           class="surface contact-form"
-          style="padding: clamp(1.6rem, 4vw, 2.6rem)">
+          style="padding: clamp(1.6rem, 4vw, 2.6rem)"
+        >
           <div
             v-if="sent"
-            style="text-align: center; padding: 2rem 0">
+            style="text-align: center; padding: 2rem 0"
+          >
             <div
               class="label"
-              style="margin-bottom: 0.8rem">
+              style="margin-bottom: 0.8rem"
+            >
               Message received
             </div>
             <h2
               class="display"
-              style="font-size: var(--t-h3)">
+              style="font-size: var(--t-h3)"
+            >
               Thank you &mdash; we'll be in touch.
             </h2>
           </div>
@@ -62,36 +73,43 @@
             v-else
             ref="formRef"
             validate-on="submit"
-            @submit.prevent="submit">
+            @submit.prevent="submit"
+          >
             <label
               class="field-label"
-              for="cn">Name</label>
+              for="cn"
+            >Name</label>
             <v-text-field
               id="cn"
               v-model="name"
               :rules="[required]"
               placeholder="Your name"
-              autocomplete="name" />
+              autocomplete="name"
+            />
             <label
               class="field-label"
-              for="ce">Email</label>
+              for="ce"
+            >Email</label>
             <v-text-field
               id="ce"
               v-model="email"
               :rules="emailRules"
               type="email"
               placeholder="you@example.com"
-              autocomplete="email" />
+              autocomplete="email"
+            />
             <label
               class="field-label"
-              for="cm">Message</label>
+              for="cm"
+            >Message</label>
             <v-textarea
               id="cm"
               v-model="message"
               :rules="messageRules"
               :rows="5"
               placeholder="Tell us what's on your mind…"
-              auto-grow />
+              auto-grow
+            />
             <!-- Tailwind utilities (bg-blood-500 / text-bone — in the
                  `utilities` layer) override Vuetify's button styling
                  (vuetify-components layer) with NO !important. -->
@@ -99,7 +117,8 @@
               type="submit"
               block
               size="large"
-              class="bg-blood-500 text-bone tracking-[0.18em] mt-2">
+              class="bg-blood-500 text-bone tracking-[0.18em] mt-2"
+            >
               Send Message <span class="arr ms-2">&rarr;</span>
             </v-btn>
           </v-form>
@@ -110,7 +129,8 @@
     <v-snackbar
       v-model="snackbar"
       :color="snackError ? 'error' : 'surface-bright'"
-      timeout="4000">
+      timeout="4000"
+    >
       <div class="snack-row">
         <v-icon :icon="snackError ? mdiAlertCircleOutline : mdiCheckCircleOutline" />
         <span>{{
@@ -123,7 +143,8 @@
         <v-btn
           variant="text"
           class="text-bone"
-          @click="snackbar = false">
+          @click="snackbar = false"
+        >
           Close
         </v-btn>
       </template>
@@ -185,8 +206,17 @@ const submit = async (): Promise<void> => {
 </script>
 
 <style scoped>
-/* Brand chrome for the Vuetify fields: UI-font tracked labels (matching the
-   bespoke .field label) + ink-tinted input wells. */
+/* =========================================================
+   CONTACT LAYOUT
+   ========================================================= */
+.contact-grid { display: grid; gap: clamp(1.5rem, 4vw, 3rem); grid-template-columns: 1fr; }
+@media (min-width: 880px) { .contact-grid { grid-template-columns: 0.9fr 1.1fr; } }
+.x-card { padding: clamp(1.6rem, 4vw, 2.6rem); display: grid; gap: 1.2rem; align-content: start; }
+.x-big { display: inline-flex; align-items: center; gap: 0.8rem; font-family: var(--f-display); font-size: clamp(1.6rem, 4vw, 2.4rem); }
+.x-big svg { width: 34px; height: 34px; }
+
+/* Brand chrome for the Vuetify fields: UI-font tracked labels + ink-tinted
+   input wells. */
 .field-label {
   display: block;
   font-family: var(--f-ui);

@@ -8,15 +8,19 @@
       @play="onPlay"
       @pause="onPause"
       @timeupdate="onTime"
-      @ended="onEnded" />
+      @ended="onEnded"
+    />
     <div class="wrap page-head">
       <BreadCrumb here="Soundtrack" />
       <div
         class="label"
-        style="margin-top: 1.4rem">
+        style="margin-top: 1.4rem"
+      >
         Original Soundtrack
       </div>
-      <h1>The sound of Blood Destiny</h1>
+      <h1>
+        The sound of Blood Destiny
+      </h1>
       <p class="lead page-intro">
         The soundtrack of Blood Destiny can be listened to here. This page will be updated as more
         music is produced &mdash; the OST is mostly produced by
@@ -26,28 +30,34 @@
 
     <section
       class="section"
-      style="padding-top: 1rem">
+      style="padding-top: 1rem"
+    >
       <div
         class="wrap"
-        style="display: grid; gap: 1.6rem">
+        style="display: grid; gap: 1.6rem"
+      >
         <div
           v-reveal="{ y: 24 }"
-          class="surface player">
+          class="surface player"
+        >
           <div class="player__top">
             <button
               class="player__btn"
               :aria-label="playing ? 'Pause' : 'Play'"
-              @click="toggle">
+              @click="toggle"
+            >
               <svg
                 v-if="!playing"
                 viewBox="0 0 24 24"
-                fill="currentColor">
+                fill="currentColor"
+              >
                 <path d="M8 5v14l11-7z" />
               </svg>
               <svg
                 v-else
                 viewBox="0 0 24 24"
-                fill="currentColor">
+                fill="currentColor"
+              >
                 <path d="M7 5h4v14H7zM13 5h4v14h-4z" />
               </svg>
             </button>
@@ -64,7 +74,8 @@
                 viewBox="0 0 24 24"
                 width="18"
                 height="18"
-                fill="currentColor">
+                fill="currentColor"
+              >
                 <path d="M3 9v6h4l5 5V4L7 9H3z" />
               </svg>
               <input
@@ -73,13 +84,15 @@
                 min="0"
                 max="1"
                 step="0.01"
-                aria-label="Volume">
+                aria-label="Volume"
+              >
             </div>
           </div>
           <canvas
             ref="canvas"
             class="player__viz"
-            aria-hidden="true" />
+            aria-hidden="true"
+          />
           <div class="player__seek">
             <span>{{ curTime }}</span>
             <div
@@ -87,13 +100,16 @@
               role="slider"
               :aria-valuenow="Math.round(progress * 100)"
               aria-label="Seek"
-              @click="seek">
+              @click="seek"
+            >
               <div
                 class="seek-bar__fill"
-                :style="{ width: progress * 100 + '%' }" />
+                :style="{ width: progress * 100 + '%' }"
+              />
               <div
                 class="seek-bar__knob"
-                :style="{ left: progress * 100 + '%' }" />
+                :style="{ left: progress * 100 + '%' }"
+              />
             </div>
             <span>{{ cur.duration }}</span>
           </div>
@@ -102,25 +118,30 @@
         <div
           v-reveal="{ y: 24, delay: 100 }"
           class="surface"
-          style="padding: 0.4rem 0.6rem">
+          style="padding: 0.4rem 0.6rem"
+        >
           <table class="tracklist">
             <tbody>
               <tr
                 v-for="(t, i) in tracks"
                 :key="t.n"
                 :class="{ 'is-playing': i === current && playing }"
-                @click="select(i)">
+                @click="select(i)"
+              >
                 <td class="t-n">
                   <span
                     v-if="i === current && playing"
-                    class="eq">
+                    class="eq"
+                  >
                     <span /><span /><span /><span />
                   </span>
                   <template v-else>
                     {{ pad2(t.n) }}
                   </template>
                 </td>
-                <td><span class="t-title">{{ t.title }}</span></td>
+                <td>
+                  <span class="t-title">{{ t.title }}</span>
+                </td>
                 <td class="t-artist">
                   {{ t.artist }}
                 </td>
@@ -385,3 +406,48 @@ const onVis = (): void => {
 
 const pad2 = (n: number): string => String(n).padStart(2, '0');
 </script>
+
+<style scoped>
+/* =========================================================
+   PLAYER
+   ========================================================= */
+.player { padding: clamp(1.3rem, 3vw, 2rem); display: grid; gap: 1.3rem; }
+.player__top { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+.player__btn { width: 58px; height: 58px; border-radius: 50%; border: 1px solid var(--bd-crimson); background: rgba(200,16,46,0.1); color: var(--bd-bone); display: grid; place-items: center; flex: none; transition: all .3s ease; }
+.player__btn:hover { background: var(--bd-crimson); box-shadow: 0 0 26px -4px var(--bd-crimson); }
+.player__btn svg { width: 22px; height: 22px; }
+.player__meta { flex: 1; min-width: 180px; }
+.player__title { font-family: var(--f-display); font-size: 1.5rem; line-height: 1; }
+.player__artist { font-size: 0.8rem; color: var(--bd-bone-mute); font-family: var(--f-ui); letter-spacing: 0.1em; }
+.player__viz { width: 100%; height: 90px; display: block; border-radius: var(--rad); background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.1)); }
+.player__seek { display: flex; align-items: center; gap: 0.8rem; font-family: var(--f-ui); font-size: 0.72rem; color: var(--bd-bone-mute); }
+.seek-bar { flex: 1; height: 4px; background: var(--bd-ash); border-radius: 4px; position: relative; cursor: pointer; }
+.seek-bar__fill { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, var(--bd-oxblood), var(--bd-crimson)); border-radius: 4px; }
+.seek-bar__knob { position: absolute; top: 50%; width: 12px; height: 12px; border-radius: 50%; background: var(--bd-bone); transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(200,16,46,0.7); }
+.vol { display: flex; align-items: center; gap: 0.5rem; color: var(--bd-bone-mute); }
+.vol input { accent-color: var(--bd-crimson); width: 90px; }
+
+/* =========================================================
+   TRACKLIST
+   ========================================================= */
+.tracklist { width: 100%; border-collapse: collapse; }
+.tracklist tr { border-bottom: 1px solid var(--bd-ash); transition: background .25s ease; cursor: pointer; }
+.tracklist tr:hover { background: rgba(200,16,46,0.06); }
+.tracklist tr.is-playing { background: rgba(200,16,46,0.1); }
+.tracklist td { padding: 0.85rem 0.8rem; font-size: 0.92rem; }
+.tracklist .t-n { width: 46px; color: var(--bd-bone-mute); font-family: var(--f-ui); }
+.tracklist .t-title { font-weight: 600; }
+.tracklist .t-artist { color: var(--bd-bone-mute); font-size: 0.84rem; }
+.tracklist .t-time { text-align: right; color: var(--bd-bone-dim); font-family: var(--f-ui); width: 70px; }
+.eq { display: inline-flex; gap: 2px; align-items: flex-end; height: 14px; margin-right: 0.6rem; vertical-align: middle; }
+.eq span { width: 3px; background: var(--bd-crimson-hi); border-radius: 2px; height: 30%; }
+.is-playing .eq span { animation: eqbar 0.9s ease-in-out infinite; }
+.is-playing .eq span:nth-child(2) { animation-delay: .2s; }
+.is-playing .eq span:nth-child(3) { animation-delay: .4s; }
+.is-playing .eq span:nth-child(4) { animation-delay: .1s; }
+@keyframes eqbar { 0%,100% { height: 25%; } 50% { height: 95%; } }
+
+@media (max-width: 620px) {
+  .player__seek { flex-wrap: wrap; }
+}
+</style>

@@ -47,6 +47,11 @@ const ready = ref(false);
 </script>
 
 <style scoped>
+/* Sticky footer: .v-application__wrap is a flex column with min-height:100svh,
+   so let the routed <main> grow to fill it. Without this, short pages (e.g.
+   Contact) leave the footer floating mid-viewport with empty space beneath. */
+.route-host { flex: 1 0 auto; }
+
 /* ---------- per-route background scrim ---------- */
 .bg-scrim {
   position: fixed; inset: 0; z-index: -1; pointer-events: none;

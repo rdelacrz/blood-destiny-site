@@ -28,6 +28,11 @@
         <div class="hero__present label">
           Ashes Aflame Presents
         </div>
+        <!-- The logo image carries the brand visually; this visually-hidden
+             <h1> gives the home page a real, crawlable page heading for SEO. -->
+        <h1 class="sr-only">
+          Blood Destiny — A Visual Novel by Ashes Aflame
+        </h1>
         <img
           class="hero__logo"
           :src="A.logoColor"
@@ -199,6 +204,20 @@ const scrollDown = (): void => {
 </script>
 
 <style scoped lang="scss">
+// Visually hide the SEO <h1> while keeping it available to crawlers and
+// screen readers (standard sr-only / clip pattern).
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 // ===== Hero =====
 .hero {
   position: relative;

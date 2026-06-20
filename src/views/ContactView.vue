@@ -155,17 +155,17 @@
 </template>
 
 <script setup lang="ts">
-/* =====================================================================
-   Contact — X / Twitter card (bespoke) plus a Vuetify-powered message
-   form: v-form + v-text-field / v-textarea with validation rules, and a
-   v-snackbar for submit feedback. No backend; UI-only.
-   ===================================================================== */
+/**
+ * @fileoverview Contact — X / Twitter card (bespoke) plus a Vuetify-powered message
+ * form: v-form + v-text-field / v-textarea with validation rules, and a
+ * v-snackbar for submit feedback. No backend; UI-only.
+ */
 import { ref } from 'vue';
 import { mdiCheckCircleOutline, mdiAlertCircleOutline } from '@mdi/js';
 import type { VForm } from 'vuetify/components';
 import BreadCrumb from '@/components/BreadCrumb.vue';
 import XIcon from '@/components/XIcon.vue';
-import { prefersReducedMotion } from '@/composables/atmosphere';
+import { prefersReducedMotion } from '@/utils/atmosphere';
 import { SOCIAL } from '@/data/site';
 import { animate } from 'animejs';
 
@@ -207,7 +207,7 @@ const submit = async (): Promise<void> => {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* =========================================================
    PAGE ATMOSPHERE — extra scrim tuned to the temple-hallway
    art (dark corridor, but saturated cyan glyph bands + a warm
@@ -219,7 +219,10 @@ const submit = async (): Promise<void> => {
    ========================================================= */
 .route-host::before {
   content: "";
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
   background:
     linear-gradient(180deg,
       rgba(8, 8, 11, 0.52) 0%, rgba(8, 8, 11, 0.32) 45%,
@@ -230,9 +233,24 @@ const submit = async (): Promise<void> => {
 /* =========================================================
    CONTACT LAYOUT
    ========================================================= */
-.contact-grid { display: grid; gap: clamp(1.5rem, 4vw, 3rem); grid-template-columns: 1fr; }
-@media (min-width: 880px) { .contact-grid { grid-template-columns: 0.9fr 1.1fr; } }
-.x-card { padding: clamp(1.6rem, 4vw, 2.6rem); display: grid; gap: 1.2rem; align-content: start; }
+.contact-grid {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 3rem);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 880px) {
+  .contact-grid {
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+}
+
+.x-card {
+  padding: clamp(1.6rem, 4vw, 2.6rem);
+  display: grid;
+  gap: 1.2rem;
+  align-content: start;
+}
 
 /* Both panels ride over the glyph corridor — push the shared .surface ink to
    near-opaque glass and deepen the blur so copy + input text stay readable. */
@@ -242,8 +260,19 @@ const submit = async (): Promise<void> => {
   border-color: rgba(58, 58, 66, 0.85);
   backdrop-filter: blur(12px);
 }
-.x-big { display: inline-flex; align-items: center; gap: 0.8rem; font-family: var(--f-display); font-size: clamp(1.6rem, 4vw, 2.4rem); }
-.x-big svg { width: 34px; height: 34px; }
+
+.x-big {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--f-display);
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+}
+
+.x-big svg {
+  width: 34px;
+  height: 34px;
+}
 
 /* Brand chrome for the Vuetify fields: UI-font tracked labels + ink-tinted
    input wells. */
@@ -260,9 +289,11 @@ const submit = async (): Promise<void> => {
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
 }
+
 .field-label:first-of-type {
   margin-top: 0;
 }
+
 /* Tailwind's Preflight (@layer base) lands above Vuetify's layers in the
    cascade (see main.css header), so its `*{ padding:0; border:0 solid }` reset
    strips the v-field's input padding AND the outlined-variant border, leaving
@@ -274,6 +305,7 @@ const submit = async (): Promise<void> => {
   font-family: var(--f-body);
   border: 1px solid var(--bd-ash-line);
 }
+
 .contact-form :deep(.v-field__input) {
   color: var(--bd-bone);
   /* Restore the stripped inner padding (Vuetify's outlined/comfortable spacing)
@@ -283,18 +315,21 @@ const submit = async (): Promise<void> => {
   padding-block: 0.6rem;
   line-height: 1.5;
 }
+
 /* Placeholders default to a low opacity that washes out over the corridor —
    pin them to a readable muted bone. */
 .contact-form :deep(.v-field__input)::placeholder {
   color: var(--bd-bone-mute);
   opacity: 1;
 }
+
 /* Keep keyboard/active focus unmistakable over the busy art: turn the restored
    field border crimson and add a soft crimson ring around it. */
 .contact-form :deep(.v-field--focused) {
   border-color: var(--bd-crimson);
   box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.22);
 }
+
 .snack-row {
   display: flex;
   align-items: center;

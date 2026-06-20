@@ -1,15 +1,15 @@
-/* =====================================================================
-   BLOOD DESTINY — useUpdates
-   Reactive devlog feed: fetches the updates JSON (api/updates) on mount,
-   exposes async status + backend-ordered (newest-first) entries, and pages
-   client-side in PAGE_SIZE batches behind a "Load more" affordance — mirroring
-   `master`, whose Telefunc query returns the full ordered list and pages it in
-   the component. Falls back to the bundled seed entries when no endpoint is
-   configured (offline / local dev).
-   ===================================================================== */
+/**
+ * @fileoverview BLOOD DESTINY — useUpdates.
+ * Reactive devlog feed: fetches the updates JSON (api/updates) on mount,
+ * exposes async status + backend-ordered (newest-first) entries, and pages
+ * client-side in PAGE_SIZE batches behind a "Load more" affordance — mirroring
+ * `master`, whose Telefunc query returns the full ordered list and pages it in
+ * the component. Falls back to the bundled seed entries when no endpoint is
+ * configured (offline / local dev).
+ */
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import type { Update } from '@/data/updates';
-import { updates as UPDATES } from '@/data/updates';
+import { UPDATES } from '@/data/updates';
 import { fetchUpdates, hasUpdatesEndpoint } from '@/api/updates';
 
 export type UpdatesStatus = 'loading' | 'success' | 'empty' | 'error';
@@ -17,7 +17,7 @@ export type UpdatesStatus = 'loading' | 'success' | 'empty' | 'error';
 /** Entries revealed per page / appended per "Load more". */
 export const UPDATES_PAGE_SIZE = 3;
 
-export function useUpdates() {
+export const useUpdates = () => {
   const all = ref<Update[]>([]);
   const status = ref<UpdatesStatus>('loading');
   const error = ref<string | null>(null);
@@ -64,6 +64,6 @@ export function useUpdates() {
     pageSize: UPDATES_PAGE_SIZE,
     load,
     retry: load,
-    loadMore,
+    loadMore
   };
-}
+};

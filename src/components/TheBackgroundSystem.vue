@@ -19,11 +19,11 @@
 </template>
 
 <script setup lang="ts">
-/* =====================================================================
-   BackgroundSystem — cross-fades a full-bleed background image per route
-   (route.meta.bg → ASSETS.bg key). Keeps the previous layer mounted for
-   one tick so the new one can fade in over it.
-   ===================================================================== */
+/**
+ * @fileoverview BackgroundSystem — cross-fades a full-bleed background image per route
+ * (route.meta.bg → ASSETS.bg key). Keeps the previous layer mounted for
+ * one tick so the new one can fade in over it.
+ */
 import { nextTick, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { ASSETS } from '@/data/site';
@@ -52,19 +52,34 @@ const swap = (): void => {
 };
 </script>
 
-<style scoped>
-.bg-system { position: fixed; inset: 0; z-index: -2; background: var(--bd-black); overflow: hidden; }
+<style scoped lang="scss">
+.bg-system {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: var(--bd-black);
+  overflow: hidden;
+}
+
 .bg-layer {
-  position: absolute; inset: -4%;
-  background-size: cover; background-position: center;
+  position: absolute;
+  inset: -4%;
+  background-size: cover;
+  background-position: center;
   opacity: 0;
   transition: opacity 1.1s ease, transform 1.1s var(--ease-out);
   transform: scale(1.04);
   will-change: opacity, transform;
 }
-.bg-layer.is-active { opacity: 1; }
+
+.bg-layer.is-active {
+  opacity: 1;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .bg-layer { transition: opacity .4s ease; transform: scale(1.02); }
+  .bg-layer {
+    transition: opacity .4s ease;
+    transform: scale(1.02);
+  }
 }
 </style>

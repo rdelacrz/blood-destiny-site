@@ -158,19 +158,19 @@
 </template>
 
 <script setup lang="ts">
-/* =====================================================================
-   Soundtrack — player + tracklist with a canvas spectrum visualizer.
-
-   The prototype ships no real audio files, so playback is a UI-only
-   preview: a synthetic crimson→steel equalizer plus a progress ticker
-   driven by each track's listed duration. The visualizer is written to be
-   AnalyserNode-ready — when real `audioUrl`s land (see data/soundtrack.ts)
-   create an AudioContext + MediaElementSource + AnalyserNode for an
-   HTMLAudioElement and feed getByteFrequencyData() into draw().
-   ===================================================================== */
+/**
+ * @fileoverview Soundtrack — player + tracklist with a canvas spectrum visualizer.
+ *
+ * The prototype ships no real audio files, so playback is a UI-only
+ * preview: a synthetic crimson→steel equalizer plus a progress ticker
+ * driven by each track's listed duration. The visualizer is written to be
+ * AnalyserNode-ready — when real `audioUrl`s land (see data/soundtrack.ts)
+ * create an AudioContext + MediaElementSource + AnalyserNode for an
+ * HTMLAudioElement and feed getByteFrequencyData() into draw().
+ */
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import BreadCrumb from '@/components/BreadCrumb.vue';
-import { prefersReducedMotion } from '@/composables/atmosphere';
+import { prefersReducedMotion } from '@/utils/atmosphere';
 import { TRACKS } from '@/data/soundtrack';
 
 const tracks = TRACKS;
@@ -184,12 +184,12 @@ const audioEl = ref<HTMLAudioElement | null>(null);
 let raf: number | null = null;
 let t0 = 0;
 
-/* --- Web Audio analyser (lazily built on first real playback) --- */
+// Web Audio analyser (lazily built on first real playback)
 let audioCtx: AudioContext | null = null;
 let analyser: AnalyserNode | null = null;
 let freq: Uint8Array<ArrayBuffer> | null = null;
 
-/* --- visualizer (synthetic spectrum; AnalyserNode-ready) --- */
+// visualizer (synthetic spectrum; AnalyserNode-ready)
 const BARS = 48;
 
 // progress ticker — drives the UI-only preview for tracks without audioUrl
@@ -293,7 +293,7 @@ const nextTrack = (): void => {
   current.value = (current.value + 1) % tracks.length;
 };
 
-/* --- real audio playback (used when the track has audioUrl) --- */
+// real audio playback (used when the track has audioUrl)
 /** Build the AudioContext → AnalyserNode graph once, on first real play. */
 const ensureGraph = (): void => {
   if (audioCtx || !audioEl.value) return;
@@ -316,7 +316,7 @@ const playReal = async (): Promise<void> => {
   try {
     await el.play();
   } catch {
-    /* autoplay blocked until a user gesture — ignore */
+    // autoplay blocked until a user gesture — ignore
   }
 };
 
@@ -376,7 +376,7 @@ const seek = (e: MouseEvent): void => {
   if (hasAudio.value && el && el.duration) el.currentTime = ratio * el.duration;
 };
 
-/* --- audio element event handlers --- */
+// audio element event handlers
 const onPlay = (): void => {
   playing.value = true;
   startViz();
@@ -407,47 +407,215 @@ const onVis = (): void => {
 const pad2 = (n: number): string => String(n).padStart(2, '0');
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* =========================================================
    PLAYER
    ========================================================= */
-.player { padding: clamp(1.3rem, 3vw, 2rem); display: grid; gap: 1.3rem; }
-.player__top { display: flex; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
-.player__btn { width: 58px; height: 58px; border-radius: 50%; border: 1px solid var(--bd-crimson); background: rgba(200,16,46,0.1); color: var(--bd-bone); display: grid; place-items: center; flex: none; transition: all .3s ease; }
-.player__btn:hover { background: var(--bd-crimson); box-shadow: 0 0 26px -4px var(--bd-crimson); }
-.player__btn svg { width: 22px; height: 22px; }
-.player__meta { flex: 1; min-width: 180px; }
-.player__title { font-family: var(--f-display); font-size: 1.5rem; line-height: 1; }
-.player__artist { font-size: 0.8rem; color: var(--bd-bone-mute); font-family: var(--f-ui); letter-spacing: 0.1em; }
-.player__viz { width: 100%; height: 90px; display: block; border-radius: var(--rad); background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.1)); }
-.player__seek { display: flex; align-items: center; gap: 0.8rem; font-family: var(--f-ui); font-size: 0.72rem; color: var(--bd-bone-mute); }
-.seek-bar { flex: 1; height: 4px; background: var(--bd-ash); border-radius: 4px; position: relative; cursor: pointer; }
-.seek-bar__fill { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, var(--bd-oxblood), var(--bd-crimson)); border-radius: 4px; }
-.seek-bar__knob { position: absolute; top: 50%; width: 12px; height: 12px; border-radius: 50%; background: var(--bd-bone); transform: translate(-50%, -50%); box-shadow: 0 0 10px rgba(200,16,46,0.7); }
-.vol { display: flex; align-items: center; gap: 0.5rem; color: var(--bd-bone-mute); }
-.vol input { accent-color: var(--bd-crimson); width: 90px; }
+.player {
+  padding: clamp(1.3rem, 3vw, 2rem);
+  display: grid;
+  gap: 1.3rem;
+}
+
+.player__top {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-wrap: wrap;
+}
+
+.player__btn {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 1px solid var(--bd-crimson);
+  background: rgba(200,16,46,0.1);
+  color: var(--bd-bone);
+  display: grid;
+  place-items: center;
+  flex: none;
+  transition: all .3s ease;
+}
+
+.player__btn:hover {
+  background: var(--bd-crimson);
+  box-shadow: 0 0 26px -4px var(--bd-crimson);
+}
+
+.player__btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.player__meta {
+  flex: 1;
+  min-width: 180px;
+}
+
+.player__title {
+  font-family: var(--f-display);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.player__artist {
+  font-size: 0.8rem;
+  color: var(--bd-bone-mute);
+  font-family: var(--f-ui);
+  letter-spacing: 0.1em;
+}
+
+.player__viz {
+  width: 100%;
+  height: 90px;
+  display: block;
+  border-radius: var(--rad);
+  background: linear-gradient(180deg, rgba(0,0,0,0.4), rgba(0,0,0,0.1));
+}
+
+.player__seek {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--f-ui);
+  font-size: 0.72rem;
+  color: var(--bd-bone-mute);
+}
+
+.seek-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--bd-ash);
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+}
+
+.seek-bar__fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, var(--bd-oxblood), var(--bd-crimson));
+  border-radius: 4px;
+}
+
+.seek-bar__knob {
+  position: absolute;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--bd-bone);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 10px rgba(200,16,46,0.7);
+}
+
+.vol {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--bd-bone-mute);
+}
+
+.vol input {
+  accent-color: var(--bd-crimson);
+  width: 90px;
+}
 
 /* =========================================================
    TRACKLIST
    ========================================================= */
-.tracklist { width: 100%; border-collapse: collapse; }
-.tracklist tr { border-bottom: 1px solid var(--bd-ash); transition: background .25s ease; cursor: pointer; }
-.tracklist tr:hover { background: rgba(200,16,46,0.06); }
-.tracklist tr.is-playing { background: rgba(200,16,46,0.1); }
-.tracklist td { padding: 0.85rem 0.8rem; font-size: 0.92rem; }
-.tracklist .t-n { width: 46px; color: var(--bd-bone-mute); font-family: var(--f-ui); }
-.tracklist .t-title { font-weight: 600; }
-.tracklist .t-artist { color: var(--bd-bone-mute); font-size: 0.84rem; }
-.tracklist .t-time { text-align: right; color: var(--bd-bone-dim); font-family: var(--f-ui); width: 70px; }
-.eq { display: inline-flex; gap: 2px; align-items: flex-end; height: 14px; margin-right: 0.6rem; vertical-align: middle; }
-.eq span { width: 3px; background: var(--bd-crimson-hi); border-radius: 2px; height: 30%; }
-.is-playing .eq span { animation: eqbar 0.9s ease-in-out infinite; }
-.is-playing .eq span:nth-child(2) { animation-delay: .2s; }
-.is-playing .eq span:nth-child(3) { animation-delay: .4s; }
-.is-playing .eq span:nth-child(4) { animation-delay: .1s; }
-@keyframes eqbar { 0%,100% { height: 25%; } 50% { height: 95%; } }
+.tracklist {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tracklist tr {
+  border-bottom: 1px solid var(--bd-ash);
+  transition: background .25s ease;
+  cursor: pointer;
+}
+
+.tracklist tr:hover {
+  background: rgba(200,16,46,0.06);
+}
+
+.tracklist tr.is-playing {
+  background: rgba(200,16,46,0.1);
+}
+
+.tracklist td {
+  padding: 0.85rem 0.8rem;
+  font-size: 0.92rem;
+}
+
+.tracklist .t-n {
+  width: 46px;
+  color: var(--bd-bone-mute);
+  font-family: var(--f-ui);
+}
+
+.tracklist .t-title {
+  font-weight: 600;
+}
+
+.tracklist .t-artist {
+  color: var(--bd-bone-mute);
+  font-size: 0.84rem;
+}
+
+.tracklist .t-time {
+  text-align: right;
+  color: var(--bd-bone-dim);
+  font-family: var(--f-ui);
+  width: 70px;
+}
+
+.eq {
+  display: inline-flex;
+  gap: 2px;
+  align-items: flex-end;
+  height: 14px;
+  margin-right: 0.6rem;
+  vertical-align: middle;
+}
+
+.eq span {
+  width: 3px;
+  background: var(--bd-crimson-hi);
+  border-radius: 2px;
+  height: 30%;
+}
+
+.is-playing .eq span {
+  animation: eqbar 0.9s ease-in-out infinite;
+}
+
+.is-playing .eq span:nth-child(2) {
+  animation-delay: .2s;
+}
+
+.is-playing .eq span:nth-child(3) {
+  animation-delay: .4s;
+}
+
+.is-playing .eq span:nth-child(4) {
+  animation-delay: .1s;
+}
+
+@keyframes eqbar {
+  0%,100% {
+    height: 25%;
+  }
+  50% {
+    height: 95%;
+  }
+}
 
 @media (max-width: 620px) {
-  .player__seek { flex-wrap: wrap; }
+  .player__seek {
+    flex-wrap: wrap;
+  }
 }
 </style>

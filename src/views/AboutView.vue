@@ -128,13 +128,13 @@
 </template>
 
 <script setup lang="ts">
-/* =====================================================================
-   About — the studio + story, with a scroll-reactive promo key art and
-   the feature grid (each card draws its own SVG motif).
-   ===================================================================== */
+/**
+ * @fileoverview About — the studio + story, with a scroll-reactive promo key art and
+ * the feature grid (each card draws its own SVG motif).
+ */
 import { onMounted, onUnmounted, ref } from 'vue';
 import BreadCrumb from '@/components/BreadCrumb.vue';
-import { prefersReducedMotion } from '@/composables/atmosphere';
+import { prefersReducedMotion } from '@/utils/atmosphere';
 import { ASSETS, FEATURES, STORY } from '@/data/site';
 
 const A = ASSETS;
@@ -164,38 +164,106 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 /* =========================================================
    SECTION HEADINGS
    ========================================================= */
-.sec-head { display: grid; gap: 0.9rem; margin-bottom: clamp(1.8rem, 4vw, 3rem); }
-.sec-head h2 { font-family: var(--f-display); font-size: var(--t-h2); }
-.sec-head.center { justify-items: center; text-align: center; }
+.sec-head {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: clamp(1.8rem, 4vw, 3rem);
+}
+
+.sec-head h2 {
+  font-family: var(--f-display);
+  font-size: var(--t-h2);
+}
+
+.sec-head.center {
+  justify-items: center;
+  text-align: center;
+}
 
 /* =========================================================
    FEATURE CARDS
    ========================================================= */
-.feat-grid { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-.feat { padding: 1.6rem; position: relative; overflow: hidden; }
-.feat__icon { width: 40px; height: 40px; margin-bottom: 1rem; color: var(--bd-crimson-hi); }
-.feat h3 { font-family: var(--f-ui); font-size: 1rem; letter-spacing: 0.04em; margin-bottom: 0.5rem; }
-.feat p { color: var(--bd-bone-dim); font-size: 0.95rem; }
-.feat::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, var(--bd-crimson), transparent); opacity: 0.5; }
+.feat-grid {
+  display: grid;
+  gap: 1.1rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.feat {
+  padding: 1.6rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.feat__icon {
+  width: 40px;
+  height: 40px;
+  margin-bottom: 1rem;
+  color: var(--bd-crimson-hi);
+}
+
+.feat h3 {
+  font-family: var(--f-ui);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.5rem;
+}
+
+.feat p {
+  color: var(--bd-bone-dim);
+  font-size: 0.95rem;
+}
+
+.feat::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--bd-crimson), transparent);
+  opacity: 0.5;
+}
 
 /* =========================================================
    STORY + PROMO
    ========================================================= */
-.story p + p { margin-top: 1.1rem; }
-.story p { font-size: var(--t-lead); color: var(--bd-bone-dim); }
-.story .drop::first-letter { font-family: var(--f-display); font-size: 3.4em; line-height: 0.7; float: left; padding: 0.08em 0.14em 0 0; color: var(--bd-crimson-hi); }
+.story p + p {
+  margin-top: 1.1rem;
+}
+
+.story p {
+  font-size: var(--t-lead);
+  color: var(--bd-bone-dim);
+}
+
+.story .drop::first-letter {
+  font-family: var(--f-display);
+  font-size: 3.4em;
+  line-height: 0.7;
+  float: left;
+  padding: 0.08em 0.14em 0 0;
+  color: var(--bd-crimson-hi);
+}
+
 /* contained key-art showcase */
-.promo-section { padding-block: clamp(3.5rem, 10vh, 7.5rem); }
+.promo-section {
+  padding-block: clamp(3.5rem, 10vh, 7.5rem);
+}
+
 .promo-panel {
   position: relative;
-  max-width: 960px; margin-inline: auto;
+  max-width: 960px;
+  margin-inline: auto;
   border-radius: 18px;
   overflow: hidden;
-  display: flex; flex-direction: column; align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   background:
     radial-gradient(125% 90% at 50% 102%, rgba(139,0,0,0.5), rgba(110,7,18,0.18) 42%, transparent 68%),
     linear-gradient(180deg, #0c0c11 0%, #15090c 70%, #1a0a0e 100%);
@@ -204,38 +272,75 @@ onUnmounted(() => {
     0 0 0 1px rgba(200,16,46,0.14),
     0 0 90px -34px rgba(200,16,46,0.45);
 }
+
 .promo-figure {
   position: relative;
   width: 100%;
-  display: flex; justify-content: center; align-items: flex-end;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
   overflow: hidden;
 }
+
 .promo-figure img {
-  max-height: 74vh; width: auto; max-width: 100%;
-  object-fit: contain; object-position: bottom center;
+  max-height: 74vh;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: bottom center;
   display: block;
-  transition: transform .2s linear; will-change: transform;
+  transition: transform .2s linear;
+  will-change: transform;
 }
+
 /* melt the figure into the panel: strong bottom fade + soft side vignettes */
 .promo-figure::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
   background:
     linear-gradient(180deg, transparent 68%, rgba(20,10,13,0.6) 88%, rgba(20,10,13,0.95) 100%),
     linear-gradient(90deg, rgba(18,10,13,0.55), transparent 14%, transparent 86%, rgba(18,10,13,0.55));
 }
+
 .promo-caption {
-  position: absolute; left: 0; right: 0; bottom: clamp(1.1rem, 3.2vh, 2.2rem);
-  z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 0.7rem;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(1.1rem, 3.2vh, 2.2rem);
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
   pointer-events: none;
 }
-.promo-caption__line { width: 56px; height: 2px; background: var(--bd-crimson); opacity: 0.9; }
+
+.promo-caption__line {
+  width: 56px;
+  height: 2px;
+  background: var(--bd-crimson);
+  opacity: 0.9;
+}
+
 .promo-caption__txt {
-  font-family: var(--f-ui); font-weight: 600; font-size: var(--t-label);
-  letter-spacing: 0.42em; text-transform: uppercase; color: var(--bd-bone);
+  font-family: var(--f-ui);
+  font-weight: 600;
+  font-size: var(--t-label);
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--bd-bone);
   text-shadow: 0 2px 14px rgba(0,0,0,0.85), 0 0 4px rgba(0,0,0,0.7);
 }
+
 @media (max-width: 560px) {
-  .promo-figure img { max-height: 64vh; }
-  .promo-caption__txt { letter-spacing: 0.3em; font-size: 0.7rem; }
+  .promo-figure img {
+    max-height: 64vh;
+  }
+  .promo-caption__txt {
+    letter-spacing: 0.3em;
+    font-size: 0.7rem;
+  }
 }
 </style>

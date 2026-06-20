@@ -1,20 +1,20 @@
-/* =====================================================================
-   Vuetify 4 — brand integration
-   A single custom DARK theme ("bloodDestiny") mapped to the existing
-   design tokens from src/assets/main.css @theme / :root, plus global component
-   defaults tuned for the cinematic look. Vuetify is adopted SELECTIVELY;
-   bespoke pieces (hero, atmosphere, character art) stay hand-rolled.
-   ===================================================================== */
+/**
+ * @fileoverview Vuetify 4 — brand integration.
+ * A single custom DARK theme ("bloodDestiny") mapped to the existing
+ * design tokens from src/assets/main.css @theme / :root, plus global component
+ * defaults tuned for the cinematic look. Vuetify is adopted SELECTIVELY;
+ * bespoke pieces (hero, atmosphere, character art) stay hand-rolled.
+ */
 import 'vuetify/styles';
 import { createVuetify } from 'vuetify';
 import type { ThemeDefinition } from 'vuetify';
 import { aliases, mdi } from 'vuetify/iconsets/mdi-svg';
 
-/* Brand tokens (kept in sync with src/assets/main.css):
-   crimson  #C8102E / blood #8B0000      — primary / accent
-   ink      #0A0A0C / #15151A / #2A2A30  — surfaces
-   steel    #7FB5D6 / #3A6B8C            — cold-blue secondary
-   bone     #F5F0E8                       — text                            */
+// Brand tokens (kept in sync with src/assets/main.css):
+// crimson  #C8102E / blood #8B0000      — primary / accent
+// ink      #0A0A0C / #15151A / #2A2A30  — surfaces
+// steel    #7FB5D6 / #3A6B8C            — cold-blue secondary
+// bone     #F5F0E8                       — text
 const bloodDestiny: ThemeDefinition = {
   dark: true,
   colors: {

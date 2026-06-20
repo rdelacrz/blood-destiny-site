@@ -1,14 +1,14 @@
-/* =====================================================================
-   BLOOD DESTINY — character roster
-   Single source of truth for the character roster and their detail pages.
-   Bios use the EXACT wording from the original site's Characters page.
-
-   Image paths: `image` is the full-body character art, resolved through the
-   shared `portrait()` helper (src/data/site.ts) so the roster and detail pages
-   share one asset base. Files live in `public/assets/images/characters/<file>`
-   and are served at `/assets/images/characters/<file>`. The roster cards
-   instead use the cropped bust (`<file>_top.png`) via `cardPortrait()` below.
-   ===================================================================== */
+/**
+ * @fileoverview BLOOD DESTINY — character roster.
+ * Single source of truth for the character roster and their detail pages.
+ * Bios use the EXACT wording from the original site's Characters page.
+ *
+ * Image paths: `image` is the full-body character art, resolved through the
+ * shared `portrait()` helper (src/data/site.ts) so the roster and detail pages
+ * share one asset base. Files live in `public/assets/images/characters/<file>`
+ * and are served at `/assets/images/characters/<file>`. The roster cards
+ * instead use the cropped bust (`<file>_top.png`) via `cardPortrait()` below.
+ */
 import { portrait } from '@/data/site';
 
 export type CharacterGroup = 'playable' | 'supporting';
@@ -27,7 +27,7 @@ export interface Character {
 }
 
 export const characters: Character[] = [
-  /* ---- Playable ---- */
+  // Playable
   {
     id: 'jackSmith',
     name: 'Jack Smith',
@@ -97,7 +97,7 @@ export const characters: Character[] = [
       'She is of noble descent, and was born into a wealthy family situated within the Kyoudan Empire. She is currently estranged from her parents, who had arranged for her (against her will) to get married to a high ranking officer within the Kyoudan Empire\'s military force. Naomi ended up running away from home in order to avoid that fate. She has not spoken to any member of her family for several years.',
     ],
   },
-  /* ---- Supporting ---- */
+  // Supporting
   {
     id: 'alderZeke',
     name: 'Alder Zeke',

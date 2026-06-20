@@ -1,9 +1,9 @@
-/* =====================================================================
-   BLOOD DESTINY — site content & asset URLs
-   All assets are self-hosted from /public/assets (served at /assets/*).
-   No external image/CDN hosts. The image/portrait helpers are shared
-   with characters.ts.
-   ===================================================================== */
+/**
+ * @fileoverview BLOOD DESTINY — site content & asset URLs.
+ * All assets are self-hosted from /public/assets (served at /assets/*).
+ * No external image/CDN hosts. The image/portrait helpers are shared
+ * with characters.ts.
+ */
 
 /** Base path for every self-hosted asset (public/assets → /assets). */
 const ASSET_BASE = '/assets';

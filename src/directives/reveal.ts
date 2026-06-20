@@ -1,9 +1,9 @@
-/* =====================================================================
-   v-reveal — scroll-into-view fade/slide reveal (CSS-transition driven)
-   value: { y?, delay?, stagger?, sel? } — sel = child selector to stagger.
-   ===================================================================== */
+/**
+ * @fileoverview v-reveal — scroll-into-view fade/slide reveal (CSS-transition driven).
+ * value: { y?, delay?, stagger?, sel? } — sel = child selector to stagger.
+ */
 import type { Directive } from 'vue';
-import { prefersReducedMotion } from '@/composables/atmosphere';
+import { prefersReducedMotion } from '@/utils/atmosphere';
 
 export interface RevealOptions {
   /** Initial Y offset in px (defaults to the CSS --rv-y of 26px). */

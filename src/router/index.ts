@@ -1,14 +1,14 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
-import { routeSweep } from '@/composables/atmosphere';
+import { routeSweep } from '@/utils/atmosphere';
 import { getCharacter } from '@/data/characters';
 import type { BackgroundKey } from '@/data/site';
 
-/* Views are imported eagerly rather than via () => import(): the site is
-   small, and lazy chunks made the first visit to a page block on a separate
-   network fetch (prod) or on-demand compile (dev). That delay read as a
-   "dead" first click that only worked on the second try. Bundling the views
-   keeps navigation instant on the first click. */
+// Views are imported eagerly rather than via () => import(): the site is
+// small, and lazy chunks made the first visit to a page block on a separate
+// network fetch (prod) or on-demand compile (dev). That delay read as a
+// "dead" first click that only worked on the second try. Bundling the views
+// keeps navigation instant on the first click.
 import HomeView from '@/views/HomeView.vue';
 import AboutView from '@/views/AboutView.vue';
 import CharactersView from '@/views/CharactersView.vue';
@@ -17,7 +17,7 @@ import SoundtrackView from '@/views/SoundtrackView.vue';
 import UpdatesView from '@/views/UpdatesView.vue';
 import ContactView from '@/views/ContactView.vue';
 
-/* Per-route background key is read by TheBackgroundSystem via route.meta.bg. */
+// Per-route background key is read by TheBackgroundSystem via route.meta.bg.
 declare module 'vue-router' {
   interface RouteMeta {
     bg?: BackgroundKey;

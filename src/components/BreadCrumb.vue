@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-/* Breadcrumb — "Home / <here>" used on every interior page head. */
+/** @fileoverview Breadcrumb — "Home / <here>" used on every interior page head. */
 defineProps({
   here: {
     type: String,

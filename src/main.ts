@@ -7,10 +7,10 @@ import { reveal } from '@/directives/reveal';
 import '@/assets/main.css';
 import vuetify from '@/plugins/vuetify';
 
-/* Self-hosted fonts (replaces the prototype's Google Fonts <link>) ----------
-   Cormorant Garamond — display (incl. italic for hero tag + drop-cap)
-   Chakra Petch       — UI / eyebrows / nav
-   Manrope            — body                                                   */
+// Self-hosted fonts (replaces the prototype's Google Fonts <link>):
+// Cormorant Garamond — display (incl. italic for hero tag + drop-cap)
+// Chakra Petch       — UI / eyebrows / nav
+// Manrope            — body
 import '@fontsource/cormorant-garamond/500.css';
 import '@fontsource/cormorant-garamond/600.css';
 import '@fontsource/cormorant-garamond/700.css';

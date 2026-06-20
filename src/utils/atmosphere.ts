@@ -1,18 +1,18 @@
-/* =====================================================================
-   BLOOD DESTINY — atmosphere & motion (anime.js v4)
-   Embers, volumetric haze, ice shards, parallax, word reveal, route sweep.
-   Honors prefers-reduced-motion and pauses loops when the tab is hidden
-   or the host element scrolls offscreen.
-   ===================================================================== */
+/**
+ * @fileoverview BLOOD DESTINY — atmosphere & motion (anime.js v4).
+ * Embers, volumetric haze, ice shards, parallax, word reveal, route sweep.
+ * Honors prefers-reduced-motion and pauses loops when the tab is hidden
+ * or the host element scrolls offscreen.
+ */
 import { animate, createTimeline, utils } from 'animejs';
 import type { JSAnimation } from 'animejs';
 
-/* ---- reduced-motion ---- */
+// reduced-motion
 export const prefersReducedMotion = (): boolean =>
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---- controllers ---- */
+// controllers
 export interface FxController {
   el?: HTMLElement;
   pause(): void;
@@ -30,7 +30,7 @@ const noopController = (): FxController => ({
   destroy() {},
 });
 
-/* ---- global loop registry: pause when tab hidden ---- */
+// global loop registry: pause when tab hidden
 const loops = new Set<JSAnimation>();
 /** false = intentionally paused (offscreen); don't auto-resume on tab focus. */
 const activeFlags = new WeakMap<JSAnimation, boolean>();
@@ -44,7 +44,7 @@ const unregister = (inst: JSAnimation | undefined): void => {
   try {
     inst.pause();
   } catch {
-    /* already disposed */
+    // already disposed
   }
   loops.delete(inst);
 };
@@ -66,9 +66,7 @@ if (typeof document !== 'undefined') {
 
 const rnd = (min: number, max: number): number => Math.random() * (max - min) + min;
 
-/* =================================================================
-   EMBERS / ASH FIELD — small particles drifting up with sway + flicker
-   ================================================================= */
+// EMBERS / ASH FIELD — small particles drifting up with sway + flicker
 export const mountEmbers = (container: HTMLElement | null, count?: number): FxController => {
   if (!container) return noopController();
   const layer = document.createElement('div');
@@ -136,9 +134,7 @@ export const mountEmbers = (container: HTMLElement | null, count?: number): FxCo
   };
 };
 
-/* =================================================================
-   VOLUMETRIC RED HAZE — 3 soft drifting / pulsing blobs
-   ================================================================= */
+// VOLUMETRIC RED HAZE — 3 soft drifting / pulsing blobs
 export const mountHaze = (container: HTMLElement | null): FxController => {
   if (!container) return noopController();
   const layer = document.createElement('div');
@@ -185,9 +181,7 @@ export const mountHaze = (container: HTMLElement | null): FxController => {
   };
 };
 
-/* =================================================================
-   ICE SHARDS — for Fuyumi / ice-accent detail surfaces
-   ================================================================= */
+// ICE SHARDS — for Fuyumi / ice-accent detail surfaces
 export const mountShards = (container: HTMLElement | null, count?: number): SimpleController => {
   if (!container) return { destroy() {} };
   const layer = document.createElement('div');
@@ -239,9 +233,7 @@ export const mountShards = (container: HTMLElement | null, count?: number): Simp
   return { el: layer, destroy() { insts.forEach(unregister); layer.remove(); } };
 };
 
-/* =================================================================
-   PARALLAX — pointer + scroll, multi-rate layer translate
-   ================================================================= */
+// PARALLAX — pointer + scroll, multi-rate layer translate
 export interface ParallaxLayer {
   el: HTMLElement | null;
   depth: number;
@@ -286,9 +278,7 @@ export const mountParallax = (host: HTMLElement | null, layers: ParallaxLayer[])
   };
 };
 
-/* =================================================================
-   PAUSE-WHEN-OFFSCREEN for an atmosphere controller
-   ================================================================= */
+// PAUSE-WHEN-OFFSCREEN for an atmosphere controller
 export const pauseWhenOffscreen = (
   targetEl: HTMLElement | null,
   controller: FxController,
@@ -307,9 +297,7 @@ export const pauseWhenOffscreen = (
   return { destroy() { io.disconnect(); } };
 };
 
-/* =================================================================
-   TEXT REVEAL — split into words, stagger fade-up (CSS-transition driven)
-   ================================================================= */
+// TEXT REVEAL — split into words, stagger fade-up (CSS-transition driven)
 export interface RevealWordsOptions {
   stagger?: number;
   delay?: number;
@@ -341,9 +329,7 @@ export const revealWords = (el: HTMLElement | null, opt: RevealWordsOptions = {}
   window.setTimeout(() => spans.forEach((s) => s.classList.add('is-in')), 40);
 };
 
-/* =================================================================
-   ROUTE SWEEP — crimson wipe between routes
-   ================================================================= */
+// ROUTE SWEEP — crimson wipe between routes
 export const routeSweep = (): void => {
   if (prefersReducedMotion()) return;
   const el = document.getElementById('route-sweep');

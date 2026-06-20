@@ -1,10 +1,10 @@
-/* =====================================================================
-   BLOOD DESTINY — devlog / updates timeline
-   `Update` is the view model the timeline renders. Live entries are fetched
-   and mapped in api/updates.ts; the UPDATES array below is the explicit
-   offline / local-dev fallback used when no endpoint is configured (or while
-   one is being stood up). See composables/useUpdates.ts.
-   ===================================================================== */
+/**
+ * @fileoverview BLOOD DESTINY — devlog / updates timeline.
+ * `Update` is the view model the timeline renders. Live entries are fetched
+ * and mapped in api/updates.ts; the UPDATES array below is the explicit
+ * offline / local-dev fallback used when no endpoint is configured (or while
+ * one is being stood up). See composables/useUpdates.ts.
+ */
 
 export interface Update {
   /** Stable key for v-for / scroll-reveal. */
@@ -22,7 +22,7 @@ export interface Update {
   cover?: string;
 }
 
-export const updates: Update[] = [
+export const UPDATES: Update[] = [
   {
     id: 'big-updates-2024-11-12',
     title: 'Big Updates',

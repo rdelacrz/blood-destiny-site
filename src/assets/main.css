@@ -51,7 +51,7 @@
    reveal directive hooks, and the atmosphere layers that atmosphere.ts
    injects at runtime. Component-specific styling (loader, nav links, hero,
    character cards, player, timeline, footer, …) now lives in each
-   component's own <style scoped> block.
+   component's own <style scoped lang="scss"> block.
    ===================================================================== */
 :root {
   /* --- Ink / surfaces --- */

@@ -1,9 +1,9 @@
-/* =====================================================================
-   BLOOD DESTINY — original soundtrack
-   `audioUrl` points at a self-hosted file in /public/assets/audio. Tracks
-   without a produced/imported file omit it and fall back to the UI-only
-   preview ticker (see Soundtrack).
-   ===================================================================== */
+/**
+ * @fileoverview BLOOD DESTINY — original soundtrack.
+ * `audioUrl` points at a self-hosted file in /public/assets/audio. Tracks
+ * without a produced/imported file omit it and fall back to the UI-only
+ * preview ticker (see Soundtrack).
+ */
 import { asset } from '@/data/site';
 
 /** Self-hosted audio source helper (public/assets/audio → /assets/audio). */

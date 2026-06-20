@@ -11,5 +11,5 @@
 </template>
 
 <script setup lang="ts">
-/* X / Twitter glyph — replaces the prototype's X_ICON v-html string. */
+/** @fileoverview X / Twitter glyph — replaces the prototype's X_ICON v-html string. */
 </script>

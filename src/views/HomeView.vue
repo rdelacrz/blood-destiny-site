@@ -68,15 +68,18 @@
               class="display"
               style="font-size: var(--t-h2); margin: 0.8rem 0 1rem; text-wrap: balance"
             >
-              Two centuries after the world broke, four supernations rule what remains.
+              About 200 years after the Third World War, the planet is divided into four
+              supernations.
             </h2>
             <p
               class="lead"
               style="max-width: 54ch"
             >
-              A young mercenary named Jack Smith hunts supernatural threats for the organization
-              Olympia &mdash; and is drawn toward legendary creatures, lost civilizations, and the
-              unsolved mysteries of his own past.
+              Jack Smith is a young mercenary in an organization called Olympia, which takes
+              contracts from the four nations to deal with supernatural threats. He is a proud and
+              confident fighter who wants to become the strongest in the world, and over the course
+              of the story he is drawn into conflicts involving legendary creatures, ancient
+              civilizations lost to history, and unsolved mysteries from his own past.
             </p>
             <div class="cta-row">
               <router-link
@@ -111,8 +114,8 @@
               class="muted"
               style="font-size: 0.92rem"
             >
-              Synchronizers. Mana circuits. Ki energy. Meta-humans bound to the supernations of
-              <span class="text-steel">Arc Novelia</span> and the
+              The year is 2245. Roughly two centuries of war have redrawn the planet into four
+              enormous supernations, among them <span class="text-steel">Arc Novelia</span> and the
               <span class="text-crimson">Kyoudan Empire</span>.
             </p>
           </div>

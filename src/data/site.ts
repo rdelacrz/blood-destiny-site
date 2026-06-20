@@ -79,10 +79,10 @@ export const SOCIAL: Social = {
 };
 
 export const STORY: string[] = [
-  'Blood Destiny unfolds in a fictional mirror of our world in the year 2245 — roughly two centuries after a Third World War shattered the planet. What remains has been redrawn into four enormous supernations, among them Arc Novelia and the Kyoudan Empire.',
-  'You follow Jack Smith, a young mercenary of the organization Olympia, which takes contracts from the four nations to confront supernatural threats. Proud and confident, Jack aspires to become the strongest in the world — and is steadily drawn into conflicts involving legendary creatures, lost ancient civilizations, and unsolved mysteries from his own past.',
-  'Several heroines serve as potential love interests, and your choices steer the branching narrative — and which heroine Jack ends up beside. Clearing every regular route unlocks the final route and the True Ending.',
-  'Between the story beats lies a full RPG: turn-based battles, a deep leveling and attribute system, mana circuits, ki energy, and the Synchronizers who bend them to their will.',
+  'Blood Destiny is a visual novel that takes place in a fictional version of the world, during the year 2245. About 200 years have passed since the Third World War that devastated the whole planet, which is now divided into four enormous supernations.',
+  'The story revolves around a young mercenary named Jack Smith, who is part of an organization named Olympia that accepts contracts from the four nations to deal with supernatural threats. Jack is a proud and confident fighter who aspires to become the strongest in the world. Over the course of the story, he will be drawn into various conflicts involving legendary creatures, ancient civilizations lost to history, and unsolved mysteries from his own past.',
+  'There are several heroines in the story that will serve as potential love interests to Jack. The player may select different choices throughout the novel to influence the story\'s direction, and potentially which heroine he ends up with. Once every regular route has been cleared, the final route will be unlocked, which leads to the True Ending of the story.',
+  'Blood Destiny will contain turn-based RPG battles where the player has to fight various enemies, as well as a sophisticated leveling-up and attribute system that lets you precisely control the growth of your characters as you proceed through the visual novel.',
 ];
 
 export type FeatureMotif = 'rune' | 'crest' | 'blade' | 'circuit';

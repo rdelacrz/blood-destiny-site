@@ -12,9 +12,9 @@
         A story years in the making
       </h1>
       <p class="lead page-intro">
-        We are a small group of visual novel enthusiasts &mdash; collectively known as
-        <strong>Ashes Aflame</strong>. Blood Destiny is a visual novel we have spent years working
-        on behind the scenes.
+        We are a small group of visual novel enthusiasts with a unique set of skill sets, and
+        collectively we are known as <strong>Ashes Aflame</strong>. Blood Destiny is a visual novel
+        that we have spent years working on behind the scenes.
       </p>
     </div>
 

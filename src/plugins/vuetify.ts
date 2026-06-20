@@ -1,7 +1,7 @@
 /**
  * @fileoverview Vuetify 4 — brand integration.
  * A single custom DARK theme ("bloodDestiny") mapped to the existing
- * design tokens from src/assets/main.css @theme / :root, plus global component
+ * design tokens from src/assets/main.css `@theme` / :root, plus global component
  * defaults tuned for the cinematic look. Vuetify is adopted SELECTIVELY;
  * bespoke pieces (hero, atmosphere, character art) stay hand-rolled.
  */

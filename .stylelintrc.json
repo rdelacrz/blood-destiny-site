@@ -1,0 +1,24 @@
+{
+  "plugins": ["stylelint-scss"],
+  "ignoreFiles": ["dist/**", "node_modules/**", "public/**"],
+  "rules": {},
+  "overrides": [
+    {
+      "files": ["**/*.css"],
+      "rules": {
+        "comment-whitespace-inside": "always",
+        "comment-no-empty": true,
+        "comment-empty-line-before": ["always", { "except": ["first-nested"], "ignore": ["stylelint-commands"] }]
+      }
+    },
+    {
+      "files": ["**/*.vue"],
+      "customSyntax": "postcss-html",
+      "rules": {
+        "comment-whitespace-inside": "always",
+        "comment-no-empty": true,
+        "scss/double-slash-comment-whitespace-inside": "always"
+      }
+    }
+  ]
+}

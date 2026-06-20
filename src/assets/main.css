@@ -48,7 +48,7 @@
    reveal directive hooks, and the atmosphere layers that atmosphere.ts
    injects at runtime. Component-specific styling (loader, nav links, hero,
    character cards, player, timeline, footer, …) now lives in each
-   component's own <style scoped lang="scss"> block. */
+   component's own scoped SCSS style block. */
 :root {
   /* Ink / surfaces */
   --bd-black:      #0A0A0C;
@@ -102,11 +102,13 @@
 /* ===== Vuetify coexistence =====
    These rules are intentionally UNLAYERED, so they beat Vuetify's layered
    component styles without !important. */
+
 /* <v-app> paints an opaque theme background that would otherwise hide the
    fixed ember/haze background system; make it transparent so the bespoke
    atmosphere and the transparent header show through. */
 .v-application { background: transparent; }
 .v-application__wrap { min-height: 100svh; }
+
 /* Vuetify teleports overlays (v-dialog / v-navigation-drawer) into
    .v-overlay-container at a high z-index (~2000+), so they already clear the
    bespoke chrome (v-app-bar ~1005, route-sweep 1100, loader 200) — no override
@@ -230,6 +232,7 @@ p { margin: 0; }
 .page-head { padding-top: calc(var(--nav-h) + clamp(2rem, 7vh, 5rem)); }
 .page-head h1 { font-family: var(--f-display); font-size: var(--t-h1); margin: 0.7rem 0 0.5rem; }
 .page-head .lead { max-width: 60ch; }
+
 /* balance keeps the last line from dropping a lone orphan word (e.g. "on X.") */
 .page-intro { max-width: 70ch; text-wrap: balance; }
 

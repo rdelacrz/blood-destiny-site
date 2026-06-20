@@ -1,5 +1,7 @@
 import pluginVue from 'eslint-plugin-vue';
 import stylistic from '@stylistic/eslint-plugin';
+import tsdoc from 'eslint-plugin-tsdoc';
+import jsdoc from 'eslint-plugin-jsdoc';
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
 
 /**
@@ -69,6 +71,35 @@ export default defineConfigWithVueTs(
       'vue/attributes-order': 'error',
       'vue/component-name-in-template-casing': ['error', 'PascalCase'],
       'vue/multi-word-component-names': ['error', { ignores: ['App'] }],
+    },
+  },
+  {
+    // Validate TSDoc syntax in doc comments. `@fileoverview` is declared as a
+    // custom block tag in tsdoc.json so the project's module overviews pass.
+    name: 'app/tsdoc',
+    files: ['**/*.ts', '**/*.vue'],
+    plugins: { tsdoc },
+    rules: {
+      'tsdoc/syntax': 'warn',
+    },
+  },
+  {
+    // Plain-JS surfaces (Vercel function + dev scripts) carry JSDoc *with* types.
+    // Validate what's present without forcing tags onto every function.
+    name: 'app/jsdoc',
+    files: ['api/**/*.js', 'scripts/**/*.mjs'],
+    plugins: { jsdoc },
+    // The project documents modules with @fileoverview (not JSDoc's default @file).
+    settings: { jsdoc: { tagNamePreference: { file: 'fileoverview' } } },
+    rules: {
+      'jsdoc/check-alignment': 'warn',
+      'jsdoc/check-param-names': 'warn',
+      'jsdoc/check-tag-names': 'warn',
+      'jsdoc/check-types': 'warn',
+      'jsdoc/no-multi-asterisks': 'warn',
+      'jsdoc/no-undefined-types': 'warn',
+      'jsdoc/require-param-type': 'warn',
+      'jsdoc/require-returns-type': 'warn',
     },
   },
 );

@@ -2,8 +2,8 @@
  * @fileoverview BLOOD DESTINY — updates API client.
  * The devlog feed is served as JSON from a backend endpoint configured via
  * VITE_UPDATES_API_URL. On `master` the same data is produced by a Telefunc
- * RPC (`onLoad`) running `SELECT post_id, title, content, cover_image,
- * post_date, post_by FROM posts ORDER BY post_date DESC` against Vercel
+ * RPC (`onLoad`) running SELECT post_id, title, content, cover_image,
+ * post_date, post_by FROM posts ORDER BY post_date DESC against Vercel
  * Postgres; this SPA consumes the equivalent JSON over fetch. UpdatePostDto
  * mirrors those columns; toUpdate() normalises a row to the `Update` view
  * model, and fetchUpdates() returns the feed newest-first.
@@ -64,7 +64,7 @@ const resolveCover = (raw?: string | null): string | undefined => {
   return IMAGE_BASE ? `${IMAGE_BASE}/${v.replace(/^\/+/, '')}` : v;
 };
 
-/** Pull the row list out of a bare array or an { items } / { ret } envelope. */
+/** Pull the row list out of a bare array or an `{ items }` / `{ ret }` envelope. */
 const extractRows = (payload: unknown): UpdatePostDto[] => {
   if (Array.isArray(payload)) return payload as UpdatePostDto[];
   if (payload && typeof payload === 'object') {

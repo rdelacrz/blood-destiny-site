@@ -165,9 +165,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped lang="scss">
-/* =========================================================
-   SECTION HEADINGS
-   ========================================================= */
+// ===== Section headings =====
 .sec-head {
   display: grid;
   gap: 0.9rem;
@@ -184,9 +182,7 @@ onUnmounted(() => {
   text-align: center;
 }
 
-/* =========================================================
-   FEATURE CARDS
-   ========================================================= */
+// ===== Feature cards =====
 .feat-grid {
   display: grid;
   gap: 1.1rem;
@@ -229,9 +225,7 @@ onUnmounted(() => {
   opacity: 0.5;
 }
 
-/* =========================================================
-   STORY + PROMO
-   ========================================================= */
+// ===== Story + promo =====
 .story p + p {
   margin-top: 1.1rem;
 }
@@ -250,7 +244,7 @@ onUnmounted(() => {
   color: var(--bd-crimson-hi);
 }
 
-/* contained key-art showcase */
+// Contained key-art showcase
 .promo-section {
   padding-block: clamp(3.5rem, 10vh, 7.5rem);
 }
@@ -293,7 +287,7 @@ onUnmounted(() => {
   will-change: transform;
 }
 
-/* melt the figure into the panel: strong bottom fade + soft side vignettes */
+// Melt the figure into the panel: strong bottom fade + soft side vignettes
 .promo-figure::after {
   content: "";
   position: absolute;

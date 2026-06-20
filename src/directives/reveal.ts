@@ -56,7 +56,7 @@ export const reveal: Directive<HTMLElement, RevealOptions | undefined> = {
       { threshold: 0.12, rootMargin: '0px 0px -8% 0px' },
     );
     io.observe(el);
-    // safety: guarantee visibility even if IO never fires (offscreen/frozen)
+    // Safety: guarantee visibility even if IO never fires (offscreen/frozen)
     const timer = window.setTimeout(revealAll, 2000);
     states.set(el, { io, timer });
   },

@@ -66,7 +66,7 @@ export default createVuetify({
     VBtn: {
       variant: 'flat',
       rounded: 'sm',
-      // matches the bespoke .btn type treatment (UI font, wide tracking)
+      // Matches the bespoke .btn type treatment (UI font, wide tracking)
       class: 'font-ui tracking-[0.18em]',
     },
     VTextField: {

@@ -171,9 +171,7 @@ onUnmounted(() => ctrl?.destroy());
 </script>
 
 <style scoped lang="scss">
-/* =========================================================
-   CHARACTER DETAIL
-   ========================================================= */
+// ===== Character detail =====
 .detail {
   padding-top: calc(var(--nav-h) + clamp(1.5rem, 5vh, 3rem));
   padding-bottom: clamp(2rem, 6vh, 4rem);
@@ -222,7 +220,7 @@ onUnmounted(() => ctrl?.destroy());
   }
 }
 
-/* Full-body art: show the WHOLE figure (contain), melted into a themed plinth. */
+// Full-body art: show the WHOLE figure (contain), melted into a themed plinth.
 .detail__portrait {
   position: relative;
   border-radius: var(--rad);
@@ -342,7 +340,7 @@ onUnmounted(() => ctrl?.destroy());
   white-space: nowrap;
 }
 
-/* Mobile: stacked (image on top), figure scaled so it's fully visible. */
+// Mobile: stacked (image on top), figure scaled so it's fully visible.
 @media (max-width: 899px) {
   .detail__portrait {
     min-height: 240px;

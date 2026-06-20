@@ -7,18 +7,19 @@
 import { animate, createTimeline, utils } from 'animejs';
 import type { JSAnimation } from 'animejs';
 
-// reduced-motion
+/** Whether the user has requested reduced motion (`prefers-reduced-motion: reduce`). */
 export const prefersReducedMotion = (): boolean =>
   typeof window !== 'undefined' &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// controllers
+/** Handle for a mounted, animating atmosphere effect (pause / play / tear down). */
 export interface FxController {
   el?: HTMLElement;
   pause(): void;
   play(): void;
   destroy(): void;
 }
+/** Handle for a mounted, static atmosphere effect (teardown only). */
 export interface SimpleController {
   el?: HTMLElement;
   destroy(): void;
@@ -30,7 +31,7 @@ const noopController = (): FxController => ({
   destroy() {},
 });
 
-// global loop registry: pause when tab hidden
+// Global loop registry: pause when tab hidden
 const loops = new Set<JSAnimation>();
 /** false = intentionally paused (offscreen); don't auto-resume on tab focus. */
 const activeFlags = new WeakMap<JSAnimation, boolean>();
@@ -66,7 +67,7 @@ if (typeof document !== 'undefined') {
 
 const rnd = (min: number, max: number): number => Math.random() * (max - min) + min;
 
-// EMBERS / ASH FIELD — small particles drifting up with sway + flicker
+/** Mounts the ember / ash-field layer: small particles drifting up with sway and flicker. */
 export const mountEmbers = (container: HTMLElement | null, count?: number): FxController => {
   if (!container) return noopController();
   const layer = document.createElement('div');
@@ -75,7 +76,7 @@ export const mountEmbers = (container: HTMLElement | null, count?: number): FxCo
   const insts: JSAnimation[] = [];
 
   if (prefersReducedMotion()) {
-    // static: a few faint, motionless embers
+    // Static: a few faint, motionless embers
     for (let i = 0; i < 14; i++) {
       const e = document.createElement('span');
       e.className = 'ember';
@@ -105,7 +106,7 @@ export const mountEmbers = (container: HTMLElement | null, count?: number): FxCo
       height: size + 'px',
       filter: `blur(${(1 - depth) * 1.4}px)`,
     });
-    // ice-tinted embers occasionally, for the steel motif
+    // Ice-tinted embers occasionally, for the steel motif
     if (Math.random() < 0.12) e.classList.add('ember-ice');
     layer.appendChild(e);
 
@@ -134,7 +135,7 @@ export const mountEmbers = (container: HTMLElement | null, count?: number): FxCo
   };
 };
 
-// VOLUMETRIC RED HAZE — 3 soft drifting / pulsing blobs
+/** Mounts the volumetric red haze: three soft drifting / pulsing blobs. */
 export const mountHaze = (container: HTMLElement | null): FxController => {
   if (!container) return noopController();
   const layer = document.createElement('div');
@@ -181,7 +182,7 @@ export const mountHaze = (container: HTMLElement | null): FxController => {
   };
 };
 
-// ICE SHARDS — for Fuyumi / ice-accent detail surfaces
+/** Mounts the ice-shard layer, used for Fuyumi / ice-accent detail surfaces. */
 export const mountShards = (container: HTMLElement | null, count?: number): SimpleController => {
   if (!container) return { destroy() {} };
   const layer = document.createElement('div');
@@ -220,7 +221,7 @@ export const mountShards = (container: HTMLElement | null, count?: number): Simp
       ),
     );
   }
-  // shared gradient def
+  // Shared gradient def
   const defs = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
   defs.setAttribute('width', '0');
   defs.setAttribute('height', '0');
@@ -233,12 +234,13 @@ export const mountShards = (container: HTMLElement | null, count?: number): Simp
   return { el: layer, destroy() { insts.forEach(unregister); layer.remove(); } };
 };
 
-// PARALLAX — pointer + scroll, multi-rate layer translate
+/** One element driven by {@link mountParallax}: `depth` scales pointer offset, `scrollFactor` scales scroll. */
 export interface ParallaxLayer {
   el: HTMLElement | null;
   depth: number;
   scrollFactor?: number;
 }
+/** Mounts pointer + scroll parallax, translating each layer at its own rate. */
 export const mountParallax = (host: HTMLElement | null, layers: ParallaxLayer[]): SimpleController => {
   if (!host || prefersReducedMotion()) return { destroy() {} };
   let px = 0,
@@ -278,7 +280,7 @@ export const mountParallax = (host: HTMLElement | null, layers: ParallaxLayer[])
   };
 };
 
-// PAUSE-WHEN-OFFSCREEN for an atmosphere controller
+/** Pauses an atmosphere controller while `targetEl` is offscreen and plays it when visible. */
 export const pauseWhenOffscreen = (
   targetEl: HTMLElement | null,
   controller: FxController,
@@ -297,11 +299,12 @@ export const pauseWhenOffscreen = (
   return { destroy() { io.disconnect(); } };
 };
 
-// TEXT REVEAL — split into words, stagger fade-up (CSS-transition driven)
+/** Options for {@link revealWords}: per-word `stagger` and initial `delay`, both in ms. */
 export interface RevealWordsOptions {
   stagger?: number;
   delay?: number;
 }
+/** Splits an element's text into words and staggers a fade-up reveal (CSS-transition driven). */
 export const revealWords = (el: HTMLElement | null, opt: RevealWordsOptions = {}): void => {
   if (!el) return;
   const words = (el.textContent ?? '').trim().split(/\s+/);
@@ -325,11 +328,11 @@ export const revealWords = (el: HTMLElement | null, opt: RevealWordsOptions = {}
     spans.forEach((s) => s.classList.add('is-in'));
     return;
   }
-  // trigger on next macrotask (frozen-rAF safe)
+  // Trigger on next macrotask (frozen-rAF safe)
   window.setTimeout(() => spans.forEach((s) => s.classList.add('is-in')), 40);
 };
 
-// ROUTE SWEEP — crimson wipe between routes
+/** Plays the crimson route-sweep wipe between route changes. */
 export const routeSweep = (): void => {
   if (prefersReducedMotion()) return;
   const el = document.getElementById('route-sweep');

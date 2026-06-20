@@ -133,13 +133,11 @@ const badge = (role: string): string => role.split('·')[0].trim();
 </script>
 
 <style scoped lang="scss">
-/* =========================================================
-   CHARACTER CARDS
-   ========================================================= */
-/* Flex (not grid) so an incomplete last row stays CENTERED rather than
-   left-aligned. Cards take a fixed fraction of the row via --cols, so every
-   card is the same width and full rows fill edge-to-edge; the remainder row
-   centers via justify-content. --cols steps down responsively. */
+// ===== Character cards =====
+// Flex (not grid) so an incomplete last row stays CENTERED rather than
+// left-aligned. Cards take a fixed fraction of the row via --cols, so every
+// card is the same width and full rows fill edge-to-edge; the remainder row
+// centers via justify-content. --cols steps down responsively.
 .char-grid {
   --grid-gap: clamp(0.9rem, 2vw, 1.4rem);
   --cols: 3;

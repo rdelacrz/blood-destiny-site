@@ -189,10 +189,10 @@ let audioCtx: AudioContext | null = null;
 let analyser: AnalyserNode | null = null;
 let freq: Uint8Array<ArrayBuffer> | null = null;
 
-// visualizer (synthetic spectrum; AnalyserNode-ready)
+// Visualizer (synthetic spectrum; AnalyserNode-ready)
 const BARS = 48;
 
-// progress ticker — drives the UI-only preview for tracks without audioUrl
+// Progress ticker — drives the UI-only preview for tracks without audioUrl
 let tick: number | null = null;
 
 const cur = computed(() => tracks[current.value]);
@@ -293,7 +293,7 @@ const nextTrack = (): void => {
   current.value = (current.value + 1) % tracks.length;
 };
 
-// real audio playback (used when the track has audioUrl)
+// Real audio playback (used when the track has audioUrl)
 /** Build the AudioContext → AnalyserNode graph once, on first real play. */
 const ensureGraph = (): void => {
   if (audioCtx || !audioEl.value) return;
@@ -316,7 +316,7 @@ const playReal = async (): Promise<void> => {
   try {
     await el.play();
   } catch {
-    // autoplay blocked until a user gesture — ignore
+    // Autoplay blocked until a user gesture — ignore
   }
 };
 
@@ -362,7 +362,7 @@ const select = (i: number): void => {
   audioEl.value?.pause();
   current.value = i;
   progress.value = 0;
-  // wait for :src to update to the newly selected track before playing
+  // Wait for :src to update to the newly selected track before playing
   nextTick(() => {
     if (hasAudio.value) void playReal();
     else playing.value = true;
@@ -376,7 +376,7 @@ const seek = (e: MouseEvent): void => {
   if (hasAudio.value && el && el.duration) el.currentTime = ratio * el.duration;
 };
 
-// audio element event handlers
+// Audio element event handlers
 const onPlay = (): void => {
   playing.value = true;
   startViz();
@@ -395,7 +395,7 @@ const onEnded = (): void => {
   nextTick(() => {
     progress.value = 0;
     if (hasAudio.value) void playReal();
-    else playing.value = true; // continue into the preview-only track
+    else playing.value = true; // Continue into the preview-only track
   });
 };
 
@@ -408,9 +408,7 @@ const pad2 = (n: number): string => String(n).padStart(2, '0');
 </script>
 
 <style scoped lang="scss">
-/* =========================================================
-   PLAYER
-   ========================================================= */
+// ===== Player =====
 .player {
   padding: clamp(1.3rem, 3vw, 2rem);
   display: grid;
@@ -523,9 +521,7 @@ const pad2 = (n: number): string => String(n).padStart(2, '0');
   width: 90px;
 }
 
-/* =========================================================
-   TRACKLIST
-   ========================================================= */
+// ===== Tracklist =====
 .tracklist {
   width: 100%;
   border-collapse: collapse;

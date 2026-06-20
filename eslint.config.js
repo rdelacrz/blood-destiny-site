@@ -2,13 +2,18 @@ import pluginVue from 'eslint-plugin-vue';
 import stylistic from '@stylistic/eslint-plugin';
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
 
-/* Flat ESLint config encoding the project's Vue 3 conventions:
-   - template-above-script block order
-   - single-quote strings + semicolons in script
-   - one attribute per line once an element has more than one
-   - Vue's canonical attributes-order, PascalCase component tags
-   - arrow callbacks. Prettier is intentionally NOT used so the bespoke
-     template formatting below is the single source of truth. */
+/**
+ * @fileoverview Flat ESLint config encoding the project's Vue 3 conventions:
+ *
+ * - template-above-script block order
+ * - single-quote strings + semicolons in script
+ * - one attribute per line once an element has more than one
+ * - Vue's canonical attributes-order, PascalCase component tags
+ * - arrow callbacks
+ *
+ * Prettier is intentionally NOT used, so the bespoke template formatting below
+ * is the single source of truth.
+ */
 export default defineConfigWithVueTs(
   {
     name: 'app/ignores',
@@ -21,7 +26,7 @@ export default defineConfigWithVueTs(
     files: ['**/*.{ts,vue,js}'],
     plugins: { '@stylistic': stylistic },
     rules: {
-      /* ---- script style ---- */
+      // Script style
       quotes: 'off',
       '@stylistic/quotes': ['error', 'single', { avoidEscape: false, allowTemplateLiterals: 'always' }],
       semi: 'off',
@@ -33,10 +38,10 @@ export default defineConfigWithVueTs(
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
 
-      /* ---- single-file-component block order: template first ---- */
+      // Single-file-component block order: template first
       'vue/block-order': ['error', { order: ['template', 'script', 'style'] }],
 
-      /* ---- template formatting ---- */
+      // Template formatting
       // One attribute per line as soon as an element has more than one.
       'vue/max-attributes-per-line': [
         'error',

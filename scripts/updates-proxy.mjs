@@ -1,17 +1,18 @@
-/* =====================================================================
-   BLOOD DESTINY — local updates shim (dev only)
-   The live backend exposes its devlog only through a Telefunc RPC endpoint
-   (POST /_telefunc, { ret: [...] } envelope, Telefunc-serialized "!Date:"
-   timestamps, no CORS) — none of which a browser SPA can consume directly.
-   This tiny zero-dependency proxy relays that RPC server-side and re-serves it
-   as a plain, CORS-enabled JSON array that the SPA's fetch() can read.
-
-   Run:   npm run updates:proxy        (defaults to the public Vercel deploy)
-   Then:  VITE_UPDATES_API_URL=http://localhost:8787/updates  (see .env)
-
-   For production you'd deploy the equivalent: a public JSON route (or add a
-   CORS-enabled REST endpoint to the backend). Never expose the DB URL.
-   ===================================================================== */
+/**
+ * @fileoverview BLOOD DESTINY — local updates shim (dev only).
+ *
+ * The live backend exposes its devlog only through a Telefunc RPC endpoint
+ * (POST /_telefunc, `{ ret: [...] }` envelope, Telefunc-serialized "!Date:"
+ * timestamps, no CORS) — none of which a browser SPA can consume directly.
+ * This tiny zero-dependency proxy relays that RPC server-side and re-serves
+ * it as a plain, CORS-enabled JSON array that the SPA's fetch() can read.
+ *
+ * Run:  `npm run updates:proxy`  (defaults to the public Vercel deploy)
+ * Then: `VITE_UPDATES_API_URL=http://localhost:8787/updates`  (see .env)
+ *
+ * For production you'd deploy the equivalent: a public JSON route (or add a
+ * CORS-enabled REST endpoint to the backend). Never expose the DB URL.
+ */
 import http from 'node:http';
 import https from 'node:https';
 

@@ -149,11 +149,11 @@ let plx: SimpleController | null = null;
 let offio: SimpleController | null = null;
 
 onMounted(() => {
-  // atmosphere (anime.js — decorative; degrades to static if rAF is frozen)
+  // Atmosphere (anime.js — decorative; degrades to static if rAF is frozen)
   haze = mountHaze(hazeHost.value);
   embers = mountEmbers(emberHost.value, 60);
 
-  // parallax: bg, haze, embers, content move at different rates
+  // Parallax: bg, haze, embers, content move at different rates
   plx = mountParallax(hero.value, [{
     el: bg.value,
     depth: 26,
@@ -172,10 +172,10 @@ onMounted(() => {
     scrollFactor: 0.06
   }]);
 
-  // pause embers when hero scrolled away
+  // Pause embers when hero scrolled away
   offio = pauseWhenOffscreen(hero.value, embers);
 
-  // entrance (CSS-transition driven; frozen-rAF safe)
+  // Entrance (CSS-transition driven; frozen-rAF safe)
   const tag = hero.value?.querySelector<HTMLElement>('.hero__tag') ?? null;
   revealWords(tag, { stagger: 45, delay: 600 });
   window.setTimeout(() => hero.value?.classList.add('is-revealed'), 80);
@@ -199,9 +199,7 @@ const scrollDown = (): void => {
 </script>
 
 <style scoped lang="scss">
-/* =========================================================
-   HERO
-   ========================================================= */
+// ===== Hero =====
 .hero {
   position: relative;
   min-height: 100svh;
@@ -224,7 +222,7 @@ const scrollDown = (): void => {
   will-change: transform;
 }
 
-/* soft dark radial scrim behind the hero text cluster (static; keeps art visible) */
+// Soft dark radial scrim behind the hero text cluster (static; keeps art visible)
 .hero__scrim {
   position: absolute;
   inset: 0;
@@ -259,7 +257,7 @@ const scrollDown = (): void => {
 .hero__logo {
   width: min(78vw, 540px);
   opacity: 0;
-  /* tight dark halo so the crimson "BLOOD" reads on the bright planet, + soft ambient */
+  // Tight dark halo so the crimson "BLOOD" reads on the bright planet, + soft ambient
   filter:
     drop-shadow(0 0 2px rgba(0,0,0,0.92))
     drop-shadow(0 0 6px rgba(0,0,0,0.7))
@@ -303,7 +301,7 @@ const scrollDown = (): void => {
   box-shadow: 0 0 10px 2px var(--bd-crimson);
 }
 
-/* scroll indicator */
+// Scroll indicator
 .scroll-ind {
   position: absolute;
   left: 50%;
@@ -341,7 +339,7 @@ const scrollDown = (): void => {
   transform: translateX(-50%);
 }
 
-/* ---- hero entrance (CSS-driven; frozen-rAF safe) ---- */
+// Hero entrance (CSS-driven; frozen-rAF safe)
 .hero__present, .hero__logo, .wip {
   transform: translateY(16px);
   transition: opacity 1s var(--ease-out), transform 1s var(--ease-out);
@@ -411,9 +409,7 @@ const scrollDown = (): void => {
   }
 }
 
-/* =========================================================
-   TEASER STRIP / CTA (below hero)
-   ========================================================= */
+// ===== Teaser strip / CTA (below hero) =====
 .teaser {
   position: relative;
   z-index: 2;

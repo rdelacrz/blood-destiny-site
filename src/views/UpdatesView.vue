@@ -209,14 +209,12 @@ const renderBody = (body: string): string =>
 </script>
 
 <style scoped lang="scss">
-/* =========================================================
-   PAGE ATMOSPHERE — extra scrim tuned to the bright, busy
-   temple-entrance art (snow-bright flanks + glowing door).
-   Mounts/unmounts with the view, so it's per-route by
-   construction: it sits above the shared background system
-   (z-index -2) and the global scrim (-1) but below page
-   content, darkening only the art the text rides on.
-   ========================================================= */
+// ===== Page atmosphere =====
+// Extra scrim tuned to the bright, busy temple-entrance art (snow-bright
+// flanks + glowing door). Mounts/unmounts with the view, so it's per-route
+// by construction: it sits above the shared background system (z-index -2)
+// and the global scrim (-1) but below page content, darkening only the art
+// the text rides on.
 .route-host::before {
   content: "";
   position: fixed;
@@ -224,17 +222,15 @@ const renderBody = (body: string): string =>
   z-index: -1;
   pointer-events: none;
   background:
-    /* knock the bright snowy top band + foreground down hard */
+    // knock the bright snowy top band + foreground down hard
     linear-gradient(180deg,
       rgba(8, 8, 11, 0.66) 0%, rgba(8, 8, 11, 0.24) 34%,
       rgba(8, 8, 11, 0.3) 64%, rgba(8, 8, 11, 0.62) 100%),
-    /* pull shadow into the over-bright snow on the flanks */
+    // pull shadow into the over-bright snow on the flanks
     radial-gradient(118% 92% at 50% 32%, transparent 40%, rgba(8, 8, 11, 0.7) 100%);
 }
 
-/* =========================================================
-   TIMELINE
-   ========================================================= */
+// ===== Timeline =====
 .timeline {
   position: relative;
   max-width: 880px;
@@ -247,8 +243,8 @@ const renderBody = (body: string): string =>
   top: 0;
   bottom: 0;
   width: 2px;
-  /* Hold the rail's lower fade up so the connector still reads where it
-     crosses the bright snow; the dark edge keeps it crisp over busy art. */
+  // Hold the rail's lower fade up so the connector still reads where it
+  // crosses the bright snow; the dark edge keeps it crisp over busy art.
   background: linear-gradient(180deg, var(--bd-crimson), rgba(200,16,46,0.4));
   box-shadow: 0 0 0 1px rgba(8,8,11,0.55);
   transform-origin: top;
@@ -289,9 +285,9 @@ const renderBody = (body: string): string =>
   }
 }
 
-/* The meta row (date + tag) rides directly on the temple art, not on a
-   panel — lift the date to bone-dim and give both a dark text-shadow so
-   they stay legible over the bright snow. */
+// The meta row (date + tag) rides directly on the temple art, not on a
+// panel — lift the date to bone-dim and give both a dark text-shadow so
+// they stay legible over the bright snow.
 .tl-item__meta {
   display: flex;
   align-items: center;
@@ -323,8 +319,8 @@ const renderBody = (body: string): string =>
   text-shadow: 0 1px 4px rgba(8,8,11,0.95);
 }
 
-/* Card sits over the busy entrance art: push the shared .surface ink to near-
-   opaque and deepen the blur so body copy holds high contrast. */
+// Card sits over the busy entrance art: push the shared .surface ink to near-
+// opaque and deepen the blur so body copy holds high contrast.
 .tl-item__card {
   margin-top: 0.7rem;
   padding: 1.3rem 1.5rem;
@@ -389,9 +385,7 @@ const renderBody = (body: string): string =>
   color: var(--bd-bone);
 }
 
-/* =========================================================
-   ASYNC STATES — error / empty panels + loading skeleton
-   ========================================================= */
+// ===== Async states — error / empty panels + loading skeleton =====
 .state-panel {
   max-width: 600px;
   margin: 1rem auto 0;
@@ -456,9 +450,7 @@ const renderBody = (body: string): string =>
   width: 55%;
 }
 
-/* =========================================================
-   LOAD MORE
-   ========================================================= */
+// ===== Load more =====
 .tl-more {
   display: flex;
   justify-content: center;
@@ -471,9 +463,7 @@ const renderBody = (body: string): string =>
   opacity: 0.65;
 }
 
-/* =========================================================
-   DESKTOP — centered zig-zag rail
-   ========================================================= */
+// ===== Desktop — centered zig-zag rail =====
 @media (min-width: 760px) {
   .timeline__line {
     left: calc(50% - 1px);
@@ -506,9 +496,7 @@ const renderBody = (body: string): string =>
   }
 }
 
-/* =========================================================
-   REDUCED MOTION — drop the hover lift / card transition
-   ========================================================= */
+// ===== Reduced motion — drop the hover lift / card transition =====
 @media (prefers-reduced-motion: reduce) {
   .tl-item__card {
     transition: none;

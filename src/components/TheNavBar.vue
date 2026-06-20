@@ -125,7 +125,7 @@ const pad2 = (i: number): string => String(i + 1).padStart(2, '0');
 </script>
 
 <style scoped lang="scss">
-/* ---- bar shell: transparent over hero → solid on scroll ---- */
+// Bar shell: transparent over hero → solid on scroll
 .site-bar {
   background: transparent;
   border-bottom: 1px solid transparent;
@@ -144,7 +144,7 @@ const pad2 = (i: number): string => String(i + 1).padStart(2, '0');
   padding: 0;
 }
 
-/* constrained row identical to the bespoke .nav__row */
+// Constrained row identical to the bespoke .nav__row
 .bar-row {
   width: 100%;
   max-width: var(--maxw);
@@ -156,7 +156,7 @@ const pad2 = (i: number): string => String(i + 1).padStart(2, '0');
   gap: 1rem;
 }
 
-/* logo + entrance (matches old .nav__logo) */
+// Logo + entrance (matches old .nav__logo)
 .brand-logo {
   height: 34px;
   width: auto;
@@ -175,7 +175,7 @@ const pad2 = (i: number): string => String(i + 1).padStart(2, '0');
   height: 30px;
 }
 
-/* mobile toggle: shown only at the bespoke ≤860px breakpoint */
+// Mobile toggle: shown only at the bespoke ≤860px breakpoint
 .bar-toggle {
   display: none;
   color: var(--bd-bone);
@@ -187,7 +187,7 @@ const pad2 = (i: number): string => String(i + 1).padStart(2, '0');
   }
 }
 
-/* ---- mobile drawer menu (echoes the old .nav__overlay) ---- */
+// Mobile drawer menu (echoes the old .nav__overlay)
 .site-drawer :deep(.v-navigation-drawer__content) {
   background: linear-gradient(180deg, rgba(12, 4, 7, 0.97), rgba(10, 10, 12, 0.99));
   backdrop-filter: blur(8px);
@@ -237,7 +237,7 @@ const pad2 = (i: number): string => String(i + 1).padStart(2, '0');
   display: inline-flex;
 }
 
-/* ---- brand + desktop links (reused by the bar shell above) ---- */
+// Brand + desktop links (reused by the bar shell above)
 .nav__brand {
   display: flex;
   align-items: center;
@@ -310,7 +310,7 @@ const pad2 = (i: number): string => String(i + 1).padStart(2, '0');
   height: 16px;
 }
 
-/* desktop links collapse into the v-navigation-drawer below this width */
+// Desktop links collapse into the v-navigation-drawer below this width
 @media (max-width: 860px) {
   .nav__links {
     display: none;

@@ -57,8 +57,8 @@ const social = SOCIAL;
   backdrop-filter: blur(6px);
 }
 
-/* 1fr | auto | 1fr keeps the center column truly centred on the page,
-   regardless of the differing widths of the logo and the X handle. */
+// 1fr | auto | 1fr keeps the center column truly centred on the page,
+// regardless of the differing widths of the logo and the X handle.
 .footer__row {
   display: grid;
   grid-template-columns: 1fr auto 1fr;

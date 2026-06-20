@@ -63,7 +63,7 @@ const routes: RouteRecordRaw[] = [{
 }];
 
 const router = createRouter({
-  history: createWebHashHistory(), // hash mode = zero-config static hosting
+  history: createWebHashHistory(), // Hash mode = zero-config static hosting
   routes,
   scrollBehavior: () => ({ top: 0 }),
 });

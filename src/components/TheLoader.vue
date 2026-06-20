@@ -59,8 +59,8 @@ const finish = (): void => {
 </script>
 
 <style scoped lang="scss">
-/* CSS-driven entrance/exit overlay. `is-anim` / `is-out` are toggled on the
-   root element from script setup. */
+// CSS-driven entrance/exit overlay. `is-anim` / `is-out` are toggled on the
+// root element from script setup.
 .loader {
   position: fixed;
   inset: 0;

@@ -47,14 +47,14 @@ const ready = ref(false);
 </script>
 
 <style scoped lang="scss">
-/* Sticky footer: .v-application__wrap is a flex column with min-height:100svh,
-   so let the routed <main> grow to fill it. Without this, short pages (e.g.
-   Contact) leave the footer floating mid-viewport with empty space beneath. */
+// Sticky footer: .v-application__wrap is a flex column with min-height:100svh,
+// so let the routed <main> grow to fill it. Without this, short pages (e.g.
+// Contact) leave the footer floating mid-viewport with empty space beneath.
 .route-host {
   flex: 1 0 auto;
 }
 
-/* ---------- per-route background scrim ---------- */
+// Per-route background scrim
 .bg-scrim {
   position: fixed;
   inset: 0;
@@ -64,7 +64,7 @@ const ready = ref(false);
     linear-gradient(180deg, rgba(10,10,12,0.45) 0%, rgba(10,10,12,0.72) 55%, rgba(10,10,12,0.96) 100%);
 }
 
-/* ---------- film grain + vignette (global atmosphere) ---------- */
+// Film grain + vignette (global atmosphere)
 .fx-grain, .fx-vignette {
   position: fixed;
   inset: 0;
@@ -86,10 +86,10 @@ const ready = ref(false);
     radial-gradient(120% 120% at 50% 120%, rgba(110,7,18,0.18), transparent 60%);
 }
 
-/* ---------- route sweep overlay (crimson wipe on navigation) ----------
-   z-index sits above the Vuetify v-app-bar (~1005) so the wipe still sweeps
-   over the header, but below Vuetify overlays (~2000+). Animated from
-   atmosphere.ts routeSweep() via getElementById. */
+// Route sweep overlay (crimson wipe on navigation):
+// z-index sits above the Vuetify v-app-bar (~1005) so the wipe still sweeps
+// over the header, but below Vuetify overlays (~2000+). Animated from
+// atmosphere.ts routeSweep() via getElementById.
 #route-sweep {
   position: fixed;
   inset: 0;

@@ -208,15 +208,13 @@ const submit = async (): Promise<void> => {
 </script>
 
 <style scoped lang="scss">
-/* =========================================================
-   PAGE ATMOSPHERE — extra scrim tuned to the temple-hallway
-   art (dark corridor, but saturated cyan glyph bands + a warm
-   floor right where the panels land). Mounts/unmounts with the
-   view, so it's per-route: it sits above the shared background
-   (z-index -2) and global scrim (-1) but below page content.
-   The corridor is already dark, so this leans on a centred
-   vignette to settle the glyph glare rather than a flat dim.
-   ========================================================= */
+// ===== Page atmosphere =====
+// Extra scrim tuned to the temple-hallway art (dark corridor, but saturated
+// cyan glyph bands + a warm floor right where the panels land). Mounts/unmounts
+// with the view, so it's per-route: it sits above the shared background
+// (z-index -2) and global scrim (-1) but below page content. The corridor is
+// already dark, so this leans on a centred vignette to settle the glyph glare
+// rather than a flat dim.
 .route-host::before {
   content: "";
   position: fixed;
@@ -230,9 +228,7 @@ const submit = async (): Promise<void> => {
     radial-gradient(120% 100% at 50% 40%, transparent 46%, rgba(8, 8, 11, 0.64) 100%);
 }
 
-/* =========================================================
-   CONTACT LAYOUT
-   ========================================================= */
+// ===== Contact layout =====
 .contact-grid {
   display: grid;
   gap: clamp(1.5rem, 4vw, 3rem);
@@ -252,8 +248,8 @@ const submit = async (): Promise<void> => {
   align-content: start;
 }
 
-/* Both panels ride over the glyph corridor — push the shared .surface ink to
-   near-opaque glass and deepen the blur so copy + input text stay readable. */
+// Both panels ride over the glyph corridor — push the shared .surface ink to
+// near-opaque glass and deepen the blur so copy + input text stay readable.
 .x-card,
 .contact-form {
   background: linear-gradient(180deg, rgba(18, 18, 23, 0.93), rgba(8, 8, 11, 0.97));
@@ -274,8 +270,8 @@ const submit = async (): Promise<void> => {
   height: 34px;
 }
 
-/* Brand chrome for the Vuetify fields: UI-font tracked labels + ink-tinted
-   input wells. */
+// Brand chrome for the Vuetify fields: UI-font tracked labels + ink-tinted
+// input wells.
 .field-label {
   display: block;
   font-family: var(--f-ui);
@@ -283,9 +279,9 @@ const submit = async (): Promise<void> => {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--bd-bone-dim);
-  /* Group each label tightly with the field BELOW it (small margin-bottom)
-     while opening clear air ABOVE it, so the spacing between groups is bigger
-     than within a group and the label/field pairing reads unambiguously. */
+  // Group each label tightly with the field BELOW it (small margin-bottom)
+  // while opening clear air ABOVE it, so the spacing between groups is bigger
+  // than within a group and the label/field pairing reads unambiguously.
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
 }
@@ -294,12 +290,12 @@ const submit = async (): Promise<void> => {
   margin-top: 0;
 }
 
-/* Tailwind's Preflight (@layer base) lands above Vuetify's layers in the
-   cascade (see main.css header), so its `*{ padding:0; border:0 solid }` reset
-   strips the v-field's input padding AND the outlined-variant border, leaving
-   the placeholder crammed into the top-left with no field outline. These
-   UNLAYERED scoped rules outrank every layer in both dev and prod, so they
-   restore Vuetify's intended field chrome reliably. */
+// Tailwind's Preflight (@layer base) lands above Vuetify's layers in the
+// cascade (see main.css header), so its `*{ padding:0; border:0 solid }` reset
+// strips the v-field's input padding AND the outlined-variant border, leaving
+// the placeholder crammed into the top-left with no field outline. These
+// UNLAYERED scoped rules outrank every layer in both dev and prod, so they
+// restore Vuetify's intended field chrome reliably.
 .contact-form :deep(.v-field) {
   background: rgba(8, 8, 11, 0.82);
   font-family: var(--f-body);
@@ -308,23 +304,23 @@ const submit = async (): Promise<void> => {
 
 .contact-form :deep(.v-field__input) {
   color: var(--bd-bone);
-  /* Restore the stripped inner padding (Vuetify's outlined/comfortable spacing)
-     and pin a sane line-height — the input otherwise inherits the global body
-     1.65, which is too tall for the well. */
+  // Restore the stripped inner padding (Vuetify's outlined/comfortable spacing)
+  // and pin a sane line-height — the input otherwise inherits the global body
+  // 1.65, which is too tall for the well.
   padding-inline: 16px;
   padding-block: 0.6rem;
   line-height: 1.5;
 }
 
-/* Placeholders default to a low opacity that washes out over the corridor —
-   pin them to a readable muted bone. */
+// Placeholders default to a low opacity that washes out over the corridor —
+// pin them to a readable muted bone.
 .contact-form :deep(.v-field__input)::placeholder {
   color: var(--bd-bone-mute);
   opacity: 1;
 }
 
-/* Keep keyboard/active focus unmistakable over the busy art: turn the restored
-   field border crimson and add a soft crimson ring around it. */
+// Keep keyboard/active focus unmistakable over the busy art: turn the restored
+// field border crimson and add a soft crimson ring around it.
 .contact-form :deep(.v-field--focused) {
   border-color: var(--bd-crimson);
   box-shadow: 0 0 0 3px rgba(200, 16, 46, 0.22);

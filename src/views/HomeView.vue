@@ -159,7 +159,7 @@ let offio: SimpleController | null = null;
 onMounted(() => {
   // Atmosphere (anime.js — decorative; degrades to static if rAF is frozen)
   haze = mountHaze(hazeHost.value);
-  embers = mountEmbers(emberHost.value, 60);
+  embers = mountEmbers(emberHost.value, 240);
 
   // Parallax: bg, haze, embers, content move at different rates
   plx = mountParallax(hero.value, [{

@@ -107,7 +107,7 @@ export const mountEmbers = (container: HTMLElement | null, count?: number): FxCo
       filter: `blur(${(1 - depth) * 1.4}px)`,
     });
     // Ice-tinted embers occasionally, for the steel motif
-    if (Math.random() < 0.12) e.classList.add('ember-ice');
+    if (Math.random() < 0.3) e.classList.add('ember-ice');
     layer.appendChild(e);
 
     const dur = rnd(7000, 16000);

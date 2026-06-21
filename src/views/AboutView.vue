@@ -152,7 +152,12 @@ onMounted(() => {
       const r = host.getBoundingClientRect();
       const off = (r.top + r.height / 2 - window.innerHeight / 2) / window.innerHeight;
       const img = host.querySelector<HTMLElement>('img');
-      if (img) img.style.transform = `translateY(${off * -16}px) scale(1.1)`;
+      // Keep the parallax shift strictly downward (>= 0): the zoom is anchored
+      // to the top edge (see CSS), so any upward shift would lift Jack's hair
+      // past the figure's clip. The small baseline also leaves breathing room
+      // above his head; scale(1.06) just buries the feet in the bottom fade.
+      const shift = Math.max(0, 14 - off * 14);
+      if (img) img.style.transform = `translateY(${shift}px) scale(1.06)`;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
@@ -283,6 +288,11 @@ onUnmounted(() => {
   object-fit: contain;
   object-position: bottom center;
   display: block;
+  // Anchor the parallax zoom to the top edge: Jack's hair sits flush with the
+  // top of the source art, so a center/bottom origin would scale his head out
+  // of the clipped figure. Growing downward instead hides the overflow in the
+  // bottom fade zone where the feet already melt into the panel.
+  transform-origin: center top;
   transition: transform .2s linear;
   will-change: transform;
 }

@@ -3,6 +3,7 @@
     <audio
       ref="audioEl"
       :src="cur.audioUrl"
+      :loop="repeat"
       preload="none"
       crossorigin="anonymous"
       @play="onPlay"
@@ -68,6 +69,64 @@
               <div class="player__artist">
                 {{ cur.artist }}
               </div>
+            </div>
+            <div class="player__controls">
+              <button
+                class="player__ctrl"
+                :class="{ 'is-active': shuffle }"
+                :aria-pressed="shuffle"
+                aria-label="Shuffle"
+                title="Shuffle"
+                @click="shuffle = !shuffle"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M10.59 9.17 5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z" />
+                </svg>
+              </button>
+              <button
+                class="player__ctrl"
+                :class="{ 'is-active': repeat }"
+                :aria-pressed="repeat"
+                aria-label="Repeat one"
+                title="Repeat song"
+                @click="repeat = !repeat"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4zm-4-2V9h-1l-2 1v1h1.5v4H13z" />
+                </svg>
+              </button>
+              <button
+                class="player__ctrl"
+                :class="{ 'is-copied': copied }"
+                :aria-label="copied ? 'Link copied' : 'Copy link to this song'"
+                :title="copied ? 'Link copied' : 'Copy link to this song'"
+                @click="share"
+              >
+                <svg
+                  v-if="copied"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+                <svg
+                  v-else
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z" />
+                </svg>
+                <span
+                  v-if="copied"
+                  class="player__toast"
+                >Link copied</span>
+              </button>
             </div>
             <div class="vol">
               <svg
@@ -169,15 +228,24 @@
  * HTMLAudioElement and feed getByteFrequencyData() into draw().
  */
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import BreadCrumb from '@/components/BreadCrumb.vue';
 import { prefersReducedMotion } from '@/utils/atmosphere';
 import { TRACKS } from '@/data/soundtrack';
+
+const route = useRoute();
+const router = useRouter();
 
 const tracks = TRACKS;
 const current = ref(0);
 const playing = ref(false);
 const progress = ref(0.0);
 const volume = ref(0.8);
+const shuffle = ref(false);
+/** Repeat-one: when on, the current track loops instead of advancing. */
+const repeat = ref(false);
+/** Transient "Link copied" feedback for the share button. */
+const copied = ref(false);
 const canvas = ref<HTMLCanvasElement | null>(null);
 const audioEl = ref<HTMLAudioElement | null>(null);
 
@@ -194,6 +262,9 @@ const BARS = 48;
 
 // Progress ticker — drives the UI-only preview for tracks without audioUrl
 let tick: number | null = null;
+
+// Auto-clears the "Link copied" share feedback after a short delay
+let copiedTimer: number | null = null;
 
 const cur = computed(() => tracks[current.value]);
 /** True when the current track has a real, self-hosted audio file. */
@@ -218,15 +289,35 @@ onMounted(() => {
   document.addEventListener('visibilitychange', onVis);
   startViz();
   runTick();
+  openSharedTrack();
 });
 onUnmounted(() => {
   stopViz();
   stopTick();
+  if (copiedTimer) clearTimeout(copiedTimer);
   audioEl.value?.pause();
   void audioCtx?.close();
   window.removeEventListener('resize', sizeCanvas);
   document.removeEventListener('visibilitychange', onVis);
 });
+
+/**
+ * Honor a `?track=n` deep link (from the share button): select that track and
+ * try to autoplay. Browsers may block autoplay until a user gesture, in which
+ * case the track is simply cued up paused (playReal swallows the rejection).
+ */
+const openSharedTrack = (): void => {
+  const n = Number(route.query.track);
+  if (!Number.isFinite(n)) return;
+  const idx = tracks.findIndex((t) => t.n === n);
+  if (idx < 0) return;
+  current.value = idx;
+  progress.value = 0;
+  nextTick(() => {
+    if (hasAudio.value) void playReal();
+    else playing.value = true;
+  });
+};
 
 const fmt = (sec: number): string => {
   const v = Math.max(0, Math.floor(sec));
@@ -290,7 +381,14 @@ const stopViz = (): void => {
 };
 
 const nextTrack = (): void => {
-  current.value = (current.value + 1) % tracks.length;
+  if (shuffle.value && tracks.length > 1) {
+    // Pick a random track other than the current one.
+    let n = current.value;
+    while (n === current.value) n = Math.floor(Math.random() * tracks.length);
+    current.value = n;
+  } else {
+    current.value = (current.value + 1) % tracks.length;
+  }
 };
 
 // Real audio playback (used when the track has audioUrl)
@@ -334,7 +432,7 @@ const runTick = (): void => {
       progress.value += dt / durSec.value;
       if (progress.value >= 1) {
         progress.value = 0;
-        nextTrack();
+        if (!repeat.value) nextTrack(); // repeat-one: stay on the same track
       }
     }
     tick = requestAnimationFrame(step);
@@ -374,6 +472,36 @@ const seek = (e: MouseEvent): void => {
   progress.value = ratio;
   const el = audioEl.value;
   if (hasAudio.value && el && el.duration) el.currentTime = ratio * el.duration;
+};
+
+/** Absolute, shareable deep link that autoplays the current track (?track=n). */
+const shareUrl = (): string =>
+  window.location.origin +
+  router.resolve({ name: 'soundtrack', query: { track: String(cur.value.n) } }).href;
+
+/** Copy a deep link to the current song to the clipboard, with a fallback. */
+const share = async (): Promise<void> => {
+  const url = shareUrl();
+  try {
+    await navigator.clipboard.writeText(url);
+  } catch {
+    // Clipboard API needs a secure context — fall back to a hidden textarea.
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+    } catch {
+      // Nothing more we can do; leave the user without feedback.
+    }
+    document.body.removeChild(ta);
+  }
+  copied.value = true;
+  if (copiedTimer) clearTimeout(copiedTimer);
+  copiedTimer = window.setTimeout(() => (copied.value = false), 1600);
 };
 
 // Audio element event handlers
@@ -461,6 +589,65 @@ const pad2 = (n: number): string => String(n).padStart(2, '0');
   color: var(--bd-bone-mute);
   font-family: var(--f-ui);
   letter-spacing: 0.1em;
+}
+
+.player__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.player__ctrl {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--bd-bone-mute);
+  display: grid;
+  place-items: center;
+  flex: none;
+  cursor: pointer;
+  transition: color .25s ease, background .25s ease, border-color .25s ease;
+}
+
+.player__ctrl:hover {
+  color: var(--bd-bone);
+  background: rgba(200,16,46,0.08);
+}
+
+.player__ctrl.is-active {
+  color: var(--bd-crimson-hi);
+  border-color: rgba(200,16,46,0.5);
+  background: rgba(200,16,46,0.12);
+}
+
+.player__ctrl.is-copied {
+  color: var(--bd-crimson-hi);
+}
+
+.player__ctrl svg {
+  width: 18px;
+  height: 18px;
+}
+
+.player__toast {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: var(--bd-charcoal);
+  color: var(--bd-bone);
+  font-family: var(--f-ui);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.34rem 0.55rem;
+  border-radius: var(--rad);
+  border: 1px solid var(--bd-ash-line);
+  pointer-events: none;
 }
 
 .player__viz {

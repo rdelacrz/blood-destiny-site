@@ -1,20 +1,10 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "vite",
   "rewrites": [
     {
-      "source": "/_telefunc",
-      "destination": "/api/telefunc.js"
-    },
-    {
-      "source": "/((?!assets/)(?!api/).*)",
-      "has": [
-        {
-          "type": "host",
-          "value": "vercel.app"
-        }
-      ],
-      "destination": "/api/ssr.js"
+      "source": "/((?!api/|assets/|src/|@|__vite|node_modules/|.*\\..*).*)",
+      "destination": "/index.html"
     }
-  ],
-  "framework": "vite",
-  "outputDirectory": "dist/client"
+  ]
 }

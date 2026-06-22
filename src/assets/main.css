@@ -1,0 +1,281 @@
+/* ===== Cascade layer order =====
+   Must be the first rule in the bundle. Vuetify 4 emits its component
+   styles inside native @layer blocks (vuetify-core → vuetify-components →
+   vuetify-overrides → vuetify-utilities → vuetify-final). By declaring those
+   layers BEFORE Tailwind's (theme/base/components/utilities), Tailwind
+   utility classes win the cascade over Vuetify component styles WITHOUT
+   !important. (Our own unlayered rules below still beat both, by design.)
+
+   Caveat: this name-list declaration is dropped by the production CSS
+   minifier, so the effective order there falls back to block load order —
+   which also lands Tailwind's Preflight (@layer base) ABOVE the vuetify
+   layers. Preflight's `*{ padding:0; border:0 solid }` therefore strips
+   Vuetify component padding/borders (e.g. v-field). Components that need it
+   back must restore it with UNLAYERED rules, which outrank every layer in
+   both dev and prod — see ContactView's field styling. */
+@layer vuetify-core, vuetify-components, vuetify-overrides, vuetify-utilities,
+  vuetify-final, theme, base, components, utilities;
+
+@import "tailwindcss";
+
+/* ===== Brand tokens =====
+   Exposed to Tailwind utilities (text-blood-500, font-display…). */
+@theme {
+  /* Typography (from the Claude Design build) */
+  --font-display: "Cormorant Garamond", serif;  /* headings */
+  --font-ui:      "Chakra Petch", sans-serif;     /* labels / nav */
+  --font-body:    "Manrope", sans-serif;          /* body copy */
+
+  /* Palette */
+  --color-blood-900: #4A0000;
+  --color-blood-700: #8B0000;
+  --color-blood-500: #C8102E;
+  --color-ink-950:   #0A0A0C;
+  --color-ink-900:   #15151A;
+  --color-ink-700:   #2A2A30;
+  --color-ice-300:   #7FB5D6;
+  --color-ice-600:   #3A6B8C;
+  --color-bone:      #F5F0E8;
+}
+
+/* ===== Design system =====
+   Ported from the prototype. Genuinely custom: bespoke gradients,
+   pseudo-elements, keyframes and the cinematic atmosphere layers that
+   Tailwind utilities can't express 1:1.
+
+   This file now holds only GLOBAL design-system vocabulary: brand tokens,
+   the reset, shared typography / layout / button / utility primitives, the
+   reveal directive hooks, and the atmosphere layers that atmosphere.ts
+   injects at runtime. Component-specific styling (loader, nav links, hero,
+   character cards, player, timeline, footer, …) now lives in each
+   component's own scoped SCSS style block. */
+:root {
+  /* Ink / surfaces */
+  --bd-black:      #0A0A0C;
+  --bd-charcoal:   #15151A;
+  --bd-ash:        #2A2A30;
+  --bd-ash-line:   #3A3A42;
+
+  /* Crimson (signature) */
+  --bd-oxblood:    #6E0712;
+  --bd-blood:      #8B0000;
+  --bd-crimson:    #C8102E;
+  --bd-crimson-hi: #E63a52;
+
+  /* Steel (ice secondary) */
+  --bd-steel:      #7FB5D6;
+  --bd-steel-deep: #3A6B8C;
+
+  /* Bone / text */
+  --bd-bone:       #EFE9DD;
+  --bd-bone-dim:   #B7B1A6;
+  --bd-bone-mute:  #7C7770;
+
+  /* Fonts */
+  --f-display: "Cormorant Garamond", "Times New Roman", serif;
+  --f-ui:      "Chakra Petch", "Segoe UI", sans-serif;
+  --f-body:    "Manrope", system-ui, sans-serif;
+
+  /* Type scale (fluid) */
+  --t-hero:   clamp(3.2rem, 9vw, 8rem);
+  --t-h1:     clamp(2.4rem, 6vw, 5rem);
+  --t-h2:     clamp(1.8rem, 4vw, 3.2rem);
+  --t-h3:     clamp(1.3rem, 2.4vw, 1.9rem);
+  --t-lead:   clamp(1.05rem, 1.6vw, 1.4rem);
+  --t-body:   clamp(1rem, 1.1vw, 1.125rem);
+  --t-label:  0.78rem;
+  --t-small:  0.85rem;
+
+  /* Rhythm */
+  --gut:   clamp(1.2rem, 4vw, 3rem);
+  --stack: clamp(2.5rem, 7vh, 6rem);
+  --rad:   4px;
+  --maxw:  1240px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Chrome heights */
+  --nav-h: 76px;
+}
+
+/* ===== Vuetify coexistence =====
+   These rules are intentionally UNLAYERED, so they beat Vuetify's layered
+   component styles without !important. */
+
+/* <v-app> paints an opaque theme background that would otherwise hide the
+   fixed ember/haze background system; make it transparent so the bespoke
+   atmosphere and the transparent header show through. */
+.v-application { background: transparent; }
+.v-application__wrap { min-height: 100svh; }
+
+/* Vuetify teleports overlays (v-dialog / v-navigation-drawer) into
+   .v-overlay-container at a high z-index (~2000+), so they already clear the
+   bespoke chrome (v-app-bar ~1005, route-sweep 1100, loader 200) — no override
+   needed. */
+
+/* Reset */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--f-body);
+  font-size: var(--t-body);
+  line-height: 1.65;
+  color: var(--bd-bone);
+  background: var(--bd-black);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+::selection { background: var(--bd-crimson); color: var(--bd-bone); }
+
+h1, h2, h3, h4 { margin: 0; font-weight: 600; line-height: 1.04; }
+p { margin: 0; }
+
+/* Typographic primitives */
+.display { font-family: var(--f-display); font-weight: 600; letter-spacing: 0.01em; }
+.label {
+  font-family: var(--f-ui);
+  font-weight: 600;
+  font-size: var(--t-label);
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--bd-crimson-hi);
+}
+.label-steel { color: var(--bd-steel); }
+
+.lead { font-size: var(--t-lead); color: var(--bd-bone-dim); line-height: 1.7; }
+.muted { color: var(--bd-bone-mute); }
+
+/* Thin crimson divider */
+.rule {
+  height: 1px; border: 0; width: 100%;
+  background: linear-gradient(90deg, transparent, var(--bd-crimson) 30%, var(--bd-crimson) 70%, transparent);
+  opacity: 0.55;
+}
+.rule-short { width: 64px; height: 2px; background: var(--bd-crimson); border: 0; opacity: 1; }
+
+/* Layout helpers */
+.wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gut); }
+.section { padding-block: var(--stack); position: relative; }
+
+/* Buttons */
+.btn {
+  --bg: transparent;
+  display: inline-flex; align-items: center; gap: 0.6em;
+  font-family: var(--f-ui);
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--bd-bone);
+  padding: 0.95em 1.8em;
+  background: var(--bg);
+  border: 1px solid var(--bd-ash-line);
+  border-radius: var(--rad);
+  position: relative;
+  overflow: hidden;
+  transition: color .35s, border-color .35s, transform .35s var(--ease-out);
+}
+.btn::before {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(120deg, var(--bd-oxblood), var(--bd-crimson));
+  transform: translateY(101%);
+  transition: transform .45s var(--ease-out);
+  z-index: -1;
+}
+.btn:hover { border-color: var(--bd-crimson); transform: translateY(-2px); }
+.btn:hover::before { transform: translateY(0); }
+.btn-primary { border-color: var(--bd-crimson); }
+.btn-primary::before { transform: translateY(0); }
+.btn-primary:hover::before { background: linear-gradient(120deg, var(--bd-crimson), var(--bd-crimson-hi)); }
+.btn .arr { transition: transform .35s var(--ease-out); }
+.btn:hover .arr { transform: translateX(4px); }
+
+/* Focus */
+:focus-visible {
+  outline: 2px solid var(--bd-steel);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Card surface (shared by year-card / feat / player / x-card / tl-item) */
+.surface {
+  background: linear-gradient(180deg, rgba(21,21,26,0.86), rgba(10,10,12,0.92));
+  border: 1px solid var(--bd-ash);
+  border-radius: var(--rad);
+  backdrop-filter: blur(6px);
+}
+
+/* Breadcrumb (BreadCrumb.vue + the hand-rolled crumb in CharacterDetailView) */
+.crumb { font-family: var(--f-ui); font-size: 0.74rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--bd-bone-mute); display: flex; gap: 0.6em; align-items: center; }
+.crumb a:hover { color: var(--bd-crimson-hi); }
+.crumb .sep { color: var(--bd-ash-line); }
+.crumb .here { color: var(--bd-bone-dim); }
+
+/* Reveal (v-reveal directive; CSS-transition driven, frozen-rAF safe) */
+.reveal {
+  opacity: 0; transform: translateY(var(--rv-y, 26px));
+  transition: opacity .9s var(--ease-out), transform .9s var(--ease-out);
+  will-change: opacity, transform;
+}
+.reveal.is-in { opacity: 1; transform: none; }
+
+/* Utility */
+.text-crimson { color: var(--bd-crimson-hi); }
+.text-steel { color: var(--bd-steel); }
+
+/* Generic page head (every interior view) */
+.page-head { padding-top: calc(var(--nav-h) + clamp(2rem, 7vh, 5rem)); }
+.page-head h1 { font-family: var(--f-display); font-size: var(--t-h1); margin: 0.7rem 0 0.5rem; }
+.page-head .lead { max-width: 60ch; }
+
+/* balance keeps the last line from dropping a lone orphan word (e.g. "on X.") */
+.page-intro { max-width: 70ch; text-wrap: balance; }
+
+/* Route host (App shell + every routed view root) */
+.route-host { position: relative; min-height: 60vh; }
+
+/* ===== Atmosphere layers =====
+   Injected at runtime by utils/atmosphere.ts. These elements are created
+   with document.createElement and appended to component refs, so they never
+   receive a scoped data-attribute — their styling has to stay global. */
+.ember-layer, .haze-layer, .shard-layer {
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+}
+.ember {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, #ffd9a0 0%, var(--bd-crimson) 55%, rgba(200,16,46,0) 75%);
+  box-shadow: 0 0 8px 1px rgba(200,16,46,0.45);
+  opacity: 0;
+}
+.ember-ice {
+  background: radial-gradient(circle, #eaf6ff 0%, var(--bd-steel) 55%, rgba(127,181,214,0) 75%);
+  box-shadow: 0 0 8px 1px rgba(127,181,214,0.45);
+}
+.haze-blob {
+  position: absolute; width: 46vw; height: 46vw; max-width: 720px; max-height: 720px;
+  border-radius: 50%; transform: translate(-50%, -50%);
+  filter: blur(60px); opacity: 0.4; mix-blend-mode: screen;
+}
+.haze-a { background: radial-gradient(circle, rgba(200,16,46,0.6), transparent 65%); }
+.haze-b { background: radial-gradient(circle, rgba(139,0,0,0.55), transparent 65%); }
+.haze-c { background: radial-gradient(circle, rgba(110,7,18,0.6), transparent 68%); }
+.shard { position: absolute; }
+
+/* Word reveal (revealWords() splits the hero tagline at runtime) */
+.word-wrap { display: inline; }
+.word { display: inline-block; overflow: hidden; vertical-align: bottom; }
+.word-i { display: inline-block; transform: translateY(110%); opacity: 0; transition: transform .85s var(--ease-out), opacity .85s var(--ease-out); }
+.word-i.is-in { transform: none; opacity: 1; }
+
+/* ===== Reduced motion =====
+   Calm static fallback (global kill-switch). */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+  * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+}

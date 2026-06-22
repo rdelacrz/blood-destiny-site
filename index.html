@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/favicon.ico" sizes="64x64" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Cascade layer order (authoritative, parsed before any bundled CSS):
+         Vuetify's layers first, then Tailwind's — so Tailwind utility classes
+         override Vuetify component styles without !important. Declared here in
+         the head because CSS minifiers strip standalone @layer statements from
+         bundled stylesheets. -->
+    <style>
+      @layer vuetify-core, vuetify-components, vuetify-overrides, vuetify-utilities,
+        vuetify-final, theme, base, components, utilities;
+    </style>
+    <title>Blood Destiny — A Visual Novel by Ashes Aflame</title>
+    <meta name="description" content="Blood Destiny — a dark supernatural visual novel set in the year 2245. Mercenaries, Synchronizers and the secrets of four supernations. By Ashes Aflame." />
+
+    <!-- Crawler + browser hints. These are STATIC defaults for the home page and
+         for scrapers that don't run JS; src/utils/seo.ts updates the title,
+         description, canonical and the og:/twitter: tags per route at runtime. -->
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Ashes Aflame" />
+    <meta name="theme-color" content="#0a0a0c" />
+    <link rel="canonical" href="https://blooddestiny.com/" />
+
+    <!-- Open Graph (Facebook, Discord, iMessage, …) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Blood Destiny" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Blood Destiny — A Visual Novel by Ashes Aflame" />
+    <meta property="og:description" content="A dark supernatural visual novel set in the year 2245. Mercenaries, Synchronizers and the secrets of four supernations." />
+    <meta property="og:url" content="https://blooddestiny.com/" />
+    <meta property="og:image" content="https://blooddestiny.com/assets/images/graphics/jack_fuyumi_promo.png" />
+    <meta property="og:image:alt" content="Jack Smith and Fuyumi Tomoe — Blood Destiny key art" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@BloodDestinyVN" />
+    <meta name="twitter:title" content="Blood Destiny — A Visual Novel by Ashes Aflame" />
+    <meta name="twitter:description" content="A dark supernatural visual novel set in the year 2245. Mercenaries, Synchronizers and the secrets of four supernations." />
+    <meta name="twitter:image" content="https://blooddestiny.com/assets/images/graphics/jack_fuyumi_promo.png" />
+
+    <!-- Structured data: helps Google understand this is a video game + site. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "VideoGame",
+            "name": "Blood Destiny",
+            "url": "https://blooddestiny.com/",
+            "image": "https://blooddestiny.com/assets/images/graphics/jack_fuyumi_promo.png",
+            "description": "A dark supernatural visual novel and RPG set in the year 2245, following Olympia mercenary Jack Smith across four warring supernations. Branching routes, turn-based battles, and a True Ending.",
+            "genre": ["Visual Novel", "Role-playing game"],
+            "inLanguage": "en",
+            "author": { "@type": "Organization", "name": "Ashes Aflame" },
+            "publisher": { "@type": "Organization", "name": "Ashes Aflame" }
+          },
+          {
+            "@type": "WebSite",
+            "name": "Blood Destiny",
+            "url": "https://blooddestiny.com/",
+            "inLanguage": "en",
+            "publisher": {
+              "@type": "Organization",
+              "name": "Ashes Aflame",
+              "sameAs": ["https://twitter.com/BloodDestinyVN"]
+            }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <noscript>
+      <div style="max-width:680px;margin:14vh auto;padding:0 2rem;color:#EFE9DD;font-family:sans-serif">
+        <h1 style="font-family:Georgia,serif;text-align:center">Blood Destiny</h1>
+        <p style="text-align:center">A dark supernatural visual novel and RPG by Ashes Aflame, set in the year 2245 &mdash; two centuries after a Third World War redrew the world into four supernations. Follow Jack Smith, a young mercenary of the organization Olympia, through branching routes, turn-based battles, and the secrets of his own past.</p>
+        <p style="text-align:center"><strong>This cinematic experience needs JavaScript.</strong> Please enable it to enter the world of 2245.</p>
+        <nav style="text-align:center;line-height:2">
+          <a href="/about" style="color:#EFE9DD;margin:0 .5rem">About the Story</a>
+          <a href="/characters" style="color:#EFE9DD;margin:0 .5rem">Characters</a>
+          <a href="/soundtrack" style="color:#EFE9DD;margin:0 .5rem">Soundtrack</a>
+          <a href="/updates" style="color:#EFE9DD;margin:0 .5rem">Updates</a>
+          <a href="/contact" style="color:#EFE9DD;margin:0 .5rem">Contact</a>
+        </nav>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

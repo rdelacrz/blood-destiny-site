@@ -114,8 +114,11 @@
               class="muted"
               style="font-size: 0.92rem"
             >
-              The year is 2245. Roughly two centuries of war have redrawn the planet into four
-              enormous supernations, among them <span class="text-steel">Arc Novelia</span> and the
+              The year is 2245. Roughly two centuries have passed
+              since the great war eventually divided the world
+              into four enormous supernations, the most powerful
+              among them being
+              <span class="text-steel">Arcadia</span> and the
               <span class="text-crimson">Kyoudan Empire</span>.
             </p>
           </div>

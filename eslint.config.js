@@ -33,6 +33,7 @@ export default defineConfigWithVueTs(
       '@stylistic/quotes': ['error', 'single', { avoidEscape: false, allowTemplateLiterals: 'always' }],
       semi: 'off',
       '@stylistic/semi': ['error', 'always'],
+      '@stylistic/indent': ['error', 2],
       'prefer-arrow-callback': 'error',
       'prefer-const': 'error',
       '@typescript-eslint/no-unused-vars': [
@@ -44,6 +45,7 @@ export default defineConfigWithVueTs(
       'vue/block-order': ['error', { order: ['template', 'script', 'style'] }],
 
       // Template formatting
+      'vue/html-indent': ['error', 2],
       // One attribute per line as soon as an element has more than one.
       'vue/max-attributes-per-line': [
         'error',

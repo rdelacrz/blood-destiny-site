@@ -34,3 +34,8 @@ dist-ssr
 
 # AI
 .claude/*
+
+# Environment
+.vercel
+.env*
+!.env.example

@@ -237,6 +237,9 @@ const route = useRoute();
 const router = useRouter();
 
 const tracks = TRACKS;
+const trackNumberById: Record<string, number> = Object.fromEntries(
+  tracks.map((track) => [track.id, track.n]),
+);
 const current = ref(0);
 const playing = ref(false);
 const progress = ref(0.0);
@@ -302,13 +305,15 @@ onUnmounted(() => {
 });
 
 /**
- * Honor a `?track=n` deep link (from the share button): select that track and
+ * Honor a `?track=id` deep link (from the share button): select that track and
  * try to autoplay. Browsers may block autoplay until a user gesture, in which
  * case the track is simply cued up paused (playReal swallows the rejection).
  */
 const openSharedTrack = (): void => {
-  const n = Number(route.query.track);
-  if (!Number.isFinite(n)) return;
+  const id = route.query.track;
+  if (typeof id !== 'string') return;
+  const n = trackNumberById[id];
+  if (!n) return;
   const idx = tracks.findIndex((t) => t.n === n);
   if (idx < 0) return;
   current.value = idx;
@@ -474,10 +479,10 @@ const seek = (e: MouseEvent): void => {
   if (hasAudio.value && el && el.duration) el.currentTime = ratio * el.duration;
 };
 
-/** Absolute, shareable deep link that autoplays the current track (?track=n). */
+/** Absolute, shareable deep link that autoplays the current track (?track=id). */
 const shareUrl = (): string =>
   window.location.origin +
-  router.resolve({ name: 'soundtrack', query: { track: String(cur.value.n) } }).href;
+  router.resolve({ name: 'soundtrack', query: { track: cur.value.id } }).href;
 
 /** Copy a deep link to the current song to the clipboard, with a fallback. */
 const share = async (): Promise<void> => {
